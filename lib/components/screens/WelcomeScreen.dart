@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:xr_paynet/components/screens/login/LoginScreen.dart';
 import 'package:xr_paynet/components/widgets/ButtonPrimary.dart';
-import 'package:xr_paynet/components/widgets/Header.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
+import '../core/Locator.dart';
+import '../core/navigation/navigation_service.dart';
+
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  static const String routeName = '/welcome_page';
+
+  const WelcomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  final NavigationService _navigationService = locator<NavigationService>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +64,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const ButtonPrimary(title: "Create Your Account")
+                ButtonPrimary(
+                  title: "Create Your Account",
+                  onClick: () {
+                    _navigationService.navigateWithBack(LoginPage.routeName);
+                  },
+                )
               ],
             ),
           ),
