@@ -7,6 +7,8 @@ class AppTheme {
   static const String fontFamily = 'Roboto';
   static const String fontMedium = 'Roboto-Medium';
   static const String fontRegular = 'Roboto-fontRegular';
+  static const String fontLight = 'Roboto-Light';
+  static const String fontBold = 'Roboto-Bold';
 
   static MaterialColor black = const MaterialColor(
     _blackPrimaryValue,

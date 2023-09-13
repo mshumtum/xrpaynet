@@ -15,7 +15,7 @@ class HeadingText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 5.0, left: 20.0),
+      margin: const EdgeInsets.only(top: 5.0, left: 20.0,right: 20.0),
       child: Text(
         title,
         textAlign: TextAlign.start,

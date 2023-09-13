@@ -4,6 +4,7 @@ import 'package:xr_paynet/theme/AppTheme.dart';
 import 'components/core/Locator.dart';
 import 'components/core/navigation/navigation_service.dart';
 import 'components/core/navigation/routers.dart';
+import 'components/utilities/ClassMediaQuery.dart';
 
 Future<void> main() async {
   setupLocator();
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ClassMediaQuery(context);
     return MaterialApp(
       title: 'XR PayNet',
       debugShowCheckedModeBanner: false,
