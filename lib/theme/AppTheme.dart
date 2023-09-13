@@ -6,6 +6,7 @@ class AppTheme {
 
   static const String fontFamily = 'Roboto';
   static const String fontMedium = 'Roboto-Medium';
+  static const String fontRegular = 'Roboto-fontRegular';
 
   static MaterialColor black = const MaterialColor(
     _blackPrimaryValue,
@@ -34,7 +35,7 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 16,
     letterSpacing: -0.05,
-    color: AppClr.dark,
+    color: AppClr.white,
   );
   static const TextStyle white40 = TextStyle(
     fontFamily: fontMedium,

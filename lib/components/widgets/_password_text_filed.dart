@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 
 class PasswordTextField extends StatefulWidget {
   final String hintText;
+  final String inputLabel;
 
   PasswordTextField({
+    super.key,
     required this.hintText,
+    this.inputLabel = "",
   });
 
   @override
@@ -19,49 +23,61 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color:  AppClr.inputFieldBg,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        widget.inputLabel != ""
+            ? HeadingText(
+                title: widget.inputLabel,
+              )
+            : Container(),
+        const SizedBox(
+          height: 15,
         ),
-        child: TextField(
-          obscureText: _obscureText,//This will obscure text dynamically
-          controller: myController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white),
-          maxLines: 1,
-          onChanged: (value) {
-            setState(() {
-              textValue = value;
-            });
-          },
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
+              color: AppClr.inputFieldBg,
             ),
-            filled: true,
-            hintStyle: TextStyle(color: Colors.grey[800]),
-            hintText: widget.hintText,
-            fillColor: AppClr.inputFieldBg,
-
-            suffixIcon: GestureDetector(
-              onTap: () {
+            child: TextField(
+              obscureText: _obscureText, //This will obscure text dynamically
+              controller: myController,
+              cursorColor: Colors.white,
+              style: const TextStyle(color: Colors.white),
+              maxLines: 1,
+              onChanged: (value) {
                 setState(() {
-                  _obscureText = !_obscureText;
+                  textValue = value;
                 });
               },
-              child: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Colors.grey,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: widget.hintText,
+                fillColor: AppClr.inputFieldBg,
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
+
+              keyboardType: TextInputType.visiblePassword,
             ),
           ),
-
-          keyboardType: TextInputType.visiblePassword,
         ),
-      ),
+      ],
     );
   }
 }
