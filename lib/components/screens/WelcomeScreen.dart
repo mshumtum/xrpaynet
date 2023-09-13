@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xr_paynet/components/screens/login/LoginScreen.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/widgets/ButtonPrimary.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -67,14 +68,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ButtonPrimary(
                     title: "Create Your Account",
                     onClick: () {
-                      _navigationService.navigateWithBack(LoginPage.routeName);
+                      _navigationService
+                          .navigateWithBack(CreateAccount.routeName);
                     },
                   ),
                   const SizedBox(height: 14),
                   ButtonSecondary(
                     title: "Account Already Exists",
                     onClick: () {
-                      _navigationService.navigateWithBack(LoginPage.routeName);
+                      _navigationService
+                          .navigateWithBack(LoginScreen.routeName);
                     },
                   ),
                   const SizedBox(

@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreen.dart';
-import 'package:xr_paynet/components/screens/login/LoginScreen.dart';
-
+import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 
 class Routers {
   static RouteSettings? _settings;
@@ -17,9 +16,9 @@ class Routers {
         return _pageRoute(builder: (context) {
           return const WelcomeScreen();
         });
-      case LoginPage.routeName:
+      case CreateAccount.routeName:
         return _pageRoute(builder: (context) {
-          return const LoginPage();
+          return const CreateAccount();
         });
 
       default:

@@ -6,16 +6,16 @@ import '../../core/Locator.dart';
 import '../../core/navigation/navigation_service.dart';
 import '../../utilities/HexColor.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = '/login_page';
 
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
 
   @override
