@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xr_paynet/components/widgets/Header.dart';
+import 'package:xr_paynet/components/widgets/_header.dart';
 
 import '../../../theme/Colors.dart';
 import '../../core/Locator.dart';

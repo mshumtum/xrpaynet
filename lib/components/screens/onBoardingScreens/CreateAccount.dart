@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
 
@@ -17,73 +18,52 @@ class CreateAccount extends StatefulWidget {
   State<CreateAccount> createState() => _CreateAccountState();
 }
 
-
 class _CreateAccountState extends State<CreateAccount> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool value = false;
-    // for get text field value use this
-    // String text = InputField.getText();
-
-
+  // for get text field value use this
+  // String text = InputField.getText();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      appBar: AppBar(
-        toolbarHeight: 70,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_outlined,
-              color: Colors.white),
-          onPressed: () => _navigationService.goBack(),
-        ),
-        title: const Text(""),
-        centerTitle: true,
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _titleText(),
-            _headingText(),
+            const OnBoardingHeader(
+              title: 'Create Account',
+              subTitle:
+                  'Enter the required details below to \ncreate your account!',
+            ),
             const SizedBox(
-              height: 30,
+              height: 46,
             ),
-            const HeadingText(
-              title: 'Email',
-              color: AppClr.grey,
-              textSize: 14.0,
+            const InputField(
+                inputLabel: "Email",
+                hintText: 'Enter Email',
+                inputType: TextInputType.emailAddress),
+            const SizedBox(
+              height: 15,
             ),
-            const SizedBox(height: 15,),
-            InputField(hintText: 'Enter Email',inputType: TextInputType.emailAddress),
-            const SizedBox(height: 20,),
-            const HeadingText(
-              title: 'Create Password',
-              color: AppClr.grey,
-              textSize: 14.0,
-            ),
-            const SizedBox(height: 15,),
             PasswordTextField(
-                hintText: 'Password',
-              ),
-
-            // _emailInputField(),
-            const SizedBox(height: 20,),
-            const HeadingText(
-              title: 'Confirm Password',
-              color: AppClr.grey,
-              textSize: 14.0,
+              inputLabel: 'Create Password',
+              hintText: 'Password',
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             PasswordTextField(
+              inputLabel: 'Confirm Password',
               hintText: 'Confirm Password',
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             Row(
-              children: [
-                _checkbox()
-              ],
+              children: [_checkbox()],
             )
           ],
         ),
@@ -91,46 +71,15 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  Widget _titleText() {
-    return Container(
-      margin: const EdgeInsets.only(top: 40.0),
-      child: const Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Create Account',
-            style: TextStyle(
-                color: Colors.white, fontSize: 30, fontFamily: 'Roboto-Medium'),
-          )),
-    );
-  }
-
-  Widget _headingText() {
-    return Container(
-      margin: const EdgeInsets.only(top: 10.0),
-      child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Enter the required details below to \ncreate your account!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: HexColor("#B6B6B8"),
-              fontSize: 14,
-              fontFamily: 'Roboto-Regular',
-            ),
-          )),
-    );
-  }
-
-  Widget _checkbox(){
+  Widget _checkbox() {
     return Checkbox(
       value: this.value,
-      onChanged: (bool? value){
-        if(value != null){
+      onChanged: (bool? value) {
+        if (value != null) {
           setState(() {
-            this.value=value;
+            this.value = value;
           });
         }
-
       },
     ); //Checkbox
   }

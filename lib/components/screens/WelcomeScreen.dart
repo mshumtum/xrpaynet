@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
-import 'package:xr_paynet/components/widgets/ButtonPrimary.dart';
+import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Constants.dart';

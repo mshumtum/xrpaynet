@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/core/Locator.dart';
+import 'package:xr_paynet/components/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/components/utilities/HexColor.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -37,6 +39,8 @@ class OnBoardingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final NavigationService navigationService = locator<NavigationService>();
+
     return Column(
       children: [
         AppBar(
@@ -44,20 +48,23 @@ class OnBoardingHeader extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 color: Colors.white),
-            onPressed: () => {},
+            onPressed: () => {navigationService.goBack()},
           ),
           title: const Text(""),
           centerTitle: true,
         ),
-        Align(
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontFamily: AppTheme.fontFamily),
-            )),
+        Container(
+          margin: const EdgeInsets.only(top: 40.0),
+          child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontFamily: AppTheme.fontMedium),
+              )),
+        ),
         const SizedBox(
           height: 10,
         ),
