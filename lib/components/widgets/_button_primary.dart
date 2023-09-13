@@ -46,7 +46,7 @@ class ButtonSecondary extends StatelessWidget {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           child: AppBar(
-            backgroundColor: AppClr.grey,
+            backgroundColor: AppClr.greyButton,
             centerTitle: true,
             title: Text(
               title,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -77,7 +78,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     title: "Account Already Exists",
                     onClick: () {
                       _navigationService
-                          .navigateWithBack(LoginScreen.routeName);
+                          .navigateWithBack(VerifyEmailByOTP.routeName);
                     },
                   ),
                   const SizedBox(

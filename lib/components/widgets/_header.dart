@@ -73,8 +73,8 @@ class OnBoardingHeader extends StatelessWidget {
             child: Text(
               subTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: HexColor("#B6B6B8"),
+              style: const TextStyle(
+                color: AppClr.greyText,
                 fontSize: 14,
                 fontFamily: AppTheme.fontRegular,
               ),

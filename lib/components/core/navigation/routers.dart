@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 
 class Routers {
   static RouteSettings? _settings;
@@ -24,6 +25,10 @@ class Routers {
       case LoginScreen.routeName:
         return _pageRoute(builder: (context) {
           return const LoginScreen();
+        });
+      case VerifyEmailByOTP.routeName:
+        return _pageRoute(builder: (context) {
+          return const VerifyEmailByOTP();
         });
 
       default:
