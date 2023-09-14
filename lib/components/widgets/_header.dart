@@ -4,36 +4,52 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
+import 'package:xr_paynet/theme/Images.dart';
 
 class Header extends StatelessWidget {
   final String title;
-  const Header({super.key, required this.title});
+  final bool isHideBack;
+  final String secondaryButtonImg;
+  final Function()? secondaryClick;
+
+  const Header(
+      {super.key,
+      required this.title,
+      this.isHideBack = true,
+      this.secondaryButtonImg = "",
+      required this.secondaryClick});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          bottomRight: Radius.circular(40.0),
-          bottomLeft: Radius.circular(40.0),
+    final NavigationService navigationService = locator<NavigationService>();
+
+    return AppBar(
+        toolbarHeight: 70,
+        leading: isHideBack
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                    color: Colors.white),
+                onPressed: () => {navigationService.goBack()},
+              )
+            : null,
+        title: Text(
+          title,
+          style: AppTheme.white18Medium,
         ),
-        child: AppBar(
-          backgroundColor: AppClr.white,
-          centerTitle: true,
-          title: Text(
-            title,
-            style: AppTheme.body1,
+        centerTitle: true,
+        actions: <Widget>[
+          GestureDetector(
+            onTap: secondaryClick,
+            child: Image.asset(secondaryButtonImg),
           ),
-        ),
-      ),
-    );
+        ]);
   }
 }
 
 class OnBoardingHeader extends StatelessWidget {
   final String title;
   final String subTitle;
+
   const OnBoardingHeader(
       {super.key, required this.title, required this.subTitle});
 
@@ -76,10 +92,10 @@ class OnBoardingHeader extends StatelessWidget {
                   subTitle,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: AppClr.greyText,
-                    fontSize: 14,
-                    fontFamily: AppTheme.fontRegular,
-                  ),
+                      color: AppClr.grey2,
+                      fontSize: 14,
+                      fontFamily: AppTheme.fontRegular,
+                      height: 1.5),
                 )),
           )
         ],

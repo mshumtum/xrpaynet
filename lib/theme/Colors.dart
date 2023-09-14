@@ -9,8 +9,8 @@ class AppClr {
   static const Color blue = Color(0xFF0E24FE);
   static const Color greyButton = Color(0xFFA0A0A4);
   static const Color otpBackground = Color(0xFF171717);
-  static const Color greyText = Color(0xFFB6B6B8);
   static const Color resendGreyText = Color(0xFFA5A5A5);
+  static const Color dialogBackground = Color(0xFF1B2537);
   static const Color grey = Color(0xFFA5A5A5);
   static const Color grey2 = Color(0xFFB6B6B8);
   static const Color inputFieldBg = Color.fromRGBO(23, 23, 23, 1.8);

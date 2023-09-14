@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
@@ -18,41 +20,45 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final NavigationService _navigationService = locator<NavigationService>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 1.1,
-            child: const Column(children: [
-              OnBoardingHeader(
-                title: 'Forgot Password',
-                subTitle:
-                    'Enter your email for the verification process, we will send 6 digits code to your email..',
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 1.2,
+              child: const Column(children: [
+                OnBoardingHeader(
+                  title: 'Forgot Password',
+                  subTitle:
+                      'Enter your email for the verification process,\n we will send 6 digits code to your email.',
+                ),
+                SizedBox(
+                  height: 48,
+                ),
+                InputField(
+                    inputLabel: "Email",
+                    hintText: 'Enter Email',
+                    inputType: TextInputType.emailAddress),
+                SizedBox(
+                  height: 18,
+                ),
+              ]),
+            ),
+            SizedBox(
+              child: ButtonPrimary(
+                title: "Send OTP",
+                onClick: () {
+                  _navigationService.navigateWithBack(
+                      VerifyEmailByOTP.routeName,
+                      arguments: {"isFrom": ForgotPassword.routeName});
+                },
               ),
-              SizedBox(
-                height: 48,
-              ),
-              InputField(
-                  inputLabel: "Email",
-                  hintText: 'Enter Email',
-                  inputType: TextInputType.emailAddress),
-              SizedBox(
-                height: 18,
-              ),
-            ]),
-          ),
-          ButtonPrimary(
-            title: "Send OTP",
-            onClick: () {
-              _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
-                  arguments: {"isFrom": "forgotPassword"});
-            },
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

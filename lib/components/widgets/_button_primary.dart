@@ -17,7 +17,7 @@ class ButtonPrimary extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(16.0),
             height: 50,
-            width: ClassMediaQuery.screenWidth -20,// Padding around the text
+            width: ClassMediaQuery.screenWidth - 20, // Padding around the text
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0), // Rounded corners
               color: AppClr.blue,

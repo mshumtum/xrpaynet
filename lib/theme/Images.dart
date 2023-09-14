@@ -5,7 +5,9 @@ class Images {
   static String ic_welcome_cards = "assets/images/ic_welcome_cards.png";
   static String ic_welcome_bg = "assets/images/ic_welcome_bg.png";
   static String ic_white_back = "assets/images/ic_back_arrow_white.png";
+  static const ic_logout = "assets/images/ic_logout.png";
 
   // LOTTIE ANIMATIONS
   static String Welcome_bg = "assets/lottie/welcomeBg.json";
+  static String congratulationLottie = "assets/lottie/congratulation.json";
 }

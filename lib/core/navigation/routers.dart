@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:xr_paynet/components/screens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/CreateNewPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
@@ -12,6 +14,8 @@ class Routers {
   static RouteSettings? _settings;
 
   static Route<dynamic> toGenerateRoute(RouteSettings settings) {
+    var arguments = settings.arguments;
+
     _settings = settings;
 
     switch (settings.name) {
@@ -29,11 +33,21 @@ class Routers {
         });
       case VerifyEmailByOTP.routeName:
         return _pageRoute(builder: (context) {
-          return const VerifyEmailByOTP();
+          return VerifyEmailByOTP(
+            arguments: arguments,
+          );
         });
       case ForgotPassword.routeName:
         return _pageRoute(builder: (context) {
           return const ForgotPassword();
+        });
+      case CreateNewPassword.routeName:
+        return _pageRoute(builder: (context) {
+          return const CreateNewPassword();
+        });
+      case HomePage.routeName:
+        return _pageRoute(builder: (context) {
+          return const HomePage();
         });
 
       default:

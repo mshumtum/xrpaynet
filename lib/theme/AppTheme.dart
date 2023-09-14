@@ -56,4 +56,9 @@ class AppTheme {
     fontSize: 14,
     color: AppClr.white,
   );
+  static const TextStyle white18Medium = TextStyle(
+    fontFamily: fontMedium,
+    fontSize: 18,
+    color: AppClr.white,
+  );
 }
