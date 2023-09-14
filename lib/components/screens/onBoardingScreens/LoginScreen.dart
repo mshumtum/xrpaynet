@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginScreen> {
       backgroundColor: AppClr.black,
       body: ListView(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height / 1.2,
             child: Column(children: [
               const OnBoardingHeader(

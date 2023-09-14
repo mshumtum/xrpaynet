@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
@@ -51,7 +52,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         bottom: 0,
                         right: 0,
                         left: 0,
-                        child: Image.asset(Images.ic_welcome_cards),
+                        child: Image.asset(Images.ic_welcome_cards,
+                            width: ClassMediaQuery.screenWidth - 150),
                       )
                     ],
                   ),

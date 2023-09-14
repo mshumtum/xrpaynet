@@ -17,16 +17,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ClassMediaQuery(context);
-    return MaterialApp(
-      title: 'XR PayNet',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: AppTheme.black,
-        platform: TargetPlatform.iOS,
+    return SafeArea(
+      child: MaterialApp(
+        title: 'XR PayNet',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: AppTheme.black,
+          platform: TargetPlatform.iOS,
+        ),
+        home: const WelcomeScreen(),
+        navigatorKey: locator<NavigationService>().navigatorKey,
+        onGenerateRoute: (settings) => Routers.toGenerateRoute(settings),
       ),
-      home: const WelcomeScreen(),
-      navigatorKey: locator<NavigationService>().navigatorKey,
-      onGenerateRoute: (settings) => Routers.toGenerateRoute(settings),
     );
   }
 }
