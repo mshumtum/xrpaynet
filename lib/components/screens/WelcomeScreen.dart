@@ -3,12 +3,12 @@ import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dar
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
+import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
-import '../core/Locator.dart';
-import '../core/navigation/navigation_service.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String routeName = '/welcome_page';
@@ -78,7 +78,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     title: "Account Already Exists",
                     onClick: () {
                       _navigationService
-                          .navigateWithBack(VerifyEmailByOTP.routeName);
+                          .navigateWithBack(LoginScreen.routeName);
                     },
                   ),
                   const SizedBox(

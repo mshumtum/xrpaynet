@@ -12,5 +12,7 @@ class AppClr {
   static const Color grey = Color(0xFFB6B6B8);
   static const Color greyText = Color(0xFFB6B6B8);
   static const Color resendGreyText = Color(0xFFA5A5A5);
+  static const Color grey = Color(0xFFA5A5A5);
+  static const Color grey2 = Color(0xFFB6B6B8);
   static const Color inputFieldBg = Color.fromRGBO(23, 23, 23, 1.8);
 }

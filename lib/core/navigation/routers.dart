@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 
@@ -29,6 +30,10 @@ class Routers {
       case VerifyEmailByOTP.routeName:
         return _pageRoute(builder: (context) {
           return const VerifyEmailByOTP();
+        });
+      case ForgotPassword.routeName:
+        return _pageRoute(builder: (context) {
+          return const ForgotPassword();
         });
 
       default:
