@@ -14,10 +14,20 @@ class ClassMediaQuery {
   static late bool isDark;
   static late double notchHeight;
 
+  static double pendingContainerHeight(height) {
+    var a = screenHeight - screenHeight / height;
+    print("screenHeight");
+    print(screenHeight);
+    print(height);
+    print(a);
+    return a;
+  }
+
   ClassMediaQuery(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
-    screenHeight = _mediaQueryData.size.height - _mediaQueryData.padding.top;
+    screenHeight = _mediaQueryData.size.height -
+        (_mediaQueryData.padding.top + _mediaQueryData.padding.bottom);
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
     notchHeight = _mediaQueryData.padding.top;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Images.dart';
@@ -25,8 +26,15 @@ class _HomePageState extends State<HomePage> {
               isHideBack: false,
               secondaryButtonImg: Images.ic_logout,
               secondaryClick: () {
-                print("adkfnkd");
+                print("logout");
               },
+            ),
+            const SizedBox(
+              height: 150,
+            ),
+            ButtonPrimary(
+              title: "Apply Physical card",
+              onClick: () {},
             )
           ],
         ),

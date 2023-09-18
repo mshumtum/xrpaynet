@@ -10,17 +10,15 @@ class TextSpanBold extends StatelessWidget {
   final Function() onClick;
   const TextSpanBold(
       {super.key,
-        required this.title,
-        required this.boldText,
-        required this.onClick
-      }
-      );
+      required this.title,
+      required this.boldText,
+      required this.onClick});
 
   @override
   Widget build(BuildContext context) {
-    return  RichText(
+    return RichText(
       textAlign: TextAlign.start,
-      text:  TextSpan(
+      text: TextSpan(
         style: const TextStyle(
           color: AppClr.grey,
           fontSize: 14.0,
@@ -30,15 +28,13 @@ class TextSpanBold extends StatelessWidget {
           TextSpan(text: title),
           TextSpan(
             text: boldText,
-            recognizer: TapGestureRecognizer()
-              ..onTap = onClick,
+            recognizer: TapGestureRecognizer()..onTap = onClick,
             style: const TextStyle(
-                fontSize: 15.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.bold,
                 fontFamily: AppTheme.fontBold,
                 color: Colors.white),
           ),
-
         ],
       ),
     );

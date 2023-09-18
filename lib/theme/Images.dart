@@ -8,6 +8,5 @@ class Images {
   static const ic_logout = "assets/images/ic_logout.png";
 
   // LOTTIE ANIMATIONS
-  static String Welcome_bg = "assets/lottie/welcomeBg.json";
   static String congratulationLottie = "assets/lottie/congratulation.json";
 }

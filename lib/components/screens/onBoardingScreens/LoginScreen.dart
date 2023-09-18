@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginScreen> {
         child: const Text(
           'Forgot Password? ',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: AppClr.grey,
           ),
           textAlign: TextAlign.end,

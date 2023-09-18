@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
@@ -28,7 +29,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height / 1.2,
+              height: ClassMediaQuery.screenHeight / 1.25,
               child: const Column(children: [
                 OnBoardingHeader(
                   title: 'Forgot Password',
@@ -48,6 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ]),
             ),
             SizedBox(
+              height: ClassMediaQuery.pendingContainerHeight(1.25),
               child: ButtonPrimary(
                 title: "Send OTP",
                 onClick: () {

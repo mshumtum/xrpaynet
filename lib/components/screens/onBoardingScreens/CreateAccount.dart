@@ -127,9 +127,9 @@ class _CreateAccountState extends State<CreateAccount> {
             TextSpan(
               text: 'User Agreement',
               style: TextStyle(
-                color: AppClr.white,
-                fontSize: 14.0,
-              ),
+                  color: AppClr.white,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w300),
             ),
             TextSpan(text: ' and '),
             TextSpan(

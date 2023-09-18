@@ -17,32 +17,43 @@ class Header extends StatelessWidget {
       required this.title,
       this.isHideBack = true,
       this.secondaryButtonImg = "",
-      required this.secondaryClick});
+      this.secondaryClick});
 
   @override
   Widget build(BuildContext context) {
     final NavigationService navigationService = locator<NavigationService>();
 
-    return AppBar(
-        toolbarHeight: 70,
-        leading: isHideBack
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_outlined,
-                    color: Colors.white),
-                onPressed: () => {navigationService.goBack()},
-              )
-            : null,
-        title: Text(
-          title,
-          style: AppTheme.white18Medium,
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          GestureDetector(
-            onTap: secondaryClick,
-            child: Image.asset(secondaryButtonImg),
+    return Container(
+      color: AppClr.grey2,
+      child: AppBar(
+          toolbarHeight: 60,
+          leading: isHideBack
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                      color: Colors.white),
+                  onPressed: () => {navigationService.goBack()},
+                )
+              : null,
+          title: Text(
+            title,
+            style: AppTheme.white18Medium,
           ),
-        ]);
+          centerTitle: true,
+          actions: <Widget>[
+            secondaryButtonImg != ""
+                ? GestureDetector(
+                    onTap: secondaryClick,
+                    child: Image.asset(
+                      secondaryButtonImg,
+                      width: 16,
+                    ),
+                  )
+                : Container(),
+            const SizedBox(
+              width: 5,
+            )
+          ]),
+    );
   }
 }
 
@@ -60,8 +71,11 @@ class OnBoardingHeader extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          const SizedBox(
+            height: 5,
+          ),
           AppBar(
-            toolbarHeight: 70,
+            toolbarHeight: 50,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new_outlined,
                   color: Colors.white),

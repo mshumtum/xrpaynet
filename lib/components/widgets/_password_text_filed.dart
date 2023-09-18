@@ -57,7 +57,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 filled: true,
-                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintStyle: TextStyle(color: AppClr.grey2),
                 hintText: widget.hintText,
                 fillColor: AppClr.inputFieldBg,
                 suffixIcon: GestureDetector(
@@ -68,7 +68,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   },
                   child: Icon(
                     _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
+                    color: AppClr.grey,
                   ),
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -28,7 +29,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
         body: SingleChildScrollView(
             child: Column(children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height / 1.2,
+              height: ClassMediaQuery.screenHeight / 1.25,
               child: Column(children: [
                 const OnBoardingHeader(
                   title: 'Create New Password',
@@ -56,33 +57,26 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
 
   Widget _bottomView() {
     return SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ButtonPrimary(
-              title: 'Submit',
-              onClick: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CongratulationDialog(
-                          title: "Successfully Changed",
-                          descriptions:
-                              "Congratulations your password has been reset",
-                          doneTxt: "Done",
-                          onClick: () {
-                            Navigator.of(context).pop();
-                            _navigationService.navigateWithRemovingAllPrevious(
-                                HomePage.routeName);
-                          });
-                    });
-              }),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
+      height: ClassMediaQuery.pendingContainerHeight(1.25),
+      child: ButtonPrimary(
+          title: 'Submit',
+          onClick: () {
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return CongratulationDialog(
+                      title: "Successfully Changed",
+                      descriptions:
+                          "Congratulations your password has been reset",
+                      doneTxt: "Done",
+                      onClick: () {
+                        Navigator.of(context).pop();
+                        _navigationService.navigateWithRemovingAllPrevious(
+                            HomePage.routeName);
+                      });
+                });
+          }),
     );
   }
 }

@@ -27,21 +27,17 @@ class AppTheme {
   );
   static const _blackPrimaryValue = 0xFF000000;
 
-  static double containerHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height;
-  }
-
-  static const TextStyle body1 = TextStyle(
+  static const TextStyle white16w500 = TextStyle(
     // body2 -> body1
     fontFamily: fontFamily,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     fontSize: 16,
     letterSpacing: -0.05,
     color: AppClr.white,
   );
   static const TextStyle white40 = TextStyle(
-    fontFamily: fontMedium,
     fontSize: 40,
+    fontWeight: FontWeight.w500,
     letterSpacing: 1.16,
     color: AppClr.white,
   );
@@ -56,8 +52,16 @@ class AppTheme {
     fontSize: 14,
     color: AppClr.white,
   );
+  static const TextStyle white14Regular = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 14,
+    color: AppClr.white,
+    fontWeight: FontWeight.w400,
+  );
   static const TextStyle white18Medium = TextStyle(
-    fontFamily: fontMedium,
+    // fontFamily: fontMedium,
+    // fontFamily: fontRegular,
+    fontWeight: FontWeight.w500,
     fontSize: 18,
     color: AppClr.white,
   );

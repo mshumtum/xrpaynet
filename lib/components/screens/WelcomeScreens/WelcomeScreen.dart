@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
@@ -33,7 +34,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Positioned(
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Center(child: Image.asset(Images.ic_volta))),
+                        child: Center(
+                            child: Image.asset(Images.ic_volta, width: 112))),
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 0.0),
@@ -48,7 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     left: 20,
                     child: Image.asset(
                       Images.ic_welcome_cards,
-                      // width: 150,
+                      // width: ClassMediaQuery.screenWidth - 1,
                       // height: 130,
                     ),
                   )
@@ -72,11 +74,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 },
               ),
               const SizedBox(height: 14),
-              ButtonSecondary(
+              ButtonPrimary(
                 title: "Account Already Exists",
                 onClick: () {
                   _navigationService.navigateWithBack(LoginScreen.routeName);
                 },
+                buttonColor: AppClr.greyButton,
               ),
               const SizedBox(
                 height: 14,
