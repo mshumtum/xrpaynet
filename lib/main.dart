@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: AppTheme.black,
             platform: TargetPlatform.iOS,
             fontFamily: AppTheme.fontFamily),
-        home: const ApplyVirtualCardForm(),
+        home: const SplashScreen(),
         navigatorKey: locator<NavigationService>().navigatorKey,
         onGenerateRoute: (settings) => Routers.toGenerateRoute(settings),
       ),
