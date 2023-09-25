@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 
@@ -9,6 +13,7 @@ class InputField extends StatefulWidget {
   final String hintText;
   final TextInputType inputType;
   final Function(String)? onChangeText;
+
   const InputField(
       {super.key,
       this.inputLabel = "",
@@ -19,11 +24,11 @@ class InputField extends StatefulWidget {
   @override
   _InputFieldState createState() => _InputFieldState();
 
-  // Define a static method to get the text value
-  // String getText() {
-  //   onChangeText!(_InputFieldState.textValue);
-  //   return _InputFieldState.textValue;
-  // }
+// Define a static method to get the text value
+// String getText() {
+//   onChangeText!(_InputFieldState.textValue);
+//   return _InputFieldState.textValue;
+// }
 }
 
 class _InputFieldState extends State<InputField> {
@@ -95,6 +100,7 @@ class PhoneNumField extends StatefulWidget {
   final bool isPhonePicker;
   final Function()? onPickerClick;
   final Function()? onSendClick;
+
   const PhoneNumField(
       {super.key,
       this.inputLabel = "",
@@ -127,7 +133,7 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
           height: 9,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Container(
             decoration: BoxDecoration(
                 color: AppClr.inputFieldBg,
@@ -141,12 +147,12 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                           onTap: widget.onPickerClick,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 13, horizontal: 10),
+                                vertical: 15, horizontal: 10),
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   bottomLeft: Radius.circular(10)),
-                              color: Colors.blue,
+                              color: AppClr.blue,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -164,8 +170,8 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                       )
                     : Container(),
                 Expanded(
-                  flex: 5,
-                  child: TextField(
+                  flex: widget.isPhonePicker ? 5 : 7,
+                  child: TextFormField(
                     controller: myController,
                     cursorColor: Colors.white,
                     style: AppTheme.white14Regular,
@@ -184,29 +190,73 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                     keyboardType: widget.inputType,
                   ),
                 ),
-                Expanded(
+                const Expanded(
                     flex: 2,
-                    child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(9),
-                              bottomRight: Radius.circular(9)),
-                          color: AppClr.inputFieldBg,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: ElevatedButton(
-                            onPressed: widget.onSendClick,
-                            child: const Text(
-                              "Send Code",
-                              style: AppTheme.white14Regular,
-                            ),
-                          ),
-                        ))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        "Send Code",
+                        style: AppTheme.white14Regular,
+                      ),
+                    )),
               ],
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class OtpTextField extends StatefulWidget {
+  final String label;
+  final Function(String value)? onOtpComplete;
+
+  const OtpTextField({
+    super.key,
+    this.label = "",
+    this.onOtpComplete,
+  });
+
+  @override
+  State<OtpTextField> createState() => _OtpTextFieldState();
+}
+
+class _OtpTextFieldState extends State<OtpTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        widget.label != ""
+            ? HeadingText(
+                title: widget.label,
+              )
+            : Container(),
+        const SizedBox(
+          height:10,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 15,right: 15),
+          child: OTPTextField(
+            length: 4,
+            width: ClassMediaQuery.screenWidth,
+            fieldWidth: 80,
+            style: AppTheme.white16w500,
+            otpFieldStyle: OtpFieldStyle(
+                backgroundColor: AppClr.otpBackground,
+                focusBorderColor: AppClr.blue),
+            textFieldAlignment: MainAxisAlignment.spaceAround,
+            fieldStyle: FieldStyle.box,
+            outlineBorderRadius: 10,
+            onCompleted: (pin) {
+              widget.onOtpComplete!(pin);
+              print("Completed: " + pin);
+            },
+          ),
+        )
+
       ],
     );
   }

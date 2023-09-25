@@ -6,6 +6,7 @@ class Images {
   static String ic_welcome_bg = "assets/images/ic_welcome_bg.png";
   static String ic_white_back = "assets/images/ic_back_arrow_white.png";
   static const ic_logout = "assets/images/ic_logout.png";
+  static const qr_img = "assets/images/ic_img_qr.png";
 
   // LOTTIE ANIMATIONS
   static String congratulationLottie = "assets/lottie/congratulation.json";

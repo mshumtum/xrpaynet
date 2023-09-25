@@ -22,7 +22,7 @@ class ButtonPrimary extends StatelessWidget {
         height: 50,
         width: ClassMediaQuery.screenWidth - 20, // Padding around the text
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0), // Rounded corners
+          borderRadius: BorderRadius.circular(20.0), // Rounded corners
         ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(

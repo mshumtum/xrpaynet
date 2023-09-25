@@ -59,7 +59,7 @@ class AppTheme {
     fontWeight: FontWeight.w400,
   );
   static const TextStyle white18Medium = TextStyle(
-    // fontFamily: fontMedium,
+    fontFamily: fontMedium,
     // fontFamily: fontRegular,
     fontWeight: FontWeight.w500,
     fontSize: 18,
