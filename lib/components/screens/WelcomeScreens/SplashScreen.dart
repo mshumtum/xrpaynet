@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: AppClr.black,
       body: Center(
         child: Image.asset(
-          Images.ic_volta,
+          Images.icVolta,
           width: 131,
         ),
       ),

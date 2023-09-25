@@ -35,7 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Center(
-                            child: Image.asset(Images.ic_volta, width: 112))),
+                            child: Image.asset(Images.icVolta, width: 112))),
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 0.0),

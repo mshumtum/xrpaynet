@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 // this class have static members which can be accessed by just class name
@@ -16,10 +17,6 @@ class ClassMediaQuery {
 
   static double pendingContainerHeight(height) {
     var a = screenHeight - screenHeight / height;
-    print("screenHeight");
-    print(screenHeight);
-    print(height);
-    print(a);
     return a;
   }
 
@@ -34,3 +31,5 @@ class ClassMediaQuery {
     isDark = _mediaQueryData.platformBrightness == Brightness.dark;
   }
 }
+
+class CommonSnackBar {}

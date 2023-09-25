@@ -65,4 +65,9 @@ class AppTheme {
     fontSize: 18,
     color: AppClr.white,
   );
+  static const TextStyle greyWhite16Regular = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppClr.greyWhite,
+  );
 }
