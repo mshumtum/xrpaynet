@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xr_paynet/components/utilities/HexColor.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Images.dart';
 
 class Header extends StatelessWidget {
   final String title;

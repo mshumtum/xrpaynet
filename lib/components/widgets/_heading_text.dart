@@ -6,11 +6,13 @@ class HeadingText extends StatelessWidget {
   final String title;
   final Color color;
   final double textSize;
+  final TextAlign textAlign;
   const HeadingText(
       {super.key,
       required this.title,
       this.color = AppClr.grey,
-      this.textSize = 14.0});
+      this.textSize = 14.0,
+      this.textAlign = TextAlign.start});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,9 @@ class HeadingText extends StatelessWidget {
       margin: const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
       child: Text(
         title,
-        textAlign: TextAlign.start,
+        textAlign: textAlign,
         style: TextStyle(
-            color: AppClr.grey,
+            color: color,
             fontSize: textSize,
             fontWeight: FontWeight.w400),
       ),

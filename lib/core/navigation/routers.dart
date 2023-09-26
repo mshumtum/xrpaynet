@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/cards_screens/VirtualCard.dart';
+import 'package:xr_paynet/components/screens/choose_currency/ChooseCurrency.dart';
+import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateNewPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
+import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 
 class Routers {
   static RouteSettings? _settings;
@@ -49,7 +53,22 @@ class Routers {
         return _pageRoute(builder: (context) {
           return const HomePage();
         });
-
+      case ChooseCurrency.routeName:
+        return _pageRoute(builder: (context) {
+          return const ChooseCurrency();
+        });
+      case Deposit.routeName:
+        return _pageRoute(builder: (context) {
+          return  Deposit(arguments: arguments.toString(),);
+        });
+      case VirtualCard.routeName:
+        return _pageRoute(builder: (context) {
+          return  VirtualCard(arguments: arguments.toString(),);
+        });
+      case TransactionHistory.routeName:
+        return _pageRoute(builder: (context) {
+          return  const TransactionHistory();
+        });
       default:
         throw Exception('Route Not Found');
     }
