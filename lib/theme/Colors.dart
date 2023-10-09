@@ -4,6 +4,7 @@ class AppClr {
   static const Color black = Color(0xFF000000);
 
   static const Color white = Color(0xFFFFFFFF);
+  static const Color greyText = Color(0xFFA2A0A0);
   static const Color greyWhite = Color(0xFFB6B6B8);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color dark = Color(0xFF253840);
@@ -18,5 +19,12 @@ class AppClr {
   static const Color grey2 = Color(0xFFB6B6B8);
   static const Color green = Color(0xFF00CC07);
   static const Color greyQrBack = Color(0xFF171717);
+  static const Color cardGradient = Color(0xFF2D74E6);
+  static const Color cardGradient1 = Color(0xFF0443FA);
+  static const Color lightBlueText = Color(0xFF9FB5F1);
   static const Color inputFieldBg = Color.fromRGBO(23, 23, 23, 1.8);
+
+  static const Color unselectedCardGradient1 = Color(0xFF1B2950);
+  static const Color unselectedCardGradient2 = Color(0xFF00000000);
+  static const Color selectedCardBorder = Color(0xFF131B33);
 }

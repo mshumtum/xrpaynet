@@ -1,6 +1,9 @@
+import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
+import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 
@@ -9,9 +12,9 @@ import '../../../core/navigation/navigation_service.dart';
 import '../../../theme/Images.dart';
 import '../../utilities/ClassMediaQuery.dart';
 import '../../widgets/_trans_history.dart';
-import '../../widgets/top_hearder_icons.dart';
 
 class LifeStylePlusCards extends StatefulWidget {
+  static const String routeName = '/lifestyle_plus_screens';
   const LifeStylePlusCards({Key? key}) : super(key: key);
 
   @override
@@ -21,7 +24,15 @@ class LifeStylePlusCards extends StatefulWidget {
 class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
   bool isPhysicalCardSelected = true;
   bool isFrontSideVisible = true;
+  late FlipCardController _controller;
   final NavigationService _navigationService = locator<NavigationService>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = FlipCardController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +52,14 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
               height: 35,
             ),
             _cardSelection(),
-            isFrontSideVisible ? _frontCardImage() : _backCardImage(),
+            FlipCard(
+                controller: _controller,
+                fill: Fill.fillBack,
+                direction: FlipDirection.HORIZONTAL, // default
+                side: CardSide.FRONT,
+                front: _frontCardImage(),
+                back: _backCardImage(),
+                flipOnTouch: false),
             const SizedBox(
               height: 10,
             ),
@@ -156,14 +174,13 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             child: Image.asset(Images.card_front_img),
           ),
           Container(
+            // color: Colors.red,
             margin: EdgeInsets.only(top: 12, right: 8),
             child: Align(
               alignment: Alignment.centerRight,
               child: InkWell(
                 onTap: () {
-                  setState(() {
-                    isFrontSideVisible = false;
-                  });
+                  _controller.toggleCard();
                 },
                 child: Text(
                   'VIEW DETAILS',
@@ -206,27 +223,66 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             height: 250,
             child: Image.asset(Images.card_back_img),
           ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 78, right: 8),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    isFrontSideVisible = true;
-                  });
-                },
-                child: Text(
-                  'BACK TO MAIN',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: AppTheme.fontBold),
-                ),
+          Positioned(
+            right: 0,
+            bottom: 78,
+            child: InkWell(
+              onTap: () {
+                _controller.toggleCard();
+              },
+              child: Text(
+                'BACK TO MAIN',
+                style: AppTheme.white11Bold,
               ),
             ),
           ),
+          Positioned(
+              top: 113,
+              child: Row(
+                children: [
+                  SizedBox(width: ClassMediaQuery.screenWidth / 2.8),
+                  Text(
+                    "CVV 123",
+                    style: AppTheme.black12Bold,
+                  ),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text("Prepaid", style: AppTheme.black12Bold)
+                ],
+              )),
+          Positioned(
+            top: 145,
+            left: ClassMediaQuery.screenWidth / 10,
+            child: Text(
+              "0012 3345 6788 0010",
+              style: AppTheme.black16Regular,
+            ),
+          ),
+          Positioned(
+              top: 165,
+              child: Row(
+                children: [
+                  SizedBox(width: ClassMediaQuery.screenWidth / 2.1),
+                  const Text(
+                    "VALID\nTHRU",
+                    style: AppTheme.black10Regular,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text("11/23", style: AppTheme.black12Bold)
+                ],
+              )),
+          Positioned(
+            bottom: 25,
+            left: ClassMediaQuery.screenWidth / 3.5,
+            width: ClassMediaQuery.screenWidth / 1.8,
+            child: Text(
+              "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
+              style: AppTheme.black10Regular,
+            ),
+          )
         ],
       ),
     );
@@ -261,9 +317,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
 
   Widget _headingText() {
     return Container(
-      margin:  const EdgeInsets.symmetric(horizontal: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       width: ClassMediaQuery.screenWidth,
-      child:  Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
@@ -275,9 +331,10 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 color: AppClr.white),
           ),
           InkWell(
-            onTap: () {
-              _navigationService.navigateWithBack(TransactionHistory.routeName);
-            },
+              onTap: () {
+                _navigationService
+                    .navigateWithBack(TransactionHistory.routeName);
+              },
               child: Text('View All',
                   style: TextStyle(
                       fontWeight: FontWeight.w400,

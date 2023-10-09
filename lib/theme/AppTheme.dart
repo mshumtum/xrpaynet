@@ -47,6 +47,11 @@ class AppTheme {
     fontSize: 14,
     color: AppClr.resendGreyText,
   );
+  static const TextStyle resendGreyText18 = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 18,
+    color: AppClr.resendGreyText,
+  );
   static const TextStyle white14Bold = TextStyle(
     fontFamily: fontBold,
     fontSize: 14,
@@ -58,9 +63,14 @@ class AppTheme {
     color: AppClr.white,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle greyText14Regular = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 14,
+    color: AppClr.greyText,
+    fontWeight: FontWeight.w400,
+  );
   static const TextStyle white18Medium = TextStyle(
     fontFamily: fontMedium,
-    // fontFamily: fontRegular,
     fontWeight: FontWeight.w500,
     fontSize: 18,
     color: AppClr.white,
@@ -69,5 +79,69 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 16,
     color: AppClr.greyWhite,
+  );
+  static const TextStyle white11Bold = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 11,
+    color: AppClr.white,
+    fontFamily: fontBold,
+  );
+  static const TextStyle black12Bold = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 12,
+    color: AppClr.black,
+    fontFamily: fontBold,
+  );
+  static const TextStyle black16Regular = TextStyle(
+    fontSize: 16,
+    color: AppClr.black,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle black10Regular = TextStyle(
+    fontSize: 10,
+    color: AppClr.black,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle white24Regular = TextStyle(
+    fontSize: 24,
+    color: AppClr.white,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle white18Regular = TextStyle(
+    fontSize: 18,
+    color: AppClr.white,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle lightBlueText20Regular = TextStyle(
+    fontSize: 20,
+    color: AppClr.lightBlueText,
+    fontFamily: fontRegular,
+  );
+  static BoxDecoration selectedCardXrPay = BoxDecoration(
+    gradient: const LinearGradient(
+      colors: [AppClr.blue_gradient, AppClr.black_gradient],
+      // Replace with your desired colors
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      transform: GradientRotation(182), // Convert degrees to radians
+    ),
+    borderRadius: BorderRadius.circular(10.0),
+    boxShadow: const [
+      BoxShadow(color: AppClr.selectedCardBorder, spreadRadius: 1),
+    ],
+  );
+
+  static BoxDecoration unselectedCardXrPay = BoxDecoration(
+    gradient: const LinearGradient(
+      colors: [AppClr.unselectedCardGradient1, AppClr.unselectedCardGradient2],
+      // Replace with your desired colors
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      transform: GradientRotation(182), // Convert degrees to radians
+    ),
+    borderRadius: BorderRadius.circular(10.0),
+    boxShadow: const [
+      BoxShadow(color: AppClr.selectedCardBorder, spreadRadius: 1),
+    ],
   );
 }

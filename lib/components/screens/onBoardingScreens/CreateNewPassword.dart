@@ -9,6 +9,7 @@ import 'package:xr_paynet/components/widgets/_password_text_filed.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/Colors.dart';
+import 'package:xr_paynet/theme/Images.dart';
 
 class CreateNewPassword extends StatefulWidget {
   static const String routeName = '/create_new_password';
@@ -70,6 +71,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       descriptions:
                           "Congratulations your password has been reset",
                       doneTxt: "Done",
+                      lottieFile: Images.congratulationLottie,
                       onClick: () {
                         Navigator.of(context).pop();
                         _navigationService.navigateWithRemovingAllPrevious(

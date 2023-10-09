@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
-import 'package:xr_paynet/components/screens/cards_screens/VirtualCard.dart';
+import 'package:xr_paynet/components/screens/cardsApplyScreens/LifeStylePlusApply.dart';
+import 'package:xr_paynet/components/screens/cardsApplyScreens/VirtualCardApply.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
+import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardForm.dart';
 import 'package:xr_paynet/components/screens/choose_currency/ChooseCurrency.dart';
 import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
@@ -59,15 +62,33 @@ class Routers {
         });
       case Deposit.routeName:
         return _pageRoute(builder: (context) {
-          return  Deposit(arguments: arguments.toString(),);
+          return Deposit(
+            arguments: arguments.toString(),
+          );
         });
       case VirtualCard.routeName:
         return _pageRoute(builder: (context) {
-          return  VirtualCard(arguments: arguments.toString(),);
+          return VirtualCard(
+            arguments: arguments.toString(),
+          );
         });
       case TransactionHistory.routeName:
         return _pageRoute(builder: (context) {
-          return  const TransactionHistory();
+          return const TransactionHistory();
+        });
+      case VirtualCardApply.routeName:
+        return _pageRoute(builder: (context) {
+          return VirtualCardApply(
+            arguments: arguments,
+          );
+        });
+      case LifeStylePlusCards.routeName:
+        return _pageRoute(builder: (context) {
+          return const LifeStylePlusCards();
+        });
+      case LifeStylePlusApply.routeName:
+        return _pageRoute(builder: (context) {
+          return const LifeStylePlusApply();
         });
       default:
         throw Exception('Route Not Found');

@@ -8,6 +8,7 @@ class Header extends StatelessWidget {
   final String title;
   final bool isHideBack;
   final String secondaryButtonImg;
+  final String secondaryButtonText;
   final Function()? secondaryClick;
 
   const Header(
@@ -15,6 +16,7 @@ class Header extends StatelessWidget {
       required this.title,
       this.isHideBack = true,
       this.secondaryButtonImg = "",
+      this.secondaryButtonText = "",
       this.secondaryClick});
 
   @override
@@ -41,14 +43,29 @@ class Header extends StatelessWidget {
             secondaryButtonImg != ""
                 ? GestureDetector(
                     onTap: secondaryClick,
-                    child: Image.asset(
-                      secondaryButtonImg,
-                      width: 16,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          secondaryButtonImg,
+                          width: 16,
+                        ),
+                        secondaryButtonText != ""
+                            ? Row(children: [
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  secondaryButtonText,
+                                  style: AppTheme.white14Regular,
+                                )
+                              ])
+                            : Container()
+                      ],
                     ),
                   )
                 : Container(),
             const SizedBox(
-              width: 5,
+              width: 15,
             )
           ]),
     );
@@ -109,6 +126,72 @@ class OnBoardingHeader extends StatelessWidget {
                       fontFamily: AppTheme.fontRegular,
                       height: 1.5),
                 )),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class TopHeaderWithIcons extends StatefulWidget {
+  final String leftIcon;
+  final String title;
+  final String rightIcon;
+  final Function onClickLeftIcon;
+  final Function onClickRightIcon;
+
+  const TopHeaderWithIcons(
+      {super.key,
+      required this.leftIcon,
+      required this.title,
+      required this.rightIcon,
+      required this.onClickLeftIcon,
+      required this.onClickRightIcon});
+
+  @override
+  State<TopHeaderWithIcons> createState() => _TopHeaderWithIconsState();
+}
+
+class _TopHeaderWithIconsState extends State<TopHeaderWithIcons> {
+  @override
+  Widget build(BuildContext context) {
+    return _topBar();
+  }
+
+  Widget _topBar() {
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {
+              widget.onClickLeftIcon();
+            },
+            child: Image.asset(
+              widget.leftIcon,
+              width: 20,
+              height: 20,
+            ),
+          ),
+          Text(
+            widget.title,
+            style: const TextStyle(
+                fontSize: 18,
+                color: AppClr.white,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontMedium),
+          ),
+          InkWell(
+            onTap: () {
+              widget.onClickRightIcon();
+            },
+            child: Image.asset(
+              widget.rightIcon,
+              width: 20,
+              height: 20,
+            ),
           )
         ],
       ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/WelcomeScreens/SplashScreen.dart';
+import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
+import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/core/navigation/routers.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
-import 'components/screens/cards_screens/ClubCard.dart';
-import 'components/screens/cards_screens/LifeStylePlusCards.dart';
 import 'components/utilities/ClassMediaQuery.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: AppTheme.black,
             platform: TargetPlatform.iOS,
             fontFamily: AppTheme.fontFamily),
-        home: const LifeStylePlusCards(),
+        home: const HomePage(),
         navigatorKey: locator<NavigationService>().navigatorKey,
         onGenerateRoute: (settings) => Routers.toGenerateRoute(settings),
       ),
