@@ -5,11 +5,15 @@ import 'package:xr_paynet/theme/Colors.dart';
 class PasswordTextField extends StatefulWidget {
   final String hintText;
   final String inputLabel;
+  final Function(String)? onChangeText;
 
-  PasswordTextField({
+
+  const PasswordTextField({
     super.key,
     required this.hintText,
     this.inputLabel = "",
+    this.onChangeText
+
   });
 
   @override
@@ -48,9 +52,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               style: const TextStyle(color: Colors.white),
               maxLines: 1,
               onChanged: (value) {
-                setState(() {
-                  textValue = value;
-                });
+                widget.onChangeText!(value);
               },
               decoration: InputDecoration(
                 border: OutlineInputBorder(

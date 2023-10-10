@@ -3,12 +3,13 @@ import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/theme/Constants.dart';
 
 import '../../../theme/Colors.dart';
-import '../../utilities/HexColor.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_input_filed.dart';
 import '../../widgets/_password_text_filed.dart';
@@ -25,6 +26,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
+  String emailAddress = "";
+  String password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +47,23 @@ class _LoginPageState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const InputField(
-                    inputLabel: "Email",
-                    hintText: 'Enter Email',
-                    inputType: TextInputType.emailAddress),
+                InputField(
+                  inputLabel: "Email",
+                  hintText: 'Enter Email',
+                  inputType: TextInputType.emailAddress,
+                  onChangeText: (value) {
+                    emailAddress = value;
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),
                 PasswordTextField(
-                  inputLabel: 'Password',
-                  hintText: 'Password',
-                ),
+                    inputLabel: 'Password',
+                    hintText: 'Password',
+                    onChangeText: (value) {
+                      password = value;
+                    }),
                 const SizedBox(
                   height: 15,
                 ),
@@ -97,8 +106,19 @@ class _LoginPageState extends State<LoginScreen> {
           ButtonPrimary(
               title: 'Login',
               onClick: () {
-                _navigationService
-                    .navigateWithRemovingAllPrevious(HomePage.routeName);
+                if (emailAddress == "") {
+                  showToast(context, Constants.enter_email_address);
+                } else if (!isEmailValid(emailAddress)) {
+                  showToast(context, Constants.enter_valid_email);
+                } else if (password == "") {
+                  showToast(context, Constants.enter_password);
+                } else if (!isPasswordValid(password)) {
+                  showToast(context,
+                      Constants.enter_valid_password);
+                } else {
+                  _navigationService
+                      .navigateWithRemovingAllPrevious(HomePage.routeName);
+                }
               }),
           const SizedBox(
             height: 15,

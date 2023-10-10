@@ -68,9 +68,6 @@ class _InputFieldState extends State<InputField> {
               style: const TextStyle(color: Colors.white, fontSize: 14.0),
               maxLines: 1,
               onChanged: (value) {
-                // setState(() {
-                //   textValue = value;
-                // });
                 widget.onChangeText!(value);
               },
               decoration: InputDecoration(
