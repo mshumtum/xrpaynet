@@ -68,6 +68,13 @@ class AppTheme {
     color: AppClr.white,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle white12Light22 = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 12,
+    color: AppClr.white,
+    fontWeight: FontWeight.w300,
+    height: 1.6,
+  );
   static const TextStyle white14Regular22 = TextStyle(
     fontFamily: fontRegular,
     fontSize: 14,

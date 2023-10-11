@@ -47,7 +47,13 @@ class CongratulationDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const SizedBox(
+                height: 30,
+              ),
               Lottie.asset(this.lottieFile, width: 140),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 title,
                 style: AppTheme.white18Medium,

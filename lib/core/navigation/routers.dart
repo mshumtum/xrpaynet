@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
+import 'package:xr_paynet/components/screens/appliedCardScreens/LifeStylePlusApplied.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/LifeStylePlusApply.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/VirtualCardApply.dart';
@@ -93,6 +94,12 @@ class Routers {
       case LifeStylePlusFees.routeName:
         return _pageRoute(builder: (context) {
           return LifeStylePlusFees(
+            arguments: arguments,
+          );
+        });
+      case LifeStylePlusApplied.routeName:
+        return _pageRoute(builder: (context) {
+          return LifeStylePlusApplied(
             arguments: arguments,
           );
         });

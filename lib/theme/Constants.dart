@@ -17,4 +17,6 @@ class Constants {
 
   static const lifePhysicalBenefits =
       "Includes \$20 Top-up automatically added to your card on activation.";
+  static const lockXRPRToken =
+      "After 45 days a tenth (1/10) of the initial Locked Amount will be released each month. You can only use these funds for the Card Recharge.";
 }
