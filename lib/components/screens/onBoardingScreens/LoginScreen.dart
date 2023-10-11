@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
@@ -6,10 +7,13 @@ import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/base_cubit/BaseCubit.dart';
+import 'package:xr_paynet/core/base_cubit/ApiState.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/Constants.dart';
 
 import '../../../theme/Colors.dart';
+import '../../widgets/NoInternetWidget.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_input_filed.dart';
 import '../../widgets/_password_text_filed.dart';
@@ -33,7 +37,21 @@ class _LoginPageState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      body: SingleChildScrollView(
+      body: _rootUI()
+    );
+  }
+
+  Widget _rootUI(){
+    return BlocBuilder<BaseCubit,ApiState>(builder: (context,state){
+      if (state is ResponseTodoState) {
+        _navigationService.navigateWithRemovingAllPrevious(HomePage.routeName);
+        return SizedBox();
+      } else if (state is NoInternetState) {
+        return const NoInternetWidget();
+      } else if(state is LoadingTodoState){
+        return const CircularProgressIndicator();
+      }
+      return  SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -42,7 +60,7 @@ class _LoginPageState extends State<LoginScreen> {
                 const OnBoardingHeader(
                   title: 'Login To Your Account',
                   subTitle:
-                      'Enter required details below to access\n your account!',
+                  'Enter required details below to access\n your account!',
                 ),
                 const SizedBox(
                   height: 30,
@@ -73,8 +91,10 @@ class _LoginPageState extends State<LoginScreen> {
             _bottomView()
           ],
         ),
-      ),
-    );
+      );
+
+    });
+
   }
 
   Widget _forgotText() {

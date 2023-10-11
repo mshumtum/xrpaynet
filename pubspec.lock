@@ -81,6 +81,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_functions:
+    dependency: "direct main"
+    description:
+      name: cloud_functions
+      sha256: f0e19534e1c0b6b76e0eb2009ffcd8e70db2f4fb75935f3f13151232e322a31d
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.2"
+  cloud_functions_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_functions_platform_interface
+      sha256: "52540251242dcda056724271c10bc81685e69a0c9e0512d4ce9943106cb71665"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.2"
+  cloud_functions_web:
+    dependency: transitive
+    description:
+      name: cloud_functions_web
+      sha256: b5d84c50ed3eee5d347150c266d7e428fd87373c9471a76f53f20a7abd9f1b39
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.2"
   collection:
     dependency: transitive
     description:
@@ -161,6 +185,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  firebase_core:
+    dependency: "direct main"
+    description:
+      name: firebase_core
+      sha256: "95580fa07c8ca3072a2bb1fecd792616a33f8683477d25b7d29d3a6a399e6ece"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.17.0"
+  firebase_core_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_core_platform_interface
+      sha256: b63e3be6c96ef5c33bdec1aab23c91eb00696f6452f0519401d640938c94cba2
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.0"
+  firebase_core_web:
+    dependency: transitive
+    description:
+      name: firebase_core_web
+      sha256: e8c408923cd3a25bd342c576a114f2126769cd1a57106a4edeaa67ea4a84e962
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.0"
   flip_card:
     dependency: "direct main"
     description:
@@ -296,6 +344,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  injectable:
+    dependency: "direct main"
+    description:
+      name: injectable
+      sha256: cd3c422e13270c81f64ab73c80406b2b2ed563fe59d0ff2093eb7eee63d0bbeb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
   internet_connection_checker:
     dependency: "direct main"
     description:
