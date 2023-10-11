@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const InputField(
+                 InputField(
                     inputLabel: "Email",
                     hintText: 'Enter Email',
                     inputType: TextInputType.emailAddress),

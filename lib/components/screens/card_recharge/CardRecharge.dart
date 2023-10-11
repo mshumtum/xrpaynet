@@ -56,7 +56,7 @@ class _CardRechargeState extends State<CardRecharge> {
           const SizedBox(
             height: 16,
           ),
-          const InputField(
+           InputField(
             inputLabel: "Enter Amount",
             hintText: 'Enter Amount',
           ),

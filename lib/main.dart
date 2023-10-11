@@ -6,6 +6,8 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/core/navigation/routers.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
+import 'components/screens/lifeStylePlusKYC/LifeStylePlusKYC.dart';
+import 'components/screens/lifeStylePlusKYC/_link_card.dart';
 import 'components/utilities/ClassMediaQuery.dart';
 import 'package:flutter/services.dart';
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: AppTheme.black,
             platform: TargetPlatform.iOS,
             fontFamily: AppTheme.fontFamily),
-        home: const HomePage(),
+        home: const LinkCard(),
         navigatorKey: locator<NavigationService>().navigatorKey,
         onGenerateRoute: (settings) => Routers.toGenerateRoute(settings),
       ),

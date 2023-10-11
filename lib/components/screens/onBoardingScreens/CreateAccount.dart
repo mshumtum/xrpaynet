@@ -46,7 +46,7 @@ class _CreateAccountState extends State<CreateAccount> {
             const SizedBox(
               height: 46,
             ),
-            const InputField(
+             InputField(
                 inputLabel: "Email",
                 hintText: 'Enter Email',
                 inputType: TextInputType.emailAddress),
@@ -168,7 +168,7 @@ class _CreateAccountState extends State<CreateAccount> {
               onClick: () {
                 _navigationService.navigateWithNoBack(LoginScreen.routeName);
               }),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],

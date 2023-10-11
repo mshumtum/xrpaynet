@@ -30,7 +30,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           children: [
             SizedBox(
               height: ClassMediaQuery.screenHeight / 1.25,
-              child: const Column(children: [
+              child:  Column(children: [
                 OnBoardingHeader(
                   title: 'Forgot Password',
                   subTitle:

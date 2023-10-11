@@ -35,6 +35,9 @@ class Images {
   static const ic_close = "assets/images/ic_close.png";
   static const ic_pay_by_wallet = "assets/images/ic_pay_by_wallet.png";
   static const ic_purchare_xrp = "assets/images/ic_purchare_xrp.png";
+  static const ic_tick_with_circle = "assets/images/ic_tick_with_circle.png";
+  static const ic_upload = "assets/images/ic_upload.png";
+  static const ic_white_card = "assets/images/ic_white_card.png";
   //apply cards
   static const lifestyle_plus_dummy = "assets/images/lifestyle_plus_dummy.png";
   static const lsPlusVirtualDummy =

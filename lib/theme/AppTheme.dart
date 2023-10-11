@@ -9,6 +9,7 @@ class AppTheme {
   static const String fontBold = 'Roboto-Bold';
   static const String fontRegular = 'Roboto-fontRegular';
   static const String fontLight = 'Roboto-Light';
+  static const String fontItalic = 'Roboto-BlackItalic';
 
   static MaterialColor black = const MaterialColor(
     _blackPrimaryValue,

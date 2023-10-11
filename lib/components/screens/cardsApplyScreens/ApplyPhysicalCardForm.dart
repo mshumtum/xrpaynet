@@ -55,7 +55,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                   InputField(
                     inputLabel: "Last Name",
                     hintText: 'Enter last name here',
                   ),
@@ -92,28 +92,28 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                   InputField(
                     inputLabel: "Province",
                     hintText: 'Texas',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                   InputField(
                     inputLabel: "City",
                     hintText: 'Texas',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                   InputField(
                     inputLabel: "Street Address",
                     hintText: 'Housetown1123',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                   InputField(
                     inputLabel: "Postcode",
                     hintText: 'Enter Code',
                   ),
@@ -255,7 +255,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                     fontSize: 14,
                     fontFamily: AppTheme.fontRegular),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: AppClr.grey,
                 size: 15, // Change the icon color as needed
