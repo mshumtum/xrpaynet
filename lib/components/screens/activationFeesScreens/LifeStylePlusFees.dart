@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
-import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
@@ -15,14 +14,19 @@ import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
-class CardRecharge extends StatefulWidget {
-  const CardRecharge({super.key});
+class LifeStylePlusFees extends StatefulWidget {
+  static const String routeName = '/purchase_life_style_plus';
+  final Object? arguments;
+  const LifeStylePlusFees({
+    super.key,
+    this.arguments,
+  });
 
   @override
-  State<CardRecharge> createState() => _CardRechargeState();
+  State<LifeStylePlusFees> createState() => _LifeStylePlusFeesState();
 }
 
-class _CardRechargeState extends State<CardRecharge> {
+class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
   final NavigationService _navigationService = locator<NavigationService>();
 
   @override
@@ -32,7 +36,7 @@ class _CardRechargeState extends State<CardRecharge> {
         body: SingleChildScrollView(
             child: Column(children: [
           Header(
-            title: "Card Recharge",
+            title: "Activation Fee",
             secondaryButtonImg: Images.ic_deposit,
             secondaryButtonText: "Deposit",
             secondaryClick: () {
@@ -41,7 +45,7 @@ class _CardRechargeState extends State<CardRecharge> {
             },
           ),
           Container(
-            margin: const EdgeInsets.only(top: 35),
+            margin: const EdgeInsets.only(top: 20),
             width: ClassMediaQuery.screenWidth,
             child: const HeadingText(
               title: 'Choose Currency',
@@ -53,32 +57,9 @@ class _CardRechargeState extends State<CardRecharge> {
               _navigationService.navigateWithBack(ChooseCurrency.routeName);
             },
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          const InputField(
-            inputLabel: "Enter Amount",
-            hintText: 'Enter Amount',
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 20.0, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "Deposit Fee: ",
-                  style: AppTheme.resendGreyText14,
-                ),
-                Text(
-                  "\$ 1",
-                  style: AppTheme.white14Regular,
-                ),
-              ],
-            ),
-          ),
           Container(
-            margin: const EdgeInsets.only(right: 10, left: 10, top: 30),
-            height: 130,
+            margin: const EdgeInsets.only(right: 10, left: 10, top: 27),
+            height: 110,
             width: ClassMediaQuery.screenWidth,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -86,7 +67,7 @@ class _CardRechargeState extends State<CardRecharge> {
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: Column(
+            child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -107,20 +88,23 @@ class _CardRechargeState extends State<CardRecharge> {
               children: [
                 Text(
                   "Available Balance: ",
-                  style: AppTheme.resendGreyText18,
+                  style: AppTheme.resendGreyText16,
                 ),
                 Text(
                   "1000 USDT",
-                  style: AppTheme.white18Regular,
+                  style: AppTheme.white16Regular,
                 ),
               ],
             ),
           ),
+          SizedBox(height: 25),
+          _details(),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 80),
+            padding: const EdgeInsets.only(top: 80, bottom: 42),
             child: Image.asset(
               Images.ic_xrpaynet_bg,
               width: ClassMediaQuery.screenWidth / 1.5,
+              height: 80,
             ),
           ),
           ButtonPrimary(
@@ -144,5 +128,46 @@ class _CardRechargeState extends State<CardRecharge> {
             title: "Pay Now",
           )
         ])));
+  }
+
+  Widget _details() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+      ),
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: AppClr.inputFieldBg,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 5,
+              ),
+              _types('Issuance Fee', '\$ 150'),
+              Divider(color: AppClr.grey2, height: 1),
+              _types('Maintenance Fee', '\$ 50'),
+              Divider(color: AppClr.grey2, height: 1),
+              _types('Total Amount', '\$ 200'),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          )),
+    );
+  }
+
+  Widget _types(String type, String value) {
+    return Container(
+      margin: const EdgeInsets.all(15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(type, style: AppTheme.greyText14Regular),
+          Text(value, style: AppTheme.white14Regular22),
+        ],
+      ),
+    );
   }
 }

@@ -24,3 +24,20 @@ class _CircleContainerState extends State<CircleContainer> {
     );
   }
 }
+
+class CircleImage extends StatelessWidget {
+  String url;
+  double radius;
+  CircleImage({super.key, required this.url, this.radius = 20});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius), // Image border
+      child: SizedBox.fromSize(
+        size: Size.fromRadius(50), // Image radius
+        child: Image.network(url, fit: BoxFit.cover),
+      ),
+    );
+  }
+}

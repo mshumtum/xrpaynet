@@ -31,6 +31,10 @@ class Images {
   static const ic_virtual_lifestyle = "assets/images/ic_virtual_lifestyle.png";
   static const ic_virtual_ls = "assets/images/ic_virtual_ls.png";
   static const ic_physical_ls = "assets/images/ic_physical_ls.png";
+  static const ic_search = "assets/images/ic_search.png";
+  static const ic_close = "assets/images/ic_close.png";
+  static const ic_pay_by_wallet = "assets/images/ic_pay_by_wallet.png";
+  static const ic_purchare_xrp = "assets/images/ic_purchare_xrp.png";
   //apply cards
   static const lifestyle_plus_dummy = "assets/images/lifestyle_plus_dummy.png";
   static const lsPlusVirtualDummy =

@@ -86,7 +86,8 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
             ButtonPrimary(
                 title: 'Apply Now',
                 onClick: () {
-                  _navigationService.navigateWithBack(VirtualCard.routeName);
+                  _navigationService
+                      .navigateWithBack(ApplyVirtualCardForm.routeName);
                 }),
             const SizedBox(
               height: 10,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:xr_paynet/components/screens/choose_currency/ChooseCurrency.dart';
+import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/components/widgets/drop_down.dart';
@@ -35,6 +35,7 @@ class _DepositState extends State<Deposit> {
     super.initState();
     print("Received argument: ${widget.arguments}");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +74,7 @@ class _DepositState extends State<Deposit> {
                   ),
                 ),
                 DropDownField(
-                  value: response,
+                  value: "USDT",
                   onClick: () {
                     _navigationService
                         .navigateWithBack(ChooseCurrency.routeName);

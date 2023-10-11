@@ -47,6 +47,11 @@ class AppTheme {
     fontSize: 14,
     color: AppClr.resendGreyText,
   );
+  static const TextStyle resendGreyText16 = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 16,
+    color: AppClr.resendGreyText,
+  );
   static const TextStyle resendGreyText18 = TextStyle(
     fontFamily: fontRegular,
     fontSize: 18,
@@ -62,6 +67,20 @@ class AppTheme {
     fontSize: 14,
     color: AppClr.white,
     fontWeight: FontWeight.w400,
+  );
+  static const TextStyle white14Regular22 = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 14,
+    color: AppClr.white,
+    fontWeight: FontWeight.w400,
+    height: 1.6,
+  );
+  static const TextStyle greyWhite14Regular22 = TextStyle(
+    fontFamily: fontRegular,
+    fontSize: 14,
+    color: AppClr.greyWhite,
+    fontWeight: FontWeight.w400,
+    height: 1.6,
   );
   static const TextStyle greyText14Regular = TextStyle(
     fontFamily: fontRegular,
@@ -109,6 +128,11 @@ class AppTheme {
   );
   static const TextStyle white18Regular = TextStyle(
     fontSize: 18,
+    color: AppClr.white,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle white16Regular = TextStyle(
+    fontSize: 16,
     color: AppClr.white,
     fontFamily: fontRegular,
   );

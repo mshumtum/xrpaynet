@@ -6,17 +6,17 @@ import '../../widgets/_button_primary.dart';
 import '../../widgets/_header.dart';
 import '../../widgets/_input_filed.dart';
 
-class VirtualCard extends StatefulWidget {
-
+class ApplyVirtualCardForm extends StatefulWidget {
   static const String routeName = '/virtual_card';
 
-  const VirtualCard({Key? key, required String arguments}) : super(key: key);
+  const ApplyVirtualCardForm({Key? key, required String arguments})
+      : super(key: key);
 
   @override
-  State<VirtualCard> createState() => _VirtualCardState();
+  State<ApplyVirtualCardForm> createState() => _ApplyVirtualCardFormState();
 }
 
-class _VirtualCardState extends State<VirtualCard> {
+class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
   String selectedCountry = "1";
   bool isSelected = true;
 
@@ -65,17 +65,14 @@ class _VirtualCardState extends State<VirtualCard> {
                     const SizedBox(
                       height: 16,
                     ),
-
                     Container(
-                      margin: const EdgeInsets.only(left: 20,right: 20,top: 40),
-                      child:ButtonPrimary(
+                      margin:
+                          const EdgeInsets.only(left: 20, right: 20, top: 40),
+                      child: ButtonPrimary(
                         title: "Confirm and Pay",
-                        onClick: () {
-
-                        },
+                        onClick: () {},
                       ),
                     )
-
                   ]),
             )
           ],

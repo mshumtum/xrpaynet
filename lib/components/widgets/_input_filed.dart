@@ -3,6 +3,7 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/Debouncer.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 
@@ -23,12 +24,6 @@ class InputField extends StatefulWidget {
 
   @override
   _InputFieldState createState() => _InputFieldState();
-
-// Define a static method to get the text value
-// String getText() {
-//   onChangeText!(_InputFieldState.textValue);
-//   return _InputFieldState.textValue;
-// }
 }
 
 class _InputFieldState extends State<InputField> {
@@ -235,10 +230,10 @@ class _OtpTextFieldState extends State<OtpTextField> {
               )
             : Container(),
         const SizedBox(
-          height:10,
+          height: 10,
         ),
         Container(
-          margin: const EdgeInsets.only(left: 15,right: 15),
+          margin: const EdgeInsets.only(left: 15, right: 15),
           child: OTPTextField(
             length: 4,
             width: ClassMediaQuery.screenWidth,
@@ -256,7 +251,86 @@ class _OtpTextFieldState extends State<OtpTextField> {
             },
           ),
         )
+      ],
+    );
+  }
+}
 
+class SearchField extends StatefulWidget {
+  final String inputLabel;
+  final String hintText;
+  final TextInputType inputType;
+  final Function(String)? onSearchText;
+
+  const SearchField(
+      {super.key,
+      this.inputLabel = "",
+      required this.hintText,
+      this.inputType = TextInputType.name,
+      this.onSearchText});
+
+  @override
+  _SearchFieldState createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  final myController = TextEditingController();
+  static String textValue = '';
+  bool _obscureText = true;
+  final _debouncer = Debouncer(milliseconds: 500);
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        widget.inputLabel != ""
+            ? HeadingText(
+                title: widget.inputLabel,
+              )
+            : Container(),
+        const SizedBox(
+          height: 9,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: AppClr.inputFieldBg,
+            ),
+            child: TextField(
+              autofocus: true,
+              controller: myController,
+              cursorColor: Colors.white,
+              style: const TextStyle(color: Colors.white, fontSize: 14.0),
+              maxLines: 1,
+              onChanged: (value) {
+                // setState(() {
+                //   textValue = value;
+                // });
+                _debouncer.run(() => {widget.onSearchText!(value)});
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search, color: AppClr.white),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: const TextStyle(color: AppClr.grey2),
+                hintText: widget.hintText,
+                fillColor: AppClr.inputFieldBg,
+              ),
+              keyboardType: widget.inputType,
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
+import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/LifeStylePlusApply.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/VirtualCardApply.dart';
 import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardForm.dart';
-import 'package:xr_paynet/components/screens/choose_currency/ChooseCurrency.dart';
+import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
@@ -66,9 +68,15 @@ class Routers {
             arguments: arguments.toString(),
           );
         });
-      case VirtualCard.routeName:
+      case ApplyVirtualCardForm.routeName:
         return _pageRoute(builder: (context) {
-          return VirtualCard(
+          return ApplyVirtualCardForm(
+            arguments: arguments.toString(),
+          );
+        });
+      case ApplyPhysicalCardForm.routeName:
+        return _pageRoute(builder: (context) {
+          return ApplyPhysicalCardForm(
             arguments: arguments.toString(),
           );
         });
@@ -79,6 +87,12 @@ class Routers {
       case VirtualCardApply.routeName:
         return _pageRoute(builder: (context) {
           return VirtualCardApply(
+            arguments: arguments,
+          );
+        });
+      case LifeStylePlusFees.routeName:
+        return _pageRoute(builder: (context) {
+          return LifeStylePlusFees(
             arguments: arguments,
           );
         });

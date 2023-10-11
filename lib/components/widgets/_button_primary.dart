@@ -17,17 +17,17 @@ class ButtonPrimary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        // padding: EdgeInsets.all(16.0),
+      child: SizedBox(
         height: 50,
         width: ClassMediaQuery.screenWidth - 20, // Padding around the text
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0), // Rounded corners
-        ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              splashFactory: NoSplash.splashFactory,
-              backgroundColor: buttonColor),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            splashFactory: NoSplash.splashFactory,
+            backgroundColor: buttonColor,
+          ),
           onPressed: onClick,
           child: Center(
             child: Text(
