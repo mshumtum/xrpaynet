@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 25),
+                  SizedBox(height: 10),
                   Text(
                     "Select Card Type",
                     style: AppTheme.white18Regular,

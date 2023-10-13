@@ -30,7 +30,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
         body: SingleChildScrollView(
             child: Column(children: [
           SizedBox(
-              height: ClassMediaQuery.screenHeight / 1.25,
+              height: ClassMediaQuery.screenHeight / 1.1,
               child: Column(children: [
                 const OnBoardingHeader(
                   title: 'Create New Password',
@@ -58,7 +58,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
 
   Widget _bottomView() {
     return SizedBox(
-      height: ClassMediaQuery.pendingContainerHeight(1.25),
+      // height: ClassMediaQuery.pendingContainerHeight(1.25),
       child: ButtonPrimary(
           title: 'Submit',
           onClick: () {

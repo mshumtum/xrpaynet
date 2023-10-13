@@ -57,7 +57,7 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
               },
             ),
             const SizedBox(
-              height: 35,
+              height: 30,
             ),
             _cardSelection(),
             _cardImg(),
@@ -305,16 +305,22 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
   }
 
   Widget _rules(value) {
-    return Row(
-      children: [
-        const CircleContainer(
-          containerSize: 6.0,
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        _text(value),
-      ],
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: const CircleContainer(
+              containerSize: 6.0,
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          _text(value),
+        ],
+      ),
     );
   }
 

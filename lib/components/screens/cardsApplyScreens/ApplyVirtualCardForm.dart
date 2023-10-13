@@ -1,5 +1,11 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
+import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
+import 'package:xr_paynet/components/widgets/_bottom_sheets.dart';
+import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 
 import '../../widgets/_button_primary.dart';
@@ -8,17 +14,30 @@ import '../../widgets/_input_filed.dart';
 
 class ApplyVirtualCardForm extends StatefulWidget {
   static const String routeName = '/virtual_card';
-
-  const ApplyVirtualCardForm({Key? key, required String arguments})
-      : super(key: key);
+  final Object? arguments;
+  const ApplyVirtualCardForm({Key? key, this.arguments}) : super(key: key);
 
   @override
   State<ApplyVirtualCardForm> createState() => _ApplyVirtualCardFormState();
 }
 
 class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
+  final NavigationService _navigationService = locator<NavigationService>();
   String selectedCountry = "1";
   bool isSelected = true;
+  bool isClubCard = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var params = (widget?.arguments as Map);
+    if (params["isFrom"] == "lifestyleVirtual") {
+      setState(() {
+        isClubCard = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +64,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                     const SizedBox(
                       height: 16,
                     ),
-                    const InputField(
+                    InputField(
                       inputLabel: "Last Name",
                       hintText: 'Enter last name here',
                     ),
@@ -70,7 +89,39 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                           const EdgeInsets.only(left: 20, right: 20, top: 40),
                       child: ButtonPrimary(
                         title: "Confirm and Pay",
-                        onClick: () {},
+                        onClick: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            builder: (BuildContext context) {
+                              return ChoosePaymentOptions(
+                                onClick: (value) {
+                                  print(value);
+
+                                  var cardScreen = isClubCard
+                                      ? "clubVirtual"
+                                      : "lifestyleVirtual";
+
+                                  if (value == "wallet") {
+                                    _navigationService.navigateWithBack(
+                                        LifeStylePlusFees.routeName,
+                                        arguments: {
+                                          "isFrom": cardScreen,
+                                          "cardType": "virtual"
+                                        });
+                                  } else {
+                                    _navigationService.navigateWithBack(
+                                        LSPFeeByLockXRP.routeName,
+                                        arguments: {
+                                          "isFrom": cardScreen,
+                                          "cardType": "virtual"
+                                        });
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
                       ),
                     )
                   ]),
@@ -96,6 +147,23 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
               });
             },
             showPhoneCode: true,
+            useSafeArea: true,
+            countryListTheme: const CountryListThemeData(
+              inputDecoration: InputDecoration(
+                hintText: 'Start typing to search',
+                hintStyle: AppTheme.greyText14Regular,
+                prefixIcon: Icon(Icons.search, color: AppClr.white),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppClr.greyText),
+                    borderRadius: BorderRadius.all(Radius.circular(40.0))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(40.0))),
+              ),
+              searchTextStyle: AppTheme.white14Regular,
+              backgroundColor: AppClr.black,
+              textStyle: AppTheme.white14Regular,
+            ),
           );
         },
         onSendClick: () {});

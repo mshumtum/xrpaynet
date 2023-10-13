@@ -101,7 +101,11 @@ class _DepositState extends State<Deposit> {
                 const SizedBox(
                   height: 30,
                 ),
-                ButtonPrimary(title: 'Done', onClick: () {}),
+                ButtonPrimary(
+                    title: 'Done',
+                    onClick: () {
+                      _navigationService.goBack();
+                    }),
               ],
             ),
           ],

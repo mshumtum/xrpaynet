@@ -12,15 +12,18 @@ import '../../theme/Colors.dart';
 class InputField extends StatefulWidget {
   final String inputLabel;
   final String hintText;
+  final bool readOnly;
   final TextInputType inputType;
   final Function(String)? onChangeText;
+  final Function()? onClick;
 
-  const InputField(
+    InputField(
       {super.key,
       this.inputLabel = "",
       required this.hintText,
       this.inputType = TextInputType.name,
-      this.onChangeText});
+      this.onChangeText,
+       this.readOnly=false,this.onClick});
 
   @override
   _InputFieldState createState() => _InputFieldState();

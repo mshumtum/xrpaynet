@@ -25,6 +25,7 @@ class AppClr {
   static const Color extendedWhite = Color(0xFFFFFFFF);
   static const Color red = Color(0xFFF44336);
   static const Color darkRed = Color(0xFF710202);
+  static const Color darkGreyDotted = Color(0xFF818181);
   static const Color inputFieldBg = Color.fromRGBO(23, 23, 23, 1.8);
 
   static const Color unselectedCardGradient1 = Color(0xFF1B2950);

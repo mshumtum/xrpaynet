@@ -9,6 +9,7 @@ class AppTheme {
   static const String fontBold = 'Roboto-Bold';
   static const String fontRegular = 'Roboto-fontRegular';
   static const String fontLight = 'Roboto-Light';
+  static const String fontItalic = 'Roboto-BlackItalic';
 
   static MaterialColor black = const MaterialColor(
     _blackPrimaryValue,
@@ -101,6 +102,12 @@ class AppTheme {
     fontSize: 18,
     color: AppClr.white,
   );
+  static const TextStyle white20Medium = TextStyle(
+    fontFamily: fontMedium,
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    color: AppClr.white,
+  );
   static const TextStyle greyWhite16Regular = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 16,
@@ -112,10 +119,22 @@ class AppTheme {
     color: AppClr.white,
     fontFamily: fontBold,
   );
+  static const TextStyle blue11Bold = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 11,
+    color: AppClr.blue,
+    fontFamily: fontBold,
+  );
   static const TextStyle black12Bold = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 12,
     color: AppClr.black,
+    fontFamily: fontBold,
+  );
+  static const TextStyle white12Bold = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 12,
+    color: AppClr.white,
     fontFamily: fontBold,
   );
   static const TextStyle black16Regular = TextStyle(
@@ -126,6 +145,11 @@ class AppTheme {
   static const TextStyle black10Regular = TextStyle(
     fontSize: 10,
     color: AppClr.black,
+    fontFamily: fontRegular,
+  );
+  static const TextStyle white10Regular = TextStyle(
+    fontSize: 10,
+    color: AppClr.white,
     fontFamily: fontRegular,
   );
   static const TextStyle white24Regular = TextStyle(

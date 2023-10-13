@@ -35,6 +35,15 @@ class Images {
   static const ic_close = "assets/images/ic_close.png";
   static const ic_pay_by_wallet = "assets/images/ic_pay_by_wallet.png";
   static const ic_purchare_xrp = "assets/images/ic_purchare_xrp.png";
+  static const ic_tick_with_circle = "assets/images/ic_tick_with_circle.png";
+  static const ic_upload = "assets/images/ic_upload.png";
+  static const ic_white_card = "assets/images/ic_white_card.png";
+  static const ic_lsp_visa_card = "assets/images/lsp_visa_card.png";
+  static const active_club_back = "assets/images/active_club_back.png";
+  static const active_club_front = "assets/images/active_club_front.png";
+  static const ic_active_ls_back = "assets/images/ic_active_ls_back.png";
+  static const ic_active_ls_front = "assets/images/ic_active_ls_front.png";
+  static const icKycRejected = "assets/images/ic_kyc_rejected.png";
   //apply cards
   static const lifestyle_plus_dummy = "assets/images/lifestyle_plus_dummy.png";
   static const lsPlusVirtualDummy =
@@ -46,4 +55,5 @@ class Images {
   static String congratulationLottie = "assets/lottie/congratulation.json";
   static String paySuccessLottie = "assets/lottie/pay_success.json";
   static String logoutFileLottie = "assets/lottie/logout_file.json";
+  static String thank_you = "assets/lottie/thank_you.json";
 }

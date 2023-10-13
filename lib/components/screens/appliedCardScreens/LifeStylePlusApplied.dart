@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/LifeStylePlusKYC.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/_link_card.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
@@ -14,7 +17,7 @@ import 'package:xr_paynet/theme/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class LifeStylePlusApplied extends StatefulWidget {
-  static const String routeName = '/life_style_plus_apply';
+  static const String routeName = '/life_style_plus_applied';
   final Object? arguments;
   const LifeStylePlusApplied({super.key, this.arguments});
 
@@ -25,58 +28,94 @@ class LifeStylePlusApplied extends StatefulWidget {
 class _LifeStylePlusAppliedState extends State<LifeStylePlusApplied> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool isPhysicalCardSelected = true;
+  bool isKycRejected = false;
   String statusOfCards = "APPLIED";
+  String buttonTitle = "Link Your Card";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var params = (widget?.arguments as Map);
+    if (params?["isFrom"] == "linkCard") {
+      setState(() {
+        statusOfCards = "ISSUED";
+        buttonTitle = "Activate Your Card";
+      });
+    } else if (params?["isFrom"] == "rejected") {
+      setState(() {
+        statusOfCards = "KYC Rejected";
+        buttonTitle = "Resubmit";
+        isKycRejected = true;
+      });
+    } else if (params?["isFrom"] == "success") {
+      setState(() {
+        statusOfCards = "";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      body: Column(
-        children: [
-          TopHeaderWithIcons(
-            title: 'LifeStyle Plus Cards',
-            rightIcon: Images.ic_logout,
-            onClickRightIcon: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return ConfirmationDialog(
-                    descriptions: "Are you sure you want to logout?",
-                    doneTxt: "Done",
-                    lottieFile: Images.logoutFileLottie,
-                    onClick: () {
-                      Navigator.of(context).pop();
-                      _navigationService.navigateWithRemovingAllPrevious(
-                        WelcomeScreen.routeName,
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 35),
-          _cardSelection(),
-          _cardImg(),
-          _details(),
-          Expanded(
-            child: Container(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ButtonPrimary(
-                  title: 'Link Your Card',
-                  onClick: () {
-                    _navigationService
-                        .navigateWithBack(ApplyPhysicalCardForm.routeName);
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TopHeaderWithIcons(
+              title: 'LifeStyle Plus Cards',
+              rightIcon: Images.ic_logout,
+              onClickRightIcon: () {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmationDialog(
+                      descriptions: "Are you sure you want to logout?",
+                      doneTxt: "Done",
+                      lottieFile: Images.logoutFileLottie,
+                      onClick: () {
+                        Navigator.of(context).pop();
+                        _navigationService.navigateWithRemovingAllPrevious(
+                          WelcomeScreen.routeName,
+                        );
+                      },
+                    );
                   },
-                ),
-              ),
+                );
+              },
             ),
-          ),
-          SizedBox(
-            height: 10,
-          )
-        ],
+            const SizedBox(height: 35),
+            _cardSelection(),
+            _cardImg(),
+            _details(),
+            isKycRejected
+                ? _kyc_rejected()
+                : Container(height: ClassMediaQuery.screenHeight / 6),
+            statusOfCards != ""
+                ? Container(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ButtonPrimary(
+                        title: buttonTitle,
+                        onClick: () {
+                          if (statusOfCards == "ISSUED" || isKycRejected) {
+                            _navigationService.navigateWithBack(
+                                LifeStylePlusKYC.routeName,
+                                arguments: {"isKycRejected": isKycRejected});
+                          } else {
+                            _navigationService
+                                .navigateWithBack(LinkCard.routeName);
+                          }
+                        },
+                      ),
+                    ),
+                  )
+                : Container(),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -186,13 +225,39 @@ class _LifeStylePlusAppliedState extends State<LifeStylePlusApplied> {
                   fontSize: 14, // Adjust the font size as needed
                   fontWeight:
                       FontWeight.bold, // Adjust the font weight as needed
-                  color: AppClr.red, // Adjust the text color as needed
+                  color: statusOfCards == "ISSUED"
+                      ? AppClr.blue
+                      : AppClr.red, // Adjust the text color as needed
                 ),
               ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _kyc_rejected() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 35,
+        ),
+        Image.asset(
+          Images.icKycRejected,
+          width: 56,
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          "KYC is Rejected",
+          style: AppTheme.white20Medium,
+        ),
+        SizedBox(
+          height: 35,
+        ),
+      ],
     );
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/ActiveVirtualCards.dart';
+import 'package:xr_paynet/components/screens/appliedCardScreens/LifeStylePlusApplied.dart';
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
@@ -15,7 +17,9 @@ import 'package:xr_paynet/theme/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class LSPFeeByLockXRP extends StatefulWidget {
-  const LSPFeeByLockXRP({super.key});
+  static const String routeName = '/life_style_plus_lock_xrp';
+  final Object? arguments;
+  const LSPFeeByLockXRP({super.key, this.arguments});
 
   @override
   State<LSPFeeByLockXRP> createState() => _LSPFeeByLockXRPState();
@@ -23,6 +27,20 @@ class LSPFeeByLockXRP extends StatefulWidget {
 
 class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
   final NavigationService _navigationService = locator<NavigationService>();
+  bool isClubCard = true;
+  String cardType = "virtual";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var params = (widget?.arguments as Map);
+
+    setState(() {
+      isClubCard = params?["isFrom"] == "lifestyleVirtual" ? false : true;
+      cardType = params?["cardType"];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +78,7 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
           SizedBox(height: 25),
           _details(),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 37),
+            padding: EdgeInsets.symmetric(vertical: isClubCard ? 70 : 37),
             child: Image.asset(
               Images.ic_xrpaynet_bg,
               width: ClassMediaQuery.screenWidth / 1.5,
@@ -91,11 +109,23 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
                         lottieFile: Images.paySuccessLottie,
                         onClick: () {
                           Navigator.of(context).pop();
-                          _navigationService.goBack();
+                          if (cardType == "virtual") {
+                            _navigationService.navigateWithRemovingAllPrevious(
+                                ActiveVirtualCards.routeName,
+                                arguments: {
+                                  "isFrom": isClubCard
+                                      ? "clubVirtual"
+                                      : "lifestyleVirtual"
+                                });
+                          } else {
+                            _navigationService.navigateWithRemovingAllPrevious(
+                                LifeStylePlusApplied.routeName,
+                                arguments: {"isFrom": "registerUser"});
+                          }
                         });
                   });
             },
-            title: "Pay Now",
+            title: "Buy Now",
           )
         ])));
   }
@@ -118,10 +148,16 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
               _types('Locking Period', '45 Days'),
               Divider(color: AppClr.grey2, height: 1),
               _types('Lock Amount', '900 XRPayNet'),
-              Divider(color: AppClr.grey2, height: 1),
-              _types('Maintenance Fee', '100 XRPayNet'),
-              Divider(color: AppClr.grey2, height: 1),
-              _types('Total Amount', '1000 XRPayNet'),
+              isClubCard
+                  ? Container()
+                  : Column(
+                      children: [
+                        Divider(color: AppClr.grey2, height: 1),
+                        _types('Maintenance Fee', '100 XRPayNet'),
+                        Divider(color: AppClr.grey2, height: 1),
+                        _types('Total Amount', '1000 XRPayNet'),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               )

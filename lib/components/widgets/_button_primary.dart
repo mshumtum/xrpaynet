@@ -7,18 +7,21 @@ class ButtonPrimary extends StatelessWidget {
   final String title;
   final Function() onClick;
   final Color buttonColor;
+  final double horizontal;
 
   const ButtonPrimary(
       {super.key,
       required this.title,
       required this.onClick,
-      this.buttonColor = AppClr.blue});
+      this.buttonColor = AppClr.blue,
+      this.horizontal = 20});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 50,
-      width: ClassMediaQuery.screenWidth - 20, // Padding around the text
+      margin: EdgeInsets.symmetric(horizontal: horizontal),
+      width: ClassMediaQuery.screenWidth, // Padding around the text
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/ActiveVirtualCards.dart';
+import 'package:xr_paynet/components/screens/appliedCardScreens/LifeStylePlusApplied.dart';
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
@@ -28,6 +30,19 @@ class LifeStylePlusFees extends StatefulWidget {
 
 class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
   final NavigationService _navigationService = locator<NavigationService>();
+  bool isClubCard = true;
+  String cardType = "virtual";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var params = (widget?.arguments as Map);
+    setState(() {
+      isClubCard = params?["isFrom"] == "lifestyleVirtual" ? false : true;
+      cardType = params?["cardType"];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +51,7 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
         body: SingleChildScrollView(
             child: Column(children: [
           Header(
-            title: "Activation Fee",
+            title: isClubCard ? "Issuance Fee" : "Activation Fee",
             secondaryButtonImg: Images.ic_deposit,
             secondaryButtonText: "Deposit",
             secondaryClick: () {
@@ -98,9 +113,10 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
             ),
           ),
           SizedBox(height: 25),
-          _details(),
+          isClubCard ? Container() : _details(),
           Container(
-            padding: const EdgeInsets.only(top: 80, bottom: 42),
+            padding: EdgeInsets.only(
+                top: isClubCard ? 100 : 80, bottom: isClubCard ? 100.0 : 42.0),
             child: Image.asset(
               Images.ic_xrpaynet_bg,
               width: ClassMediaQuery.screenWidth / 1.5,
@@ -121,7 +137,19 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
                         lottieFile: Images.paySuccessLottie,
                         onClick: () {
                           Navigator.of(context).pop();
-                          _navigationService.goBack();
+                          if (cardType == "virtual") {
+                            _navigationService.navigateWithRemovingAllPrevious(
+                                ActiveVirtualCards.routeName,
+                                arguments: {
+                                  "isFrom": isClubCard
+                                      ? "clubVirtual"
+                                      : "lifestyleVirtual"
+                                });
+                          } else {
+                            _navigationService.navigateWithRemovingAllPrevious(
+                                LifeStylePlusApplied.routeName,
+                                arguments: {"isFrom": "registerUser"});
+                          }
                         });
                   });
             },

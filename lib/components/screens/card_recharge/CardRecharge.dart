@@ -16,7 +16,10 @@ import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class CardRecharge extends StatefulWidget {
-  const CardRecharge({super.key});
+  static const String routeName = '/card_recharge';
+
+  final Object? arguments;
+  const CardRecharge({super.key, this.arguments});
 
   @override
   State<CardRecharge> createState() => _CardRechargeState();
@@ -56,7 +59,7 @@ class _CardRechargeState extends State<CardRecharge> {
           const SizedBox(
             height: 16,
           ),
-          const InputField(
+          InputField(
             inputLabel: "Enter Amount",
             hintText: 'Enter Amount',
           ),

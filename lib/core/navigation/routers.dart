@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/ActiveVirtualCards.dart';
 import 'package:xr_paynet/components/screens/appliedCardScreens/LifeStylePlusApplied.dart';
+import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/LifeStylePlusApply.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/VirtualCardApply.dart';
@@ -13,6 +16,9 @@ import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardF
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
 import 'package:xr_paynet/components/screens/deposit/Deposit.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/LifeStylePlusKYC.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/LspSuccessScreen.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/_link_card.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateNewPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
@@ -71,9 +77,7 @@ class Routers {
         });
       case ApplyVirtualCardForm.routeName:
         return _pageRoute(builder: (context) {
-          return ApplyVirtualCardForm(
-            arguments: arguments.toString(),
-          );
+          return ApplyVirtualCardForm(arguments: arguments);
         });
       case ApplyPhysicalCardForm.routeName:
         return _pageRoute(builder: (context) {
@@ -103,6 +107,36 @@ class Routers {
             arguments: arguments,
           );
         });
+      case ActiveVirtualCards.routeName:
+        return _pageRoute(builder: (context) {
+          return ActiveVirtualCards(
+            arguments: arguments,
+          );
+        });
+      case LSPFeeByLockXRP.routeName:
+        return _pageRoute(builder: (context) {
+          return LSPFeeByLockXRP(
+            arguments: arguments,
+          );
+        });
+      case LinkCard.routeName:
+        return _pageRoute(builder: (context) {
+          return LinkCard(
+            arguments: arguments,
+          );
+        });
+      case LifeStylePlusKYC.routeName:
+        return _pageRoute(builder: (context) {
+          return LifeStylePlusKYC(
+            arguments: arguments,
+          );
+        });
+      case CardRecharge.routeName:
+        return _pageRoute(builder: (context) {
+          return CardRecharge(
+            arguments: arguments,
+          );
+        });
       case LifeStylePlusCards.routeName:
         return _pageRoute(builder: (context) {
           return const LifeStylePlusCards();
@@ -110,6 +144,12 @@ class Routers {
       case LifeStylePlusApply.routeName:
         return _pageRoute(builder: (context) {
           return const LifeStylePlusApply();
+        });
+      case LspSuccessScreen.routeName:
+        return _pageRoute(builder: (context) {
+          return LspSuccessScreen(
+            arguments: arguments,
+          );
         });
       default:
         throw Exception('Route Not Found');

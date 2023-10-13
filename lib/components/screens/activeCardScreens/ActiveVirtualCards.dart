@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
+import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
+import 'package:xr_paynet/components/widgets/_trans_history.dart';
+import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
+import 'package:xr_paynet/theme/Images.dart';
 
-import '../../../core/Locator.dart';
-import '../../../core/navigation/navigation_service.dart';
-import '../../../theme/Images.dart';
-import '../../utilities/ClassMediaQuery.dart';
-import '../../widgets/_trans_history.dart';
-
-class LifeStylePlusCards extends StatefulWidget {
-  static const String routeName = '/lifestyle_plus_screens';
-  const LifeStylePlusCards({Key? key}) : super(key: key);
+class ActiveVirtualCards extends StatefulWidget {
+  static const String routeName = '/active_virtual_cards';
+  final Object? arguments;
+  const ActiveVirtualCards({super.key, this.arguments});
 
   @override
-  State<LifeStylePlusCards> createState() => _LifeStylePlusCardsState();
+  State<ActiveVirtualCards> createState() => _ActiveVirtualCardsState();
 }
 
-class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
-  bool isPhysicalCardSelected = true;
+class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
+  bool isClubCard = true;
   bool isFrontSideVisible = true;
   late FlipCardController _controller;
   final NavigationService _navigationService = locator<NavigationService>();
@@ -35,6 +35,13 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
     // TODO: implement initState
     super.initState();
     _controller = FlipCardController();
+
+    var params = (widget?.arguments as Map);
+    if (params["isFrom"] == "lifestyleVirtual") {
+      setState(() {
+        isClubCard = false;
+      });
+    }
   }
 
   @override
@@ -45,7 +52,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
         child: Column(
           children: [
             TopHeaderWithIcons(
-              title: 'LifeStyle Plus Cards',
+              title: isClubCard ? 'Club Card' : 'LifeStyle Card',
               rightIcon: Images.ic_logout,
               onClickRightIcon: () {
                 showDialog(
@@ -67,10 +74,6 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 );
               },
             ),
-            const SizedBox(
-              height: 35,
-            ),
-            _cardSelection(),
             FlipCard(
                 controller: _controller,
                 fill: Fill.fillBack,
@@ -108,87 +111,6 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
     );
   }
 
-  Widget _cardSelection() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  isPhysicalCardSelected = true;
-                  if (!_controller.state!.isFront) {
-                    _controller.toggleCard();
-                  }
-                });
-              },
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: isPhysicalCardSelected
-                      ? AppClr.blue
-                      : AppClr.inputFieldBg,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Physical Card',
-                    style: TextStyle(
-                        color:
-                            isPhysicalCardSelected ? Colors.white : AppClr.grey,
-                        fontSize: 14,
-                        fontFamily: AppTheme.fontMedium),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  isPhysicalCardSelected = false;
-                });
-                if (!_controller.state!.isFront) {
-                  _controller.toggleCard();
-                }
-              },
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: !isPhysicalCardSelected
-                      ? AppClr.blue
-                      : AppClr.inputFieldBg,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Virtual Card',
-                    style: TextStyle(
-                        color: !isPhysicalCardSelected
-                            ? Colors.white
-                            : AppClr.grey,
-                        fontSize: 14,
-                        fontFamily: AppTheme.fontMedium),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _frontCardImage() {
     return Container(
       height: 250,
@@ -198,13 +120,13 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
         children: [
           SizedBox(
             height: 250,
-            child: Image.asset(isPhysicalCardSelected
-                ? Images.card_front_img
-                : Images.ic_lsp_visa_card),
+            child: Image.asset(isClubCard
+                ? Images.active_club_front
+                : Images.ic_active_ls_front),
           ),
           Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top: 12, right: 8),
+            margin: EdgeInsets.only(top: 38, right: 8),
             child: Align(
               alignment: Alignment.centerRight,
               child: InkWell(
@@ -214,7 +136,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 child: Text(
                   'VIEW DETAILS',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: isClubCard ? Colors.white : AppClr.blue,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       fontFamily: AppTheme.fontBold),
@@ -250,7 +172,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
         children: [
           SizedBox(
             height: 250,
-            child: Image.asset(Images.card_back_img),
+            child: Image.asset(isClubCard
+                ? Images.active_club_back
+                : Images.ic_active_ls_back),
           ),
           Positioned(
             right: 0,
@@ -261,7 +185,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
               },
               child: Text(
                 'BACK TO MAIN',
-                style: AppTheme.white11Bold,
+                style: isClubCard ? AppTheme.white11Bold : AppTheme.blue11Bold,
               ),
             ),
           ),
@@ -277,7 +201,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                   SizedBox(
                     width: 25,
                   ),
-                  Text("Prepaid", style: AppTheme.black12Bold)
+                  Text("Prepaid", style: AppTheme.white12Bold)
                 ],
               )),
           Positioned(
@@ -285,7 +209,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             left: ClassMediaQuery.screenWidth / 10,
             child: Text(
               "0012 3345 6788 0010",
-              style: AppTheme.black16Regular,
+              style: AppTheme.white16Regular,
             ),
           ),
           Positioned(
@@ -293,14 +217,14 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
               child: Row(
                 children: [
                   SizedBox(width: ClassMediaQuery.screenWidth / 2.1),
-                  const Text(
+                  Text(
                     "VALID\nTHRU",
-                    style: AppTheme.black10Regular,
+                    style: AppTheme.white10Regular,
                   ),
                   SizedBox(
                     width: 5,
                   ),
-                  Text("11/23", style: AppTheme.black12Bold)
+                  Text("11/23", style: AppTheme.white12Bold)
                 ],
               )),
           Positioned(
@@ -309,7 +233,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             width: ClassMediaQuery.screenWidth / 1.8,
             child: Text(
               "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
-              style: AppTheme.black10Regular,
+              style: AppTheme.white10Regular,
             ),
           )
         ],

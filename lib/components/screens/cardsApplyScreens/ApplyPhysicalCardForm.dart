@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCountry.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
@@ -38,7 +39,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
       body: SingleChildScrollView(
         child: Column(children: [
           const Header(
-            title: "Virtual Card Application",
+            title: "Card Application",
           ),
           SingleChildScrollView(
             child: Column(
@@ -55,7 +56,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                  InputField(
                     inputLabel: "Last Name",
                     hintText: 'Enter last name here',
                   ),
@@ -92,33 +93,34 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                  InputField(
                     inputLabel: "Province",
                     hintText: 'Texas',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                  InputField(
                     inputLabel: "City",
                     hintText: 'Texas',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                  InputField(
                     inputLabel: "Street Address",
                     hintText: 'Housetown1123',
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const InputField(
+                  InputField(
                     inputLabel: "Postcode",
                     hintText: 'Enter Code',
                   ),
                   Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                    margin: const EdgeInsets.only(
+                        left: 20, right: 20, top: 40, bottom: 20),
                     child: ButtonPrimary(
                       title: "Confirm and Pay",
                       onClick: () {
@@ -129,8 +131,21 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                             return ChoosePaymentOptions(
                               onClick: (value) {
                                 print(value);
-                                _navigationService.navigateWithNoBack(
-                                    LifeStylePlusFees.routeName);
+                                if (value == "wallet") {
+                                  _navigationService.navigateWithBack(
+                                      LifeStylePlusFees.routeName,
+                                      arguments: {
+                                        "isFrom": "lifestyleVirtual",
+                                        "cardType": "physical"
+                                      });
+                                } else {
+                                  _navigationService.navigateWithBack(
+                                      LSPFeeByLockXRP.routeName,
+                                      arguments: {
+                                        "isFrom": "lifestyleVirtual",
+                                        "cardType": "physical"
+                                      });
+                                }
                               },
                             );
                           },
@@ -255,7 +270,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                     fontSize: 14,
                     fontFamily: AppTheme.fontRegular),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: AppClr.grey,
                 size: 15, // Change the icon color as needed

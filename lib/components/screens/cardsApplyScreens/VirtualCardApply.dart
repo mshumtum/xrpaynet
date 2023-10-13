@@ -35,7 +35,6 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
     // TODO: implement initState
     super.initState();
     var params = (widget.arguments as Map);
-    print(params["selectedCard"]);
     if (params["isFrom"] == "lifestyleVirtual") {
       setState(() {
         isClubCard = false;
@@ -86,8 +85,12 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
             ButtonPrimary(
                 title: 'Apply Now',
                 onClick: () {
-                  _navigationService
-                      .navigateWithBack(ApplyVirtualCardForm.routeName);
+                  _navigationService.navigateWithBack(
+                      ApplyVirtualCardForm.routeName,
+                      arguments: {
+                        "isFrom":
+                            isClubCard ? "clubVirtual" : "lifestyleVirtual"
+                      });
                 }),
             const SizedBox(
               height: 10,
@@ -250,16 +253,22 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
   }
 
   Widget _rules(value) {
-    return Row(
-      children: [
-        const CircleContainer(
-          containerSize: 6.0,
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        _text(value),
-      ],
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: const CircleContainer(
+              containerSize: 6.0,
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          _text(value),
+        ],
+      ),
     );
   }
 
