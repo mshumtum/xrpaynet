@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               width: ClassMediaQuery.screenWidth,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
   Widget _virtualCardView(isSelected, cardType, cardImage) {
     return Container(
       height: 310,
-      width: ClassMediaQuery.screenWidth / 2.2,
+      width: ClassMediaQuery.screenWidth / 2.3,
       decoration: isSelected
           ? AppTheme.selectedCardXrPay
           : AppTheme.unselectedCardXrPay,
@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
   ) {
     return Container(
       height: 300,
-      width: ClassMediaQuery.screenWidth / 1,
+      width: ClassMediaQuery.screenWidth / 1.1,
       decoration: selectedCard == "lifestylePhysical"
           ? AppTheme.selectedCardXrPay
           : AppTheme.unselectedCardXrPay,
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            width: ClassMediaQuery.screenWidth / 2,
+            width: ClassMediaQuery.screenWidth / 2.2,
             padding: EdgeInsets.only(top: 28),
             child: Column(children: [
               Container(
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Image.asset(
                       Images.ic_physical_ls,
-                      width: ClassMediaQuery.screenWidth / 2.5,
+                      width: ClassMediaQuery.screenWidth / 2.6,
                     ),
                     // SizedBox(width: 30),
                     //
@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Text("+", style: AppTheme.white18Regular),
           Container(
-            width: ClassMediaQuery.screenWidth / 2.4,
+            width: ClassMediaQuery.screenWidth / 2.6,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

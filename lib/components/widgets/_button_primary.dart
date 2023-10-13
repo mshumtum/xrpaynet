@@ -14,7 +14,7 @@ class ButtonPrimary extends StatelessWidget {
       required this.title,
       required this.onClick,
       this.buttonColor = AppClr.blue,
-      this.horizontal = 20});
+      this.horizontal = 17});
 
   @override
   Widget build(BuildContext context) {

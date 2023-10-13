@@ -17,7 +17,7 @@ class ChoosePaymentOptions extends StatefulWidget {
 }
 
 class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
-  String selectedOption = "wallet";
+  String selectedOption = "token";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,18 +69,19 @@ class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
                 child: _selectPayOption(
                     selectedOption == "token",
                     "token",
-                    "Get Free By Purchasing\nXRPayNet Tokens",
+                    "Get Free By Purchasing XRPayNet Tokens",
                     Images.ic_pay_by_wallet),
               )
             ]),
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 40),
+              margin: const EdgeInsets.only(top: 40),
               child: ButtonPrimary(
                 title: "Continue",
                 onClick: () {
                   Navigator.pop(context);
                   widget.onClick(selectedOption);
                 },
+                horizontal: 12,
               ),
             )
           ],
@@ -106,11 +107,13 @@ class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
               borderRadius: BorderRadius.circular(10),
               color: isSelected ? AppClr.blue : AppClr.otpBackground),
           width: ClassMediaQuery.screenWidth / 2.3,
+          // height: ClassMediaQuery.screenHeight / 4.3,
           height: 160,
-          padding: EdgeInsets.symmetric(vertical: 20),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          // padding: EdgeInsets.symmetric(vertical: 20),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   walletImage,

@@ -43,7 +43,7 @@ class _LifeStylePlusAppliedState extends State<LifeStylePlusApplied> {
       });
     } else if (params?["isFrom"] == "rejected") {
       setState(() {
-        statusOfCards = "KYC Rejected";
+        statusOfCards = "Rejected";
         buttonTitle = "Resubmit";
         isKycRejected = true;
       });

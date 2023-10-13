@@ -72,7 +72,7 @@ class _LinkCardState extends State<LinkCard> {
               text:
                   'Once the card is linked, you will not be able to unlink the card'),
           const SizedBox(
-            height: 20,
+            height: 36,
           ),
           ButtonPrimary(
               title: 'Link Now',
@@ -81,6 +81,9 @@ class _LinkCardState extends State<LinkCard> {
                     LifeStylePlusApplied.routeName,
                     arguments: {"isFrom": "linkCard"});
               }),
+          const SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );

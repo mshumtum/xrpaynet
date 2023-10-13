@@ -1,0 +1,138 @@
+{
+  "project_info": {
+    "project_number": "1037869593729",
+    "firebase_url": "https://xrpaynet-app-default-rtdb.firebaseio.com",
+    "project_id": "xrpaynet-app",
+    "storage_bucket": "xrpaynet-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037869593729:android:83f202c8a0065faea80980",
+        "android_client_info": {
+          "package_name": "com.cryptappolis.cryptappolis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-hNJtKGDhrLmSsDH1EAsJnS6hNM-bVbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037869593729-01dkqcdih7pj25klks4afe49n9j925tg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cryptappolis.cryptappolis",
+                "app_store_id": "6443794409"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037869593729:android:059ff99f3b18670da80980",
+        "android_client_info": {
+          "package_name": "com.xrpaynet.admin_dashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-hNJtKGDhrLmSsDH1EAsJnS6hNM-bVbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037869593729-01dkqcdih7pj25klks4afe49n9j925tg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cryptappolis.cryptappolis",
+                "app_store_id": "6443794409"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037869593729:android:fec42fe2e3594218a80980",
+        "android_client_info": {
+          "package_name": "com.xrpaynet.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037869593729-0o05t7k99sioobqm67ml7vhhrjuar9fc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xrpaynet.app",
+            "certificate_hash": "0693e828f55a9d9d353d12ac41426e75086eb020"
+          }
+        },
+        {
+          "client_id": "1037869593729-vcm44i256t5dts5hkb9hk5qcftqqvoeh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xrpaynet.app",
+            "certificate_hash": "b28bcedfba0de0bcafc985c22b632e28030a1db6"
+          }
+        },
+        {
+          "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-hNJtKGDhrLmSsDH1EAsJnS6hNM-bVbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037869593729-sbbpcirh2u1ut2nt761aha8nlsjp4tec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037869593729-01dkqcdih7pj25klks4afe49n9j925tg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cryptappolis.cryptappolis",
+                "app_store_id": "6443794409"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

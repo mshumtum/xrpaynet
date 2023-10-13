@@ -120,7 +120,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(
-                        left: 20, right: 20, top: 40, bottom: 20),
+                        left: 2, right: 2, top: 40, bottom: 20),
                     child: ButtonPrimary(
                       title: "Confirm and Pay",
                       onClick: () {

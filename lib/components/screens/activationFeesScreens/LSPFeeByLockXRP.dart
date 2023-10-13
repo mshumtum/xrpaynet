@@ -126,7 +126,9 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
                   });
             },
             title: "Buy Now",
-          )
+            horizontal: 12,
+          ),
+          SizedBox(height: 15),
         ])));
   }
 

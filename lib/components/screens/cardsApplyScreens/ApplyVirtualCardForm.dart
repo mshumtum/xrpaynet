@@ -85,8 +85,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                       height: 16,
                     ),
                     Container(
-                      margin:
-                          const EdgeInsets.only(left: 20, right: 20, top: 40),
+                      margin: const EdgeInsets.only(left: 8, right: 8, top: 40),
                       child: ButtonPrimary(
                         title: "Confirm and Pay",
                         onClick: () {
@@ -123,7 +122,10 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                           );
                         },
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
                   ]),
             )
           ],

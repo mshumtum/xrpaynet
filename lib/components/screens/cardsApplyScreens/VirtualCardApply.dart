@@ -91,7 +91,8 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
                         "isFrom":
                             isClubCard ? "clubVirtual" : "lifestyleVirtual"
                       });
-                }),
+                },
+                horizontal: 15),
             const SizedBox(
               height: 10,
             ),

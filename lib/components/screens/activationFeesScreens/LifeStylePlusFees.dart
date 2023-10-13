@@ -154,7 +154,8 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
                   });
             },
             title: "Pay Now",
-          )
+          ),
+          SizedBox(height: 15),
         ])));
   }
 

@@ -30,53 +30,56 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
     return Scaffold(
         backgroundColor: AppClr.black,
         body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 2),
             child: Column(
-          children: [
-            TopHeaderWithIcons(
-              leftIcon: Images.ic_wallet,
-              title: 'LifeStyle Plus Cards',
-              rightIcon: Images.ic_logout,
-              onClickLeftIcon: () {
-                _navigationService.goBack();
-              },
-              onClickRightIcon: () {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ConfirmationDialog(
-                          descriptions: "Are you sure you want to logout?",
-                          doneTxt: "Done",
-                          lottieFile: Images.logoutFileLottie,
-                          onClick: () {
-                            Navigator.of(context).pop();
-                            _navigationService.navigateWithRemovingAllPrevious(
-                                WelcomeScreen.routeName);
-                          });
-                    });
-              },
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            _cardSelection(),
-            _cardImg(),
-            _details(),
-            _certified(),
-            const SizedBox(
-              height: 25,
-            ),
-            ButtonPrimary(
-                title: 'Apply Now',
-                onClick: () {
-                  _navigationService
-                      .navigateWithBack(ApplyPhysicalCardForm.routeName);
-                }),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        )));
+              children: [
+                TopHeaderWithIcons(
+                  leftIcon: Images.ic_wallet,
+                  title: 'LifeStyle Plus Cards',
+                  rightIcon: Images.ic_logout,
+                  onClickLeftIcon: () {
+                    _navigationService.goBack();
+                  },
+                  onClickRightIcon: () {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmationDialog(
+                              descriptions: "Are you sure you want to logout?",
+                              doneTxt: "Done",
+                              lottieFile: Images.logoutFileLottie,
+                              onClick: () {
+                                Navigator.of(context).pop();
+                                _navigationService
+                                    .navigateWithRemovingAllPrevious(
+                                        WelcomeScreen.routeName);
+                              });
+                        });
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                _cardSelection(),
+                _cardImg(),
+                _details(),
+                _certified(),
+                const SizedBox(
+                  height: 25,
+                ),
+                ButtonPrimary(
+                    horizontal: 10,
+                    title: 'Apply Now',
+                    onClick: () {
+                      _navigationService
+                          .navigateWithBack(ApplyPhysicalCardForm.routeName);
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            )));
   }
 
   Widget _cardSelection() {
