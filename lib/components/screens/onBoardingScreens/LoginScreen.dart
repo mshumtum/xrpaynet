@@ -7,13 +7,11 @@ import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
-import 'package:xr_paynet/core/base_cubit/BaseCubit.dart';
-import 'package:xr_paynet/core/base_cubit/ApiState.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/Constants.dart';
-
+import '../../../constants/constants.dart';
+import '../../../cubits/login_cubit/login_cubit.dart';
 import '../../../theme/Colors.dart';
-import '../../widgets/NoInternetWidget.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_input_filed.dart';
 import '../../widgets/_password_text_filed.dart';
@@ -32,64 +30,112 @@ class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
   String emailAddress = "";
   String password = "";
+  final LoginCubit _loginCubit = sl<LoginCubit>();
 
+  void _userTryLogin() {
+    _loginCubit.loginWithEmailPasswordPressed(userData: '');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: AppClr.black, body: _rootUI());
   }
 
   Widget _rootUI() {
-    return BlocBuilder<BaseCubit, ApiState>(builder: (context, state) {
-      if (state is ResponseTodoState) {
-        _navigationService.navigateWithRemovingAllPrevious(HomePage.routeName);
-        return SizedBox();
-      } else if (state is NoInternetState) {
-        return const NoInternetWidget();
-      } else if (state is LoadingTodoState) {
-        return const CircularProgressIndicator();
-      }
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: ClassMediaQuery.screenHeight / 1.2,
-              child: Column(children: [
-                const OnBoardingHeader(
-                  title: 'Login To Your Account',
-                  subTitle:
-                      'Enter required details below to access\n your account!',
+    return BlocConsumer<LoginCubit, LoginState>(
+      bloc: _loginCubit,
+      listener: (context, state) async {
+        if (state.main.isFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [Expanded(child: Text(state.main.errorMessage ?? state.main.message ?? '')), const Icon(Icons.error)],
                 ),
-                const SizedBox(
-                  height: 30,
+                backgroundColor: Colors.redAccent,
+              ),
+            );
+        }
+
+        if (state.main.isInProgress) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Logging In...'),
+                    CircularProgressIndicator(),
+                  ],
                 ),
-                InputField(
-                  inputLabel: "Email",
-                  hintText: 'Enter Email',
-                  inputType: TextInputType.emailAddress,
-                  onChangeText: (value) {
-                    emailAddress = value;
-                  },
+              ),
+            );
+        }
+
+        if (state.main.isSuccess) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Logged in successfully'),
+                    Icon(Icons.error),
+                  ],
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                PasswordTextField(
-                    inputLabel: 'Password',
-                    hintText: 'Password',
+              ),
+            );
+          _navigationService
+              .navigateWithRemovingAllPrevious(HomePage.routeName);
+        }
+      },
+      builder:(context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: ClassMediaQuery.screenHeight / 1.2,
+                child: Column(children: [
+                  const OnBoardingHeader(
+                    title: 'Login To Your Account',
+                    subTitle:
+                    'Enter required details below to access\n your account!',
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  InputField(
+                    inputLabel: "Email",
+                    hintText: 'Enter Email',
+                    inputType: TextInputType.emailAddress,
                     onChangeText: (value) {
-                      password = value;
-                    }),
-                const SizedBox(
-                  height: 15,
-                ),
-                _forgotText(),
-              ]),
-            ),
-            _bottomView()
-          ],
-        ),
-      );
-    });
+                      emailAddress = value;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  PasswordTextField(
+                      inputLabel: 'Password',
+                      hintText: 'Password',
+                      onChangeText: (value) {
+                        password = value;
+                      }),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  _forgotText(),
+                ]),
+              ),
+              _bottomView()
+            ],
+          ),
+        );
+    },
+
+    );
   }
 
   Widget _forgotText() {
@@ -121,18 +167,17 @@ class _LoginPageState extends State<LoginScreen> {
           ButtonPrimary(
               title: 'Login',
               onClick: () {
-                // if (emailAddress == "") {
-                //   showToast(context, Constants.enter_email_address);
-                // } else if (!isEmailValid(emailAddress)) {
-                //   showToast(context, Constants.enter_valid_email);
-                // } else if (password == "") {
-                //   showToast(context, Constants.enter_password);
-                // } else if (!isPasswordValid(password)) {
-                //   showToast(context, Constants.enter_valid_password);
-                // } else {
-                _navigationService
-                    .navigateWithRemovingAllPrevious(HomePage.routeName);
-                // }
+                if (emailAddress == "") {
+                  showToast(context, Constants.enter_email_address);
+                } else if (!isEmailValid(emailAddress)) {
+                  showToast(context, Constants.enter_valid_email);
+                } else if (password == "") {
+                  showToast(context, Constants.enter_password);
+                } else if (!isPasswordValid(password)) {
+                  showToast(context, Constants.enter_valid_password);
+                } else {
+                  _userTryLogin();
+                }
               }),
           const SizedBox(
             height: 15,
