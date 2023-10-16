@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/SplashScreen.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
@@ -16,7 +17,10 @@ import 'components/utilities/ClassMediaQuery.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   setupLocator();
+
   runApp(const MyApp());
 }
 
@@ -26,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ClassMediaQuery(context);
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       // statusBarColor: Colors.white,
       statusBarBrightness: Brightness.dark,

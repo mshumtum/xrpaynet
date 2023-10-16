@@ -71,6 +71,11 @@ dependencies:
 
   # ---- dotted border ---- #
   dotted_border: ^2.1.0
+  # ---- firebase plugin---- #
+  firebase_auth: ^4.10.1
+  firebase_core: ^2.17.0
+  cloud_functions: ^4.4.2
+  firebase_messaging: ^14.6.9
 
   # ---- circle avatar ---- #
   circular_profile_avatar: ^2.0.5
