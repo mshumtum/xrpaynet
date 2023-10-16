@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:xr_paynet/components/screens/choose_currency/ChooseCurrency.dart';
+import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCurrency.dart';
+import 'package:xr_paynet/components/screens/deposit/SetAmountDialog.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/components/widgets/drop_down.dart';
@@ -27,6 +28,7 @@ class Deposit extends StatefulWidget {
 class _DepositState extends State<Deposit> {
   final NavigationService _navigationService = locator<NavigationService>();
   String response = "";
+  String amount = "";
   var userAddress = "0x5c17613C5ad1e3543c1E3989BD3E09D442620d2b";
   String get argRes => response;
   _DepositState({required this.response});
@@ -35,6 +37,7 @@ class _DepositState extends State<Deposit> {
     super.initState();
     print("Received argument: ${widget.arguments}");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +57,19 @@ class _DepositState extends State<Deposit> {
                 ),
                 _qrImage(),
                 const SizedBox(
-                  height: 35,
+                  height: 25,
+                ),
+                amount != ""
+                    ? _balance(amount + " USDT", " = \$ " + amount, 18.0)
+                    : Container(),
+                const SizedBox(
+                  height: 15,
                 ),
                 _addressCopy(),
                 const SizedBox(
                   height: 15,
                 ),
-                _balance(),
+                _balance("Balance: ", "200 USDT", 14.0),
                 const SizedBox(
                   height: 40,
                 ),
@@ -73,7 +82,7 @@ class _DepositState extends State<Deposit> {
                   ),
                 ),
                 DropDownField(
-                  value: response,
+                  value: "USDT",
                   onClick: () {
                     _navigationService
                         .navigateWithBack(ChooseCurrency.routeName);
@@ -92,7 +101,11 @@ class _DepositState extends State<Deposit> {
                 const SizedBox(
                   height: 30,
                 ),
-                ButtonPrimary(title: 'Done', onClick: () {}),
+                ButtonPrimary(
+                    title: 'Done',
+                    onClick: () {
+                      _navigationService.goBack();
+                    }),
               ],
             ),
           ],
@@ -109,7 +122,7 @@ class _DepositState extends State<Deposit> {
           color: AppClr.greyQrBack,
         ),
         child: QrImageView(
-          data: 'usdt:0xE53dC38c6F68E3d0dd3Cf00459DD94401EBdFdcC?amount=50',
+          data: userAddress,
           version: QrVersions.auto,
           size: 200.0,
           eyeStyle: const QrEyeStyle(
@@ -148,10 +161,10 @@ class _DepositState extends State<Deposit> {
     );
   }
 
-  Widget _balance() {
+  Widget _balance(title, value, fontSize) {
     return RichText(
       textAlign: TextAlign.start,
-      text: const TextSpan(
+      text: TextSpan(
         style: TextStyle(
           color: AppClr.grey2,
           fontSize: 14.0,
@@ -159,17 +172,17 @@ class _DepositState extends State<Deposit> {
         ),
         children: <TextSpan>[
           TextSpan(
-            text: 'Balance: ',
+            text: title,
             style: TextStyle(
                 color: AppClr.grey,
-                fontSize: 14.0,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w300),
           ),
           TextSpan(
-            text: '200 USDT',
+            text: value,
             style: TextStyle(
                 color: AppClr.white,
-                fontSize: 14.0,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w400),
           ),
         ],
@@ -182,7 +195,24 @@ class _DepositState extends State<Deposit> {
       Column(children: [
         InkWell(
           onTap: () {
-            Clipboard.setData(ClipboardData(text: userAddress)).then((res) {});
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return SetAmountDialog(
+                    amount: amount,
+                    onConfirm: (value) {
+                      var addressAmount =
+                          'usdt:0xE53dC38c6F68E3d0dd3Cf00459DD94401EBdFdcC?amount=' +
+                              value;
+                      setState(() {
+                        amount = value;
+                        userAddress = addressAmount;
+                      });
+                      //
+                    },
+                  );
+                });
           },
           child: Image.asset(
             Images.icSetAmount,

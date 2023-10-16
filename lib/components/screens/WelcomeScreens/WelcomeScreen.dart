@@ -1,3 +1,5 @@
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
@@ -9,6 +11,7 @@ import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String routeName = '/welcome_page';
@@ -22,6 +25,49 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
+  dynamic _funtions;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // _funtions = FirebaseFunctions.instance;
+    // getData();
+  }
+
+  Future<void> getData() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: "sholu@yopmail.com", password: "Test@123");
+
+      getUserToken(credential.user!.uid);
+      print(credential);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+    print("getUserDetails====");
+    HttpsCallable callable = _funtions.httpsCallable('getUserDetails');
+    final results = await callable.call();
+    print(results.data);
+  }
+
+  Future<String?> getUserToken(String uid) async {
+    try {
+      final user = await FirebaseAuth.instance.authStateChanges().first;
+      if (user != null) {
+        final token = await FirebaseMessaging.instance.getToken();
+        return token;
+      }
+      return null;
+    } catch (e) {
+      print("Error getting user token: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +103,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 70,
               ),
               const Text(
                 Constants.welcomeText,

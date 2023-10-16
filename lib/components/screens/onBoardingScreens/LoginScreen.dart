@@ -35,23 +35,20 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppClr.black,
-      body: _rootUI()
-    );
+    return Scaffold(backgroundColor: AppClr.black, body: _rootUI());
   }
 
-  Widget _rootUI(){
-    return BlocBuilder<BaseCubit,ApiState>(builder: (context,state){
+  Widget _rootUI() {
+    return BlocBuilder<BaseCubit, ApiState>(builder: (context, state) {
       if (state is ResponseTodoState) {
         _navigationService.navigateWithRemovingAllPrevious(HomePage.routeName);
         return SizedBox();
       } else if (state is NoInternetState) {
         return const NoInternetWidget();
-      } else if(state is LoadingTodoState){
+      } else if (state is LoadingTodoState) {
         return const CircularProgressIndicator();
       }
-      return  SingleChildScrollView(
+      return SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -60,7 +57,7 @@ class _LoginPageState extends State<LoginScreen> {
                 const OnBoardingHeader(
                   title: 'Login To Your Account',
                   subTitle:
-                  'Enter required details below to access\n your account!',
+                      'Enter required details below to access\n your account!',
                 ),
                 const SizedBox(
                   height: 30,
@@ -92,9 +89,7 @@ class _LoginPageState extends State<LoginScreen> {
           ],
         ),
       );
-
     });
-
   }
 
   Widget _forgotText() {
@@ -133,8 +128,7 @@ class _LoginPageState extends State<LoginScreen> {
                 } else if (password == "") {
                   showToast(context, Constants.enter_password);
                 } else if (!isPasswordValid(password)) {
-                  showToast(context,
-                      Constants.enter_valid_password);
+                  showToast(context, Constants.enter_valid_password);
                 } else {
                   _navigationService
                       .navigateWithRemovingAllPrevious(HomePage.routeName);

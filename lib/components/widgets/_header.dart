@@ -137,15 +137,15 @@ class TopHeaderWithIcons extends StatefulWidget {
   final String leftIcon;
   final String title;
   final String rightIcon;
-  final Function onClickLeftIcon;
+  final Function? onClickLeftIcon;
   final Function onClickRightIcon;
 
   const TopHeaderWithIcons(
       {super.key,
-      required this.leftIcon,
+      this.leftIcon = "",
       required this.title,
       required this.rightIcon,
-      required this.onClickLeftIcon,
+      this.onClickLeftIcon,
       required this.onClickRightIcon});
 
   @override
@@ -165,16 +165,18 @@ class _TopHeaderWithIconsState extends State<TopHeaderWithIcons> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () {
-              widget.onClickLeftIcon();
-            },
-            child: Image.asset(
-              widget.leftIcon,
-              width: 20,
-              height: 20,
-            ),
-          ),
+          widget.leftIcon != ""
+              ? InkWell(
+                  onTap: () {
+                    widget.onClickLeftIcon!();
+                  },
+                  child: Image.asset(
+                    widget.leftIcon,
+                    width: 20,
+                    height: 20,
+                  ),
+                )
+              : Container(),
           Text(
             widget.title,
             style: const TextStyle(

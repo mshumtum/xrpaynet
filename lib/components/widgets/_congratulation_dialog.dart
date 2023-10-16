@@ -47,7 +47,13 @@ class CongratulationDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const SizedBox(
+                height: 30,
+              ),
               Lottie.asset(this.lottieFile, width: 140),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 title,
                 style: AppTheme.white18Medium,
@@ -55,15 +61,18 @@ class CongratulationDialog extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              Text(
-                descriptions,
-                style: AppTheme.resendGreyText14,
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 1),
+                child: Text(
+                  descriptions,
+                  style: AppTheme.resendGreyText14,
+                  textAlign: TextAlign.center,
+                ),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(35, 25, 35, 1),
-                child: ButtonPrimary(onClick: onClick, title: doneTxt),
-              )
+              SizedBox(
+                height: 28,
+              ),
+              ButtonPrimary(onClick: onClick, title: doneTxt, horizontal: 0)
             ],
           ),
         ),
@@ -130,25 +139,26 @@ class ConfirmationDialog extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: EdgeInsets.only(top: 25),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      width: ClassMediaQuery.screenWidth / 3,
+                      width: ClassMediaQuery.screenWidth / 2.9,
                       height: 44,
                       child: ButtonPrimary(
-                        onClick: () {
-                          Navigator.of(context).pop();
-                        },
-                        title: "No",
-                        buttonColor: AppClr.greyQrBack,
-                      ),
+                          onClick: () {
+                            Navigator.of(context).pop();
+                          },
+                          title: "No",
+                          buttonColor: AppClr.greyQrBack,
+                          horizontal: 1),
                     ),
                     Container(
-                      width: ClassMediaQuery.screenWidth / 3,
+                      width: ClassMediaQuery.screenWidth / 2.9,
                       height: 44,
-                      child: ButtonPrimary(onClick: onClick, title: "Yes"),
+                      child: ButtonPrimary(
+                          onClick: onClick, title: "Yes", horizontal: 1),
                     )
                   ],
                 ),

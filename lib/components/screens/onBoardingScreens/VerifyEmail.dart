@@ -45,64 +45,62 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: ClassMediaQuery.screenHeight / 1.25,
-              child: Column(children: [
-                const OnBoardingHeader(
-                  title: 'Enter Verification Code',
-                  subTitle:
-                      'Enter the 6 digits code that you received on\nyour email.',
-                ),
-                const SizedBox(
-                  height: 48,
-                ),
-                OTPTextField(
-                  length: 6,
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  fieldWidth: 50,
-                  style: AppTheme.white16w500,
-                  otpFieldStyle: OtpFieldStyle(
-                      backgroundColor: AppClr.otpBackground,
-                      focusBorderColor: AppClr.blue),
-                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                  fieldStyle: FieldStyle.box,
-                  outlineBorderRadius: 10,
-                  onCompleted: (pin) {
-                    print("Completed: " + pin);
-                  },
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                TextSpanBold(
-                    title: 'Didn’t receive any code?  ',
-                    boldText: 'Resend OTP',
-                    onClick: () {}),
-              ]),
+      body: Column(
+        children: [
+          Column(children: [
+            const OnBoardingHeader(
+              title: 'Enter Verification Code',
+              subTitle:
+                  'Enter the 6 digits code that you received on\nyour email.',
             ),
-            SizedBox(
-              height: ClassMediaQuery.pendingContainerHeight(1.25),
-              child: ButtonPrimary(
-                title: "Continue",
-                onClick: () => {
-                  if (isFrom == ForgotPassword.routeName)
-                    {
-                      _navigationService
-                          .navigateWithBack(CreateNewPassword.routeName)
-                    }
-                  else
-                    {
-                      _navigationService
-                          .navigateWithRemovingAllPrevious(HomePage.routeName)
-                    }
-                },
-              ),
-            )
-          ],
-        ),
+            const SizedBox(
+              height: 48,
+            ),
+            OTPTextField(
+              length: 6,
+              width: MediaQuery.of(context).size.width / 1.1,
+              fieldWidth: 50,
+              style: AppTheme.white16w500,
+              otpFieldStyle: OtpFieldStyle(
+                  backgroundColor: AppClr.otpBackground,
+                  focusBorderColor: AppClr.blue),
+              textFieldAlignment: MainAxisAlignment.spaceAround,
+              fieldStyle: FieldStyle.box,
+              outlineBorderRadius: 10,
+              onCompleted: (pin) {
+                print("Completed: " + pin);
+              },
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            TextSpanBold(
+                title: 'Didn’t receive any code?  ',
+                boldText: 'Resend OTP',
+                onClick: () {}),
+          ]),
+          Expanded(
+            child: Container(),
+          ),
+          ButtonPrimary(
+            title: "Continue",
+            onClick: () => {
+              if (isFrom == ForgotPassword.routeName)
+                {
+                  _navigationService
+                      .navigateWithBack(CreateNewPassword.routeName)
+                }
+              else
+                {
+                  _navigationService
+                      .navigateWithRemovingAllPrevious(HomePage.routeName)
+                }
+            },
+          ),
+          SizedBox(
+            height: 15,
+          )
+        ],
       ),
     );
   }

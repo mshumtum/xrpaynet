@@ -1,8 +1,11 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
+import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -42,11 +45,27 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
         child: Column(
           children: [
             TopHeaderWithIcons(
-              leftIcon: Images.ic_wallet,
               title: 'LifeStyle Plus Cards',
               rightIcon: Images.ic_logout,
-              onClickLeftIcon: () {},
-              onClickRightIcon: () {},
+              onClickRightIcon: () {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmationDialog(
+                      descriptions: "Are you sure you want to logout?",
+                      doneTxt: "Done",
+                      lottieFile: Images.logoutFileLottie,
+                      onClick: () {
+                        Navigator.of(context).pop();
+                        _navigationService.navigateWithRemovingAllPrevious(
+                          WelcomeScreen.routeName,
+                        );
+                      },
+                    );
+                  },
+                );
+              },
             ),
             const SizedBox(
               height: 35,
@@ -65,7 +84,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             ),
             ButtonPrimary(
               title: 'Recharge',
-              onClick: () {},
+              onClick: () {
+                _navigationService.navigateWithBack(CardRecharge.routeName);
+              },
             ),
             const SizedBox(
               height: 10,
@@ -98,6 +119,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
               onTap: () {
                 setState(() {
                   isPhysicalCardSelected = true;
+                  if (!_controller.state!.isFront) {
+                    _controller.toggleCard();
+                  }
                 });
               },
               child: Container(
@@ -131,6 +155,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 setState(() {
                   isPhysicalCardSelected = false;
                 });
+                if (!_controller.state!.isFront) {
+                  _controller.toggleCard();
+                }
               },
               child: Container(
                 height: 45,
@@ -171,7 +198,9 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
         children: [
           SizedBox(
             height: 250,
-            child: Image.asset(Images.card_front_img),
+            child: Image.asset(isPhysicalCardSelected
+                ? Images.card_front_img
+                : Images.ic_lsp_visa_card),
           ),
           Container(
             // color: Colors.red,

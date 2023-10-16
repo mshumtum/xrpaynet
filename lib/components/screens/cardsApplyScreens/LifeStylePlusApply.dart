@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardForm.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
+import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
@@ -27,35 +30,56 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
     return Scaffold(
         backgroundColor: AppClr.black,
         body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 2),
             child: Column(
-          children: [
-            TopHeaderWithIcons(
-              leftIcon: Images.ic_wallet,
-              title: 'LifeStyle Plus Cards',
-              rightIcon: Images.ic_logout,
-              onClickLeftIcon: () {},
-              onClickRightIcon: () {},
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            _cardSelection(),
-            _cardImg(),
-            _details(),
-            _certified(),
-            const SizedBox(
-              height: 25,
-            ),
-            ButtonPrimary(
-                title: 'Apply Now',
-                onClick: () {
-                  _navigationService.navigateWithBack(VirtualCard.routeName);
-                }),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        )));
+              children: [
+                TopHeaderWithIcons(
+                  leftIcon: Images.ic_wallet,
+                  title: 'LifeStyle Plus Cards',
+                  rightIcon: Images.ic_logout,
+                  onClickLeftIcon: () {
+                    _navigationService.goBack();
+                  },
+                  onClickRightIcon: () {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmationDialog(
+                              descriptions: "Are you sure you want to logout?",
+                              doneTxt: "Done",
+                              lottieFile: Images.logoutFileLottie,
+                              onClick: () {
+                                Navigator.of(context).pop();
+                                _navigationService
+                                    .navigateWithRemovingAllPrevious(
+                                        WelcomeScreen.routeName);
+                              });
+                        });
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                _cardSelection(),
+                _cardImg(),
+                _details(),
+                _certified(),
+                const SizedBox(
+                  height: 25,
+                ),
+                ButtonPrimary(
+                    horizontal: 10,
+                    title: 'Apply Now',
+                    onClick: () {
+                      _navigationService
+                          .navigateWithBack(ApplyPhysicalCardForm.routeName);
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            )));
   }
 
   Widget _cardSelection() {
@@ -284,16 +308,22 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
   }
 
   Widget _rules(value) {
-    return Row(
-      children: [
-        const CircleContainer(
-          containerSize: 6.0,
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        _text(value),
-      ],
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: const CircleContainer(
+              containerSize: 6.0,
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          _text(value),
+        ],
+      ),
     );
   }
 

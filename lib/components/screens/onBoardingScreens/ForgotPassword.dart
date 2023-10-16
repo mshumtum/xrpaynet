@@ -25,42 +25,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppClr.black,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: ClassMediaQuery.screenHeight / 1.25,
-              child: const Column(children: [
-                OnBoardingHeader(
-                  title: 'Forgot Password',
-                  subTitle:
-                      'Enter your email for the verification process,\n we will send 6 digits code to your email.',
-                ),
-                SizedBox(
-                  height: 48,
-                ),
-                InputField(
-                    inputLabel: "Email",
-                    hintText: 'Enter Email',
-                    inputType: TextInputType.emailAddress),
-                SizedBox(
-                  height: 18,
-                ),
-              ]),
-            ),
-            SizedBox(
-              height: ClassMediaQuery.pendingContainerHeight(1.25),
-              child: ButtonPrimary(
-                title: "Send OTP",
-                onClick: () {
-                  _navigationService.navigateWithBack(
-                      VerifyEmailByOTP.routeName,
-                      arguments: {"isFrom": ForgotPassword.routeName});
-                },
+      body: Column(
+        children: [
+          SizedBox(
+            height: ClassMediaQuery.screenHeight / 1.25,
+            child: Column(children: [
+              OnBoardingHeader(
+                title: 'Forgot Password',
+                subTitle:
+                    'Enter your email for the verification process,\n we will send 6 digits code to your email.',
               ),
-            )
-          ],
-        ),
+              SizedBox(
+                height: 48,
+              ),
+              InputField(
+                  inputLabel: "Email",
+                  hintText: 'Enter Email',
+                  inputType: TextInputType.emailAddress),
+              SizedBox(
+                height: 18,
+              ),
+            ]),
+          ),
+          Expanded(child: Container()),
+          ButtonPrimary(
+            title: "Send OTP",
+            onClick: () {
+              _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
+                  arguments: {"isFrom": ForgotPassword.routeName});
+            },
+          ),
+          SizedBox(
+            height: 10,
+          )
+        ],
       ),
     );
   }

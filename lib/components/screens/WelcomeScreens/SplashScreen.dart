@@ -13,7 +13,8 @@ class SplashScreen extends StatelessWidget {
     final NavigationService _navigationService = locator<NavigationService>();
 
     Future.delayed(const Duration(milliseconds: 3500), () {
-      _navigationService.navigateWithBack(WelcomeScreen.routeName);
+      _navigationService
+          .navigateWithRemovingAllPrevious(WelcomeScreen.routeName);
     });
     return Scaffold(
       backgroundColor: AppClr.black,

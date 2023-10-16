@@ -7,34 +7,35 @@ class ButtonPrimary extends StatelessWidget {
   final String title;
   final Function() onClick;
   final Color buttonColor;
+  final double horizontal;
 
   const ButtonPrimary(
       {super.key,
       required this.title,
       required this.onClick,
-      this.buttonColor = AppClr.blue});
+      this.buttonColor = AppClr.blue,
+      this.horizontal = 17});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        // padding: EdgeInsets.all(16.0),
-        height: 50,
-        width: ClassMediaQuery.screenWidth - 20, // Padding around the text
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0), // Rounded corners
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: horizontal),
+      width: ClassMediaQuery.screenWidth, // Padding around the text
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          splashFactory: NoSplash.splashFactory,
+          backgroundColor: buttonColor,
         ),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              splashFactory: NoSplash.splashFactory,
-              backgroundColor: buttonColor),
-          onPressed: onClick,
-          child: Center(
-            child: Text(
-              title,
-              // textAlign: TextAlign.center,
-              style: AppTheme.white16w500,
-            ),
+        onPressed: onClick,
+        child: Center(
+          child: Text(
+            title,
+            // textAlign: TextAlign.center,
+            style: AppTheme.white16w500,
           ),
         ),
       ),
