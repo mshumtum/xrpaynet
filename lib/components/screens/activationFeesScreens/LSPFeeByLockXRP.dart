@@ -77,14 +77,15 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
           ),
           SizedBox(height: 25),
           _details(),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: isClubCard ? 70 : 37),
-            child: Image.asset(
-              Images.ic_xrpaynet_bg,
-              width: ClassMediaQuery.screenWidth / 1.5,
-              height: 80,
-            ),
+          SizedBox(
+            height: isClubCard ? ClassMediaQuery.screenWidth / 3 : 37,
           ),
+          Image.asset(
+            Images.ic_xrpaynet_bg,
+            width: ClassMediaQuery.screenWidth / 1.5,
+            height: 80,
+          ),
+          SizedBox(height: 50),
           Container(
               padding: EdgeInsets.all(16),
               margin: EdgeInsets.only(bottom: 28, left: 13, right: 13),

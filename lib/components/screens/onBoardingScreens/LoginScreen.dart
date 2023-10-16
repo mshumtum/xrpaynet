@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 16,
                 ),
                 PasswordTextField(
                     inputLabel: 'Password',
@@ -121,18 +121,18 @@ class _LoginPageState extends State<LoginScreen> {
           ButtonPrimary(
               title: 'Login',
               onClick: () {
-                if (emailAddress == "") {
-                  showToast(context, Constants.enter_email_address);
-                } else if (!isEmailValid(emailAddress)) {
-                  showToast(context, Constants.enter_valid_email);
-                } else if (password == "") {
-                  showToast(context, Constants.enter_password);
-                } else if (!isPasswordValid(password)) {
-                  showToast(context, Constants.enter_valid_password);
-                } else {
-                  _navigationService
-                      .navigateWithRemovingAllPrevious(HomePage.routeName);
-                }
+                // if (emailAddress == "") {
+                //   showToast(context, Constants.enter_email_address);
+                // } else if (!isEmailValid(emailAddress)) {
+                //   showToast(context, Constants.enter_valid_email);
+                // } else if (password == "") {
+                //   showToast(context, Constants.enter_password);
+                // } else if (!isPasswordValid(password)) {
+                //   showToast(context, Constants.enter_valid_password);
+                // } else {
+                _navigationService
+                    .navigateWithRemovingAllPrevious(HomePage.routeName);
+                // }
               }),
           const SizedBox(
             height: 15,

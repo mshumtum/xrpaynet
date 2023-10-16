@@ -32,7 +32,6 @@ class _CreateAccountState extends State<CreateAccount> {
   String password = "";
   String confirmPassword = "";
 
-
   // for get text field value use this
   // String text = InputField.getText();
 
@@ -53,23 +52,21 @@ class _CreateAccountState extends State<CreateAccount> {
             const SizedBox(
               height: 46,
             ),
-             InputField(
-                inputLabel: "Email",
-                hintText: 'Enter Email',
-                inputType: TextInputType.emailAddress,
-              onChangeText: (value){
-                  emailAddress = value;
+            InputField(
+              inputLabel: "Email",
+              hintText: 'Enter Email',
+              inputType: TextInputType.emailAddress,
+              onChangeText: (value) {
+                emailAddress = value;
               },
-
             ),
-
             const SizedBox(
               height: 15,
             ),
             PasswordTextField(
               inputLabel: 'Create Password',
-              hintText: 'Password',
-              onChangeText: (value){
+              hintText: '*********',
+              onChangeText: (value) {
                 password = value;
               },
             ),
@@ -78,8 +75,8 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             PasswordTextField(
               inputLabel: 'Confirm Password',
-              hintText: 'Confirm Password',
-              onChangeText: (value){
+              hintText: '*********',
+              onChangeText: (value) {
                 confirmPassword = value;
               },
             ),
@@ -175,25 +172,23 @@ class _CreateAccountState extends State<CreateAccount> {
           ButtonPrimary(
               title: Constants.create_account,
               onClick: () {
-                if (emailAddress == "") {
-                  showToast(context, Constants.enter_email_address);
-                } else if (!isEmailValid(emailAddress)) {
-                  showToast(context, Constants.enter_valid_email);
-                } else if (password == "") {
-                  showToast(context, Constants.enter_password);
-                } else if (!isPasswordValid(password)) {
-                  showToast(context,
-                      Constants.enter_valid_password);
-                }else if(confirmPassword == ""){
-                  showToast(context, Constants.enter_confirm_password);
-                }else if(confirmPassword != password){
-                  showToast(context, Constants.enter_confirm_password_valid);
-                }else{
-                  _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
-                      arguments: {"isFrom": "createAccount"});
-                }
-
-
+                // if (emailAddress == "") {
+                //   showToast(context, Constants.enter_email_address);
+                // } else if (!isEmailValid(emailAddress)) {
+                //   showToast(context, Constants.enter_valid_email);
+                // } else if (password == "") {
+                //   showToast(context, Constants.enter_password);
+                // } else if (!isPasswordValid(password)) {
+                //   showToast(context,
+                //       Constants.enter_valid_password);
+                // }else if(confirmPassword == ""){
+                //   showToast(context, Constants.enter_confirm_password);
+                // }else if(confirmPassword != password){
+                //   showToast(context, Constants.enter_confirm_password_valid);
+                // }else{
+                _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
+                    arguments: {"isFrom": "createAccount"});
+                // }
               }),
           const SizedBox(
             height: 15,

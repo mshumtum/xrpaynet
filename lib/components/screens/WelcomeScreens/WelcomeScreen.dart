@@ -114,14 +114,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 36,
               ),
               ButtonPrimary(
-                title: "Create Your Account",
+                title: "Create Account",
                 onClick: () {
                   _navigationService.navigateWithBack(CreateAccount.routeName);
                 },
               ),
               const SizedBox(height: 14),
               ButtonPrimary(
-                title: "Account Already Exists",
+                title: "Login",
                 onClick: () {
                   _navigationService.navigateWithBack(LoginScreen.routeName);
                 },
