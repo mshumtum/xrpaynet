@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/base_cubit/BaseCubit.dart';
+import 'package:xr_paynet/core/base_cubit/ApiState.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/theme/Constants.dart';
 
 import '../../../theme/Colors.dart';
-import '../../utilities/HexColor.dart';
+import '../../widgets/NoInternetWidget.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_input_filed.dart';
 import '../../widgets/_password_text_filed.dart';
@@ -25,14 +30,25 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
-  var userEmail = "";
-  var userPass = "";
+  String emailAddress = "";
+  String password = "";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppClr.black,
-      body: SingleChildScrollView(
+    return Scaffold(backgroundColor: AppClr.black, body: _rootUI());
+  }
+
+  Widget _rootUI() {
+    return BlocBuilder<BaseCubit, ApiState>(builder: (context, state) {
+      if (state is ResponseTodoState) {
+        _navigationService.navigateWithRemovingAllPrevious(HomePage.routeName);
+        return SizedBox();
+      } else if (state is NoInternetState) {
+        return const NoInternetWidget();
+      } else if (state is LoadingTodoState) {
+        return const CircularProgressIndicator();
+      }
+      return SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -51,20 +67,18 @@ class _LoginPageState extends State<LoginScreen> {
                   hintText: 'Enter Email',
                   inputType: TextInputType.emailAddress,
                   onChangeText: (value) {
-                    userEmail = value;
+                    emailAddress = value;
                   },
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 16,
                 ),
                 PasswordTextField(
-                  inputLabel: 'Password',
-                  hintText: 'Password',
-                  onChangeText: (value) {
-                    print(value);
-                    userPass = value;
-                  },
-                ),
+                    inputLabel: 'Password',
+                    hintText: 'Password',
+                    onChangeText: (value) {
+                      password = value;
+                    }),
                 const SizedBox(
                   height: 15,
                 ),
@@ -74,8 +88,8 @@ class _LoginPageState extends State<LoginScreen> {
             _bottomView()
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _forgotText() {
@@ -107,8 +121,18 @@ class _LoginPageState extends State<LoginScreen> {
           ButtonPrimary(
               title: 'Login',
               onClick: () {
+                // if (emailAddress == "") {
+                //   showToast(context, Constants.enter_email_address);
+                // } else if (!isEmailValid(emailAddress)) {
+                //   showToast(context, Constants.enter_valid_email);
+                // } else if (password == "") {
+                //   showToast(context, Constants.enter_password);
+                // } else if (!isPasswordValid(password)) {
+                //   showToast(context, Constants.enter_valid_password);
+                // } else {
                 _navigationService
                     .navigateWithRemovingAllPrevious(HomePage.routeName);
+                // }
               }),
           const SizedBox(
             height: 15,

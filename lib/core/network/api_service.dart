@@ -1,70 +1,164 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http/intercepted_client.dart';
+import 'package:xr_paynet/core/base_cubit/ApiState.dart';
+import 'message.dart';
 
+// class ApiService {
+//   final InterceptedClient client;
+//   final String baseUrl;
+//
+//   ApiService({
+//     required this.client,
+//     required this.baseUrl,
+//   });
+//
+//   Future<dynamic> get(
+//       String endpoint, {
+//         Map<String, String?>? queryParams,
+//         Map<String, String>? additionalHeaders,
+//       }) async {
+//     dynamic responseJson;
+//     try {
+//       final uri = Uri.https(baseUrl, '/$endpoint', queryParams);
+//       final response = await client.get(uri, headers: additionalHeaders);
+//       responseJson = _response(response);
+//     } catch (e) {
+//       rethrow;
+//     }
+//     return responseJson;
+//   }
+//
+//   dynamic _response(http.Response response) {
+//     switch (response.statusCode) {
+//       case HttpStatus.ok: //200
+//         var responseJson = json.decode(response.body);
+//         return responseJson;
+//
+//       case HttpStatus.created: //201
+//         var responseJson = json.decode(response.body);
+//         return responseJson;
+//
+//       case HttpStatus.unprocessableEntity: //422
+//         var responseJson = json.decode(response.body) as Map<String, dynamic>;
+//         final listOfErrors = responseJson['errors'] as Map<String, dynamic>;
+//         var buffer = StringBuffer();
+//         listOfErrors.forEach((key, value) {
+//           final result = value as List;
+//           for (int i = 0; i < result.length; i++) {
+//             final element = result[i];
+//             buffer.write(element);
+//           }
+//         });
+//         throw ApiException(buffer.toString());
+//
+//       default:
+//         {
+//           final builder = StringBuffer();
+//           builder.write('Response Code: ${response.statusCode}');
+//           builder.writeln('Result: ${response.body}');
+//           throw ApiException(response.body.toString());
+//         }
+//     }
+//   }
+// }
+//
+// class ApiException implements Exception {
+//   final String message;
+//
+//   ApiException(this.message);
+// }
 class ApiService {
-  final InterceptedClient client;
-  final String baseUrl;
+  static final Duration _timeoutDuration = Duration(seconds: 10);
+  static Map<String, String> _userHeader = Map();
+  // static Alice alice;
 
-  ApiService({
-    required this.client,
-    required this.baseUrl,
-  });
+  static Map errorMap(int statusCode, String message) {
+    Map<String, dynamic> map = Map();
+    map['statusCode'] = statusCode;
+    map['message'] = message;
 
-  Future<dynamic> get(
-    String endpoint, {
-    Map<String, String?>? queryParams,
-    Map<String, String>? additionalHeaders,
+    return map;
+  }
+
+  // static setInterceptor(){
+  //   alice = Alice(showNotification: true, navigatorKey: locator<NavigationService>().navigatorKey);
+  // }
+
+  ApiService(String token) {
+    if(token!=""){
+      _userHeader = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+    }else{
+      _userHeader = {};
+    }
+  }
+
+  static hit({
+    required Uri url,
+    required Map<String, String> header,
+    dynamic body,
+    bool encodeData = true,
   }) async {
-    dynamic responseJson;
     try {
-      final uri = Uri.https(baseUrl, '/$endpoint', queryParams);
-      final response = await client.get(uri, headers: additionalHeaders);
-      responseJson = _response(response);
-    } catch (e) {
-      rethrow;
-    }
-    return responseJson;
-  }
+      http.Response response;
+      var jsonBody = body;
 
-  dynamic _response(http.Response response) {
-    switch (response.statusCode) {
-      case HttpStatus.ok: //200
-        var responseJson = json.decode(response.body);
-        return responseJson;
+      if (encodeData) {
+        jsonBody = json.encode(body);
+      }
 
-      case HttpStatus.created: //201
-        var responseJson = json.decode(response.body);
-        return responseJson;
+      switch (apiType.post) {
+        case apiType.get:
+          response = await http
+              .get(url, headers: _userHeader)
+              .timeout(_timeoutDuration);
+          break;
+        case apiType.put:
+          response = await http
+              .put(url , headers: _userHeader, body: jsonBody)
+              .timeout(_timeoutDuration);
+          break;
+        case apiType.post:
+          response = await http
+              .post(url, headers: _userHeader, body: jsonBody)
+              .timeout(_timeoutDuration);
+          break;
+      }
 
-      case HttpStatus.unprocessableEntity: //422
-        var responseJson = json.decode(response.body) as Map<String, dynamic>;
-        final listOfErrors = responseJson['errors'] as Map<String, dynamic>;
-        var buffer = StringBuffer();
-        listOfErrors.forEach((key, value) {
-          final result = value as List;
-          for (int i = 0; i < result.length; i++) {
-            final element = result[i];
-            buffer.write(element);
-          }
-        });
-        throw ApiException(buffer.toString());
-
-      default:
-        {
-          final builder = StringBuffer();
-          builder.write('Response Code: ${response.statusCode}');
-          builder.writeln('Result: ${response.body}');
-          throw ApiException(response.body.toString());
+      print('~~~RESPONSE BODY~~~~ : ${response.body}');
+      // alice.onHttpResponse(response);
+      if (response.statusCode == 200) {
+        var mapResponse = json.decode(response.body);
+        if(mapResponse['statusCode'] == 401){
+          expiredAccessToken(response);
+          return;
         }
+        return mapResponse;
+
+      } else {
+        throw new Exception('EXCEPTION');
+      }
+    } on TimeoutException {
+      print(CONNECTION_TIMEOUT);
+      return errorMap(408, CONNECTION_TIMEOUT);
+    } on SocketException {
+      print(SOCKET_EXCEPTION);
+      return errorMap(408, SOCKET_EXCEPTION);
+    } catch (e) {
+      print("Exceptioin ::$e");
+      return errorMap(400, ERROR);
     }
   }
 }
-
-class ApiException implements Exception {
-  final String message;
-
-  ApiException(this.message);
+/*~~~~~this method is used for when access token is exp~~~~*/
+expiredAccessToken(response) {
+  if (response.statusCode == 401) {
+    // logOut();
+  }
 }
+enum apiType { get, post, put }

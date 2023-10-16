@@ -58,18 +58,13 @@ class _InputFieldState extends State<InputField> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: AppClr.inputFieldBg,
-            ),
-            child: TextField(
-              controller: myController,
-              cursorColor: Colors.white,
-              style: const TextStyle(color: Colors.white, fontSize: 14.0),
-              maxLines: 1,
-              onChanged: widget.onChangeText,
-              decoration: InputDecoration(
+          child: TextField(
+            controller: myController,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white, fontSize: 14.0),
+            maxLines: 1,
+            onChanged: widget.onChangeText,
+            decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -77,11 +72,10 @@ class _InputFieldState extends State<InputField> {
                 hintStyle: const TextStyle(color: AppClr.grey2),
                 hintText: widget.hintText,
                 fillColor: AppClr.inputFieldBg,
-              ),
-              keyboardType: widget.inputType,
-              maxLength: widget.maxLength,
-              // maxLength: widget.maxLength,
-            ),
+                counterText: ""),
+            keyboardType: widget.inputType,
+            maxLength: widget.maxLength,
+            // maxLength: widget.maxLength,
           ),
         ),
       ],

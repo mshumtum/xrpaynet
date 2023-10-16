@@ -12,7 +12,7 @@ class PasswordTextField extends StatefulWidget {
       required this.hintText,
       this.inputLabel = "",
       this.onChangeText,
-      this.a = 1});
+      this.a = 20});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -33,23 +33,18 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               )
             : Container(),
         const SizedBox(
-          height: 15,
+          height: 9,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: AppClr.inputFieldBg,
-            ),
-            child: TextField(
-              obscureText: _obscureText, //This will obscure text dynamically
-              controller: myController,
-              cursorColor: Colors.white,
-              style: const TextStyle(color: Colors.white),
-              maxLines: 1,
-              onChanged: widget.onChangeText,
-              decoration: InputDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 17.0),
+          child: TextField(
+            obscureText: _obscureText, //This will obscure text dynamically
+            controller: myController,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white),
+            maxLines: 1,
+            onChanged: widget.onChangeText,
+            decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -68,10 +63,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                     color: AppClr.grey,
                   ),
                 ),
-              ),
-              maxLength: widget.a,
-              keyboardType: TextInputType.visiblePassword,
-            ),
+                counterText: ""),
+            maxLength: widget.a,
+            keyboardType: TextInputType.visiblePassword,
           ),
         ),
       ],

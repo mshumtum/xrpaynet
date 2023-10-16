@@ -22,9 +22,7 @@ class HeadingText extends StatelessWidget {
         title,
         textAlign: textAlign,
         style: TextStyle(
-            color: color,
-            fontSize: textSize,
-            fontWeight: FontWeight.w400),
+            color: color, fontSize: textSize, fontWeight: FontWeight.w400),
       ),
     );
   }

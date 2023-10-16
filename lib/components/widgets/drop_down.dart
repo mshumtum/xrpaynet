@@ -6,14 +6,10 @@ import '../../theme/Colors.dart';
 import '../../theme/Images.dart';
 
 class DropDownField extends StatefulWidget {
-  final String value  ;
-  final Function onClick  ;
+  final String value;
+  final Function onClick;
 
-  const DropDownField(
-      {super.key,
-        this.value = ""
-        ,
-      required this.onClick});
+  const DropDownField({super.key, this.value = "", required this.onClick});
 
   @override
   State<DropDownField> createState() => _DropDownFieldState();
@@ -23,11 +19,12 @@ class _DropDownFieldState extends State<DropDownField> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         widget.onClick();
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        height: 50,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -38,18 +35,19 @@ class _DropDownFieldState extends State<DropDownField> {
           children: [
             Row(
               children: [
-
-                widget.value != "" ?SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: Image.asset(
-                    Images.ic_usdt,
-                    width: 25,
-                    height: 25,
-                  ),
-                ) : Container(),
+                widget.value != ""
+                    ? SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: Image.asset(
+                          Images.ic_usdt,
+                          width: 25,
+                          height: 25,
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(width: 8),
-                 Text(
+                Text(
                   widget.value,
                   style: const TextStyle(
                       color: AppClr.grey,

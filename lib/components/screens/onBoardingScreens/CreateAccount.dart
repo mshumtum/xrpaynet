@@ -7,9 +7,11 @@ import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/components/widgets/text_span_bold.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/theme/Constants.dart';
 
 import '../../../theme/AppTheme.dart';
 import '../../../theme/Colors.dart';
+import '../../utilities/utility.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_password_text_filed.dart';
 
@@ -25,6 +27,10 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool value = false;
+
+  String emailAddress = "";
+  String password = "";
+  String confirmPassword = "";
 
   // for get text field value use this
   // String text = InputField.getText();
@@ -46,23 +52,33 @@ class _CreateAccountState extends State<CreateAccount> {
             const SizedBox(
               height: 46,
             ),
-             InputField(
-                inputLabel: "Email",
-                hintText: 'Enter Email',
-                inputType: TextInputType.emailAddress),
+            InputField(
+              inputLabel: "Email",
+              hintText: 'Enter Email',
+              inputType: TextInputType.emailAddress,
+              onChangeText: (value) {
+                emailAddress = value;
+              },
+            ),
             const SizedBox(
               height: 15,
             ),
             PasswordTextField(
               inputLabel: 'Create Password',
-              hintText: 'Password',
+              hintText: '*********',
+              onChangeText: (value) {
+                password = value;
+              },
             ),
             const SizedBox(
               height: 15,
             ),
             PasswordTextField(
               inputLabel: 'Confirm Password',
-              hintText: 'Confirm Password',
+              hintText: '*********',
+              onChangeText: (value) {
+                confirmPassword = value;
+              },
             ),
             const SizedBox(
               height: 15,
@@ -154,10 +170,25 @@ class _CreateAccountState extends State<CreateAccount> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ButtonPrimary(
-              title: 'Create Account',
+              title: Constants.create_account,
               onClick: () {
+                // if (emailAddress == "") {
+                //   showToast(context, Constants.enter_email_address);
+                // } else if (!isEmailValid(emailAddress)) {
+                //   showToast(context, Constants.enter_valid_email);
+                // } else if (password == "") {
+                //   showToast(context, Constants.enter_password);
+                // } else if (!isPasswordValid(password)) {
+                //   showToast(context,
+                //       Constants.enter_valid_password);
+                // }else if(confirmPassword == ""){
+                //   showToast(context, Constants.enter_confirm_password);
+                // }else if(confirmPassword != password){
+                //   showToast(context, Constants.enter_confirm_password_valid);
+                // }else{
                 _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
                     arguments: {"isFrom": "createAccount"});
+                // }
               }),
           const SizedBox(
             height: 15,
