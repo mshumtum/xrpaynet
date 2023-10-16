@@ -23,10 +23,6 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-
-
-
-
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
   dynamic _funtions;
@@ -35,17 +31,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
 
-    _funtions = FirebaseFunctions.instance;
-    getData();
+    // _funtions = FirebaseFunctions.instance;
+    // getData();
   }
-
 
   Future<void> getData() async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: "sholu@yopmail.com",
-          password: "Test@123"
-      );
+          email: "sholu@yopmail.com", password: "Test@123");
+
       getUserToken(credential.user!.uid);
       print(credential);
     } on FirebaseAuthException catch (e) {
@@ -55,11 +49,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         print('Wrong password provided for that user.');
       }
     }
+    print("getUserDetails====");
     HttpsCallable callable = _funtions.httpsCallable('getUserDetails');
     final results = await callable.call();
-    print(results);
-
+    print(results.data);
   }
+
   Future<String?> getUserToken(String uid) async {
     try {
       final user = await FirebaseAuth.instance.authStateChanges().first;
@@ -68,19 +63,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         return token;
       }
       return null;
-      // UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
-      // // The anonymous sign-in is used to obtain the user's token. You may use another sign-in method that's more suitable for your case.
-      //
-      // User? user = userCredential.user;
-      // if (user != null) {
-      //   String? token = await user.getIdToken();
-      //   print("User's Token: $token");
-      //   // Use the token as needed, e.g., send it to your server.
-      // }
     } catch (e) {
       print("Error getting user token: $e");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

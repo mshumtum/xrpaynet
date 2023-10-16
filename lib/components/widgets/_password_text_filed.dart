@@ -5,12 +5,14 @@ import 'package:xr_paynet/theme/Colors.dart';
 class PasswordTextField extends StatefulWidget {
   final String hintText;
   final String inputLabel;
-
-  PasswordTextField({
-    super.key,
-    required this.hintText,
-    this.inputLabel = "",
-  });
+  final Function(String)? onChangeText;
+  final int a;
+  PasswordTextField(
+      {super.key,
+      required this.hintText,
+      this.inputLabel = "",
+      this.onChangeText,
+      this.a = 1});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -19,7 +21,6 @@ class PasswordTextField extends StatefulWidget {
 class _PasswordTextFieldState extends State<PasswordTextField> {
   bool _obscureText = true;
   final myController = TextEditingController();
-  static String textValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +48,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               cursorColor: Colors.white,
               style: const TextStyle(color: Colors.white),
               maxLines: 1,
-              onChanged: (value) {
-                setState(() {
-                  textValue = value;
-                });
-              },
+              onChanged: widget.onChangeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -72,7 +69,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   ),
                 ),
               ),
-
+              maxLength: widget.a,
               keyboardType: TextInputType.visiblePassword,
             ),
           ),

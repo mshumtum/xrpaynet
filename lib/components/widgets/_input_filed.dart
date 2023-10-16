@@ -12,18 +12,21 @@ import '../../theme/Colors.dart';
 class InputField extends StatefulWidget {
   final String inputLabel;
   final String hintText;
+  final int maxLength;
   final bool readOnly;
   final TextInputType inputType;
   final Function(String)? onChangeText;
   final Function()? onClick;
 
-    InputField(
+  InputField(
       {super.key,
       this.inputLabel = "",
       required this.hintText,
       this.inputType = TextInputType.name,
       this.onChangeText,
-       this.readOnly=false,this.onClick});
+      this.readOnly = false,
+      this.onClick,
+      this.maxLength = 60});
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -65,12 +68,7 @@ class _InputFieldState extends State<InputField> {
               cursorColor: Colors.white,
               style: const TextStyle(color: Colors.white, fontSize: 14.0),
               maxLines: 1,
-              onChanged: (value) {
-                // setState(() {
-                //   textValue = value;
-                // });
-                widget.onChangeText!(value);
-              },
+              onChanged: widget.onChangeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -81,6 +79,8 @@ class _InputFieldState extends State<InputField> {
                 fillColor: AppClr.inputFieldBg,
               ),
               keyboardType: widget.inputType,
+              maxLength: widget.maxLength,
+              // maxLength: widget.maxLength,
             ),
           ),
         ),

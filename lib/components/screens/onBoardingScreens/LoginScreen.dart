@@ -25,6 +25,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
+  var userEmail = "";
+  var userPass = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +46,24 @@ class _LoginPageState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                 InputField(
-                    inputLabel: "Email",
-                    hintText: 'Enter Email',
-                    inputType: TextInputType.emailAddress),
+                InputField(
+                  inputLabel: "Email",
+                  hintText: 'Enter Email',
+                  inputType: TextInputType.emailAddress,
+                  onChangeText: (value) {
+                    userEmail = value;
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),
                 PasswordTextField(
                   inputLabel: 'Password',
                   hintText: 'Password',
+                  onChangeText: (value) {
+                    print(value);
+                    userPass = value;
+                  },
                 ),
                 const SizedBox(
                   height: 15,
