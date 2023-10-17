@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:encrypt/encrypt.dart';
-import 'package:encrypt/encrypt_io.dart';
-import 'package:flutter/services.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 
 abstract class BaseAuth {
@@ -10,31 +8,6 @@ abstract class BaseAuth {
 }
 
 class AsymmetricCrypt extends BaseAuth {
-//   late RSAPublicKey _publicKey;
-//   // RSAPublicKey _privateKey;
-//
-//   @override
-//   String encrypt(dynamic plain) {
-//     print("plain====");
-//     print(plain);
-//     // RSAPublicKey _publicKey = RSAPublicKey.fromString(privateKey);
-//     _publicKey = RSAPublicKey.fromPEM(publicKey);
-//
-//     print("_publicKey====");
-//     print(_publicKey);
-//     var en = _publicKey.encrypt(plain);
-//     print("_EN------");
-//     print(en);
-//
-//     return en;
-//   }
-//
-//   // @override
-//   // String decrypt(String data) {
-//   //   _privateKey ??= RSAPrivateKey.fromString(privateKey);
-//   //   return _privateKey.decrypt(data);
-//   // }
-
   dynamic key = '''-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0ROFngTzPgOjYhwIGj26
 cuXMJ3dvYk1viHUOlkMdn0qUInJXv7YqpVWdzQOYyk0A8W3FxCDBqZZT207NKs5u

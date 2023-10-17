@@ -1,13 +1,16 @@
 
+class ApiRequest {
+  String? dataString;
 
-class LoginRequest {
-  String emailId;
-  String password;
-  LoginRequest({required this.emailId,required this.password});
-  Map toMap(){
-    var map = <String, dynamic>{};
-    map["email_id"] = emailId;
-    map["password"] = password;
-    return map;
+  ApiRequest({this.dataString});
+
+  ApiRequest.fromJson(Map<String, dynamic> json) {
+    dataString = json['dataString'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['dataString'] = this.dataString;
+    return data;
   }
 }
