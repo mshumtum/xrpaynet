@@ -11,6 +11,7 @@ class AppClr {
   static const Color blue = Color(0xFF0E24FE);
   static const Color blue_gradient = Color(0xFF0346FC);
   static const Color black_gradient = Color(0xFF000000);
+  static const Color black_gradient_new = Color(0x3000000);
   static const Color greyButton = Color(0xFFA0A0A4);
   static const Color otpBackground = Color(0xFF171717);
   static const Color resendGreyText = Color(0xFFA5A5A5);

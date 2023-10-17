@@ -174,11 +174,11 @@ class AppTheme {
   );
   static BoxDecoration selectedCardXrPay = BoxDecoration(
     gradient: const LinearGradient(
-      colors: [AppClr.blue_gradient, AppClr.black_gradient],
+      colors: [AppClr.blue_gradient, AppClr.black_gradient_new],
       // Replace with your desired colors
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
-      transform: GradientRotation(182), // Convert degrees to radians
+      transform: GradientRotation(181), // Convert degrees to radians
     ),
     borderRadius: BorderRadius.circular(10.0),
     boxShadow: const [

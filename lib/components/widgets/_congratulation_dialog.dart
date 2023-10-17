@@ -13,13 +13,16 @@ class CongratulationDialog extends StatelessWidget {
   final Function() onClick;
   final String lottieFile;
 
+
   const CongratulationDialog(
       {super.key,
       required this.title,
       required this.descriptions,
       required this.doneTxt,
       required this.onClick,
-      required this.lottieFile});
+      required this.lottieFile
+
+      });
 
   @override
   Widget build(BuildContext context) {

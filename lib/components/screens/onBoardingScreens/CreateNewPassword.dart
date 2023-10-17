@@ -42,14 +42,14 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 ),
                 PasswordTextField(
                   inputLabel: 'Enter New Password',
-                  hintText: 'Password',
+                  hintText: '******',
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 PasswordTextField(
                   inputLabel: 'Confirm Password',
-                  hintText: 'Confirm Password',
+                  hintText: '******',
                 ),
               ])),
           _bottomView()

@@ -212,7 +212,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   fontFamily: AppTheme.fontLight,
                   color: AppClr.white,
                   fontSize: 14.0,
-                  fontWeight: FontWeight.w200),
+                  fontWeight: FontWeight.w300),
             ),
             TextSpan(text: ' and '),
             TextSpan(
@@ -221,7 +221,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 fontFamily: AppTheme.fontLight,
                 color: AppClr.white,
                 fontSize: 14.0,
-                  fontWeight: FontWeight.w200
+                  fontWeight: FontWeight.w300
               ),
             ),
             TextSpan(text: '.'),
@@ -241,22 +241,24 @@ class _CreateAccountState extends State<CreateAccount> {
           ButtonPrimary(
               title: Constants.create_account,
               onClick: () {
-                if (emailAddress == "") {
-                  showToast(context, Constants.enter_email_address);
-                } else if (!isEmailValid(emailAddress)) {
-                  showToast(context, Constants.enter_valid_email);
-                } else if (password == "") {
-                  showToast(context, Constants.enter_password);
-                } else if (!isPasswordValid(password)) {
-                  showToast(context,
-                      Constants.enter_valid_password);
-                }else if(confirmPassword == ""){
-                  showToast(context, Constants.enter_confirm_password);
-                }else if(confirmPassword != password){
-                  showToast(context, Constants.enter_confirm_password_valid);
-                }else{
-                  _userRegister();
-                }
+                _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
+                    arguments: {"isFrom": "createAccount"});
+                // if (emailAddress == "") {
+                //   showToast(context, Constants.enter_email_address);
+                // } else if (!isEmailValid(emailAddress)) {
+                //   showToast(context, Constants.enter_valid_email);
+                // } else if (password == "") {
+                //   showToast(context, Constants.enter_password);
+                // } else if (!isPasswordValid(password)) {
+                //   showToast(context,
+                //       Constants.enter_valid_password);
+                // }else if(confirmPassword == ""){
+                //   showToast(context, Constants.enter_confirm_password);
+                // }else if(confirmPassword != password){
+                //   showToast(context, Constants.enter_confirm_password_valid);
+                // }else{
+                //   _userRegister();
+                // }
               }),
           const SizedBox(
             height: 15,
