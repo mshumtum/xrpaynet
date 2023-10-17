@@ -35,9 +35,6 @@ class _CreateAccountState extends State<CreateAccount> {
   String emailAddress = "";
   String password = "";
   String confirmPassword = "";
-
-  // for get text field value use this
-  // String text = InputField.getText();
   void _userRegister() {
     _registerCubit.registerSubmitted(userData: '');
   }
