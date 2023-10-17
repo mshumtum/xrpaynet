@@ -7,6 +7,7 @@ import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/core/network/AsymmetricCrypt.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Constants.dart';
@@ -123,7 +124,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ButtonPrimary(
                 title: "Login",
                 onClick: () {
-                  _navigationService.navigateWithBack(LoginScreen.routeName);
+                  // _navigationService.navigateWithBack(LoginScreen.routeName);
+                  // var TEST = AsymmetricCrypt().encrypt(
+                  //    );
+                  // print(TEST);
+                  AsymmetricCrypt().encryptData(
+                      {"email": "munish@gmail.com", "password": "Test@132"});
                 },
                 buttonColor: AppClr.greyButton,
               ),
