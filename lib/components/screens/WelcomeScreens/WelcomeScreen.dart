@@ -124,12 +124,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ButtonPrimary(
                 title: "Login",
                 onClick: () {
-                  // _navigationService.navigateWithBack(LoginScreen.routeName);
+                  _navigationService.navigateWithBack(LoginScreen.routeName);
                   // var TEST = AsymmetricCrypt().encrypt(
                   //    );
                   // print(TEST);
-                  AsymmetricCrypt().encryptData(
-                      {"email": "munish@gmail.com", "password": "Test@132"});
+                  // AsymmetricCrypt().encryptData(
+                  //     {"email": "munish@gmail.com", "password": "Test@132"});
                 },
                 buttonColor: AppClr.greyButton,
               ),

@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
   String emailAddress = "";
   String password = "";
-  final LoginCubit _loginCubit = sl<LoginCubit>();
+  final LoginCubit _loginCubit = locator<LoginCubit>();
 
   void _userTryLogin() {
     _loginCubit.loginWithEmailPasswordPressed(userData: '');
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginScreen> {
                   ),
                   PasswordTextField(
                       inputLabel: 'Password',
-                      hintText: 'Password',
+                      hintText: '******',
                       onChangeText: (value) {
                         password = value;
                       }),

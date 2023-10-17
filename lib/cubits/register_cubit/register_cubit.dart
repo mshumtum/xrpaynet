@@ -6,12 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/cubits/auth_bloc/register_bloc/RegisterBloc.dart';
 import '../../components/api_bloc/api_req/ApiRequest.dart';
 import '../../constants/constants.dart';
+import '../../core/Locator.dart';
 import '../auth_bloc/login_bloc/LoginResponse.dart';
 
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  final RegisterBloc _registerBlocHelper = sl<RegisterBloc>();
+  final RegisterBloc _registerBlocHelper = locator<RegisterBloc>();
   RegisterCubit() : super(const RegisterInit());
 
   clearState() {

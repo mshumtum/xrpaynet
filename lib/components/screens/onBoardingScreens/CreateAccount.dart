@@ -29,7 +29,7 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   final NavigationService _navigationService = locator<NavigationService>();
-  final RegisterCubit _registerCubit = sl<RegisterCubit>();
+  final RegisterCubit _registerCubit = locator<RegisterCubit>();
   bool value = false;
 
   String emailAddress = "";
@@ -209,16 +209,19 @@ class _CreateAccountState extends State<CreateAccount> {
             TextSpan(
               text: 'User Agreement',
               style: TextStyle(
+                  fontFamily: AppTheme.fontLight,
                   color: AppClr.white,
                   fontSize: 14.0,
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w200),
             ),
             TextSpan(text: ' and '),
             TextSpan(
               text: 'Privacy Policy',
               style: TextStyle(
+                fontFamily: AppTheme.fontLight,
                 color: AppClr.white,
                 fontSize: 14.0,
+                  fontWeight: FontWeight.w200
               ),
             ),
             TextSpan(text: '.'),

@@ -8,13 +8,14 @@ import 'package:xr_paynet/components/api_bloc/api_req/ApiRequest.dart';
 
 
 import '../../constants/constants.dart';
+import '../../core/Locator.dart';
 import '../auth_bloc/login_bloc/LoginBloc.dart';
 import '../auth_bloc/login_bloc/LoginResponse.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final LoginBloc _loginBlocHelper = sl<LoginBloc>();
+  final LoginBloc _loginBlocHelper = locator<LoginBloc>();
 
   LoginCubit() : super(const LoginInit());
 

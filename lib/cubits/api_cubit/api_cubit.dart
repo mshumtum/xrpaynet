@@ -6,12 +6,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/constants.dart';
+import '../../core/Locator.dart';
 
 part 'api_state.dart';
 
 class ApiCubit extends Cubit<ApiState> {
 
-  final FirebaseFunctions _firebaseFunctions = sl<FirebaseFunctions>();
+  final FirebaseFunctions _firebaseFunctions = locator<FirebaseFunctions>();
   ApiCubit() : super(const ApiInitial());
 
   getUserDetails() async {
