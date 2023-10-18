@@ -1,70 +1,117 @@
-import 'dart:io';
+// import 'package:encrypt/encrypt.dart';
+// import 'package:encrypt/encrypt_io.dart';
+// import 'package:flutter/services.dart';
+// import 'package:pointycastle/asymmetric/api.dart';
+// import 'package:fast_rsa/fast_rsa.dart';
+
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:encrypt/encrypt.dart';
-import 'package:pointycastle/asymmetric/api.dart';
+import 'package:flutter/services.dart';
+import 'package:pointycastle/asymmetric/oaep.dart';
+import 'package:pointycastle/asymmetric/rsa.dart';
+import 'package:pointycastle/pointycastle.dart';
 
 abstract class BaseAuth {
   Future<dynamic> encryptData(dynamic data);
 }
 
 class AsymmetricCrypt extends BaseAuth {
-  dynamic key = '''-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0ROFngTzPgOjYhwIGj26
-cuXMJ3dvYk1viHUOlkMdn0qUInJXv7YqpVWdzQOYyk0A8W3FxCDBqZZT207NKs5u
-L9AoHDJM/DW2EeSdFsl2WuQO9S18+oxAkeBV4xgEwB0gPvTEmAW0B2c5OGPryZFX
-4QksIYB4BoFhXq1jRMDBsHaKZBWscvP28MDxoabSkKcWWFtJrsbuJBrnxChmfzrH
-PhcbGdXY2xb1UJsTy1nP5vfHKQL9VLKskxEbIeVoW4avZtDWw1pygyNz2HjFAblm
-nlBGubJ40PzfJdcrKFJ87rb4ZeU6U62CSzWax/UiDTqIovh4D2OUWClgk7YRTnte
-kQIDAQAB
------END PUBLIC KEY-----''';
-  dynamic privateKey1 = '''-----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEA0ROFngTzPgOjYhwIGj26cuXMJ3dvYk1viHUOlkMdn0qUInJX
-v7YqpVWdzQOYyk0A8W3FxCDBqZZT207NKs5uL9AoHDJM/DW2EeSdFsl2WuQO9S18
-+oxAkeBV4xgEwB0gPvTEmAW0B2c5OGPryZFX4QksIYB4BoFhXq1jRMDBsHaKZBWs
-cvP28MDxoabSkKcWWFtJrsbuJBrnxChmfzrHPhcbGdXY2xb1UJsTy1nP5vfHKQL9
-VLKskxEbIeVoW4avZtDWw1pygyNz2HjFAblmnlBGubJ40PzfJdcrKFJ87rb4ZeU6
-U62CSzWax/UiDTqIovh4D2OUWClgk7YRTntekQIDAQABAoIBACi9+CTB7DCift0o
-fz+11bZ8J1ttf8wVMO3TecM4UvZujw1jYMwgEJFlbLm9wLFzbgKeFJLSm0qT28V5
-xqtXzMsOcjKEbtIbGV7FQQNmwOSXWn7WnWspl4+VusblME/LnTQHeKPzQJDMwa7G
-cfU2mHxm0C27HiiOX84WVajZMyVSqbi5dmKMU3bjIAZaQSMnYf+vYhBQ/QSQmNsU
-y8x7VD2YygzcFvfpj4yoh+N3J4S756VTNXd7R+1dva+fElf0UdaWlYdf4lg91xOA
-jSjHD182pOiuCNw9I7SHHrR5A76jXK3jqQpktN+Lci/N/mwDCgmehGpf/f3kxxJb
-KQWSd50CgYEA/eHZ1BtPeC5/MVhm4gOTHn/tXYE2itJGHrx7bhQAKfDaXUoDm+pl
-mmvPsjraxAzAIm6XwWojg5fY8mWlXY9Ao6kzD6Pg+bgR7XD+LqUcyUYC9wFQ7C/S
-1Z8dz42Tplh2F7GZ6bZK6xX2lyasKhUOpPTkIMyNLcLCQ7arSZ3G4vsCgYEA0tH9
-pFgmRNfk4emq6Ybp48dSr5YzNc4zXwQnlzFqWSD001j9PSkhTKg3Mca34BhzK7Wc
-Y7uOyoOs16oYCEBsarzdvYrE8s6iAYlNjVWxE/fc+XVUjJBdvEckvIg/yTk9lX0k
-d+H3LpX/vHa5mWpCvXrz2Ldu+qQuTgMajFdVLuMCgYBAR3uQYW3IfvVDOB+sX71S
-/o7JmtqFYWHRjGUv5K557/pJnmC1jC43X86RUKds9dF7pkaT+NyPB9Ys4SFyQ7/Y
-8BD2h8aBU2JunKougy17pFdB1Lp5Yk5eOdAhabYVatZTf2r5qmbjiIcLlAYJDZXM
-nBhaWY/xIxtua4SIugLOGwKBgQCc2GoyePqPwWehw+zKLPuZ4VNdGwwifbSufjLO
-Q49xnBlJnC1b8Vu64nOd7tAiQ058OHOPp5zGgkx3by7OBNAkYTs/pxx74MubBQHT
-outJheC7H1W19jomt29XbK64EIQG0cHuBwmVeTd4iYPv5aSdv/nnRCGnC7r/g0Of
-IeJYLQKBgQDKiIXarM1oDk54XroT4eqw28euEw9MSSzaW4ONI+nMlvjA48ViRSvG
-96aC9zU1/U6PrHrBMoOVZqrKTEo0j3KUk3ScTIupJHgaFfUZ4qeIuDo/pHEysW1E
-Nj/DmCXLTaoLM2AiMc6Md5yUF3VanKbnsJyJE+22V2uZUpdwxtdypw==
------END RSA PRIVATE KEY-----
-''';
+//   @override
+//   Future<dynamic> encryptData1(dynamic message) async {
+//     var publicKey = '''-----BEGIN PUBLIC KEY-----
+// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0ROFngTzPgOjYhwIGj26
+// cuXMJ3dvYk1viHUOlkMdn0qUInJXv7YqpVWdzQOYyk0A8W3FxCDBqZZT207NKs5u
+// L9AoHDJM/DW2EeSdFsl2WuQO9S18+oxAkeBV4xgEwB0gPvTEmAW0B2c5OGPryZFX
+// 4QksIYB4BoFhXq1jRMDBsHaKZBWscvP28MDxoabSkKcWWFtJrsbuJBrnxChmfzrH
+// PhcbGdXY2xb1UJsTy1nP5vfHKQL9VLKskxEbIeVoW4avZtDWw1pygyNz2HjFAblm
+// nlBGubJ40PzfJdcrKFJ87rb4ZeU6U62CSzWax/UiDTqIovh4D2OUWClgk7YRTnte
+// kQIDAQAB
+// -----END PUBLIC KEY-----''';
+//     var result =
+//         await RSA.encryptOAEP(message.toString(), "", Hash.SHA256, publicKey);
+//     var result1 = await RSA.encryptPKCS1v15(message.toString(), publicKey);
+//     print(result);
+//     print(result1);
+//
+//     // var result2 = await RSA.encryptOAEPBytes(messageBytes, label, Hash.SHA256, publicKey)
+//     // var result3 = await RSA.encryptPKCS1v15Bytes(messageBytes, publicKey)
+//     return result1;
+//   }
   @override
   Future<dynamic> encryptData(dynamic data) async {
     try {
-      // final publicPem =
-      //     await rootBundle.loadString('assets/pem/public_key.pem');
-      // final privatePem =
-      //     await rootBundle.loadString('assets/pem/private_key.pem');
-      // final publicKeyPem = File(key).readAsStringSync();
-      // final privateKeyPem = File('assets/private_key.pem').readAsStringSync();
+      final publicPem = await rootBundle.loadString('assets/public_key.pem');
+      final privatePem = await rootBundle.loadString('assets/private_key.pem');
+      RSAPrivateKey privateKey =
+          RSAKeyParser().parse(privatePem) as RSAPrivateKey;
+      RSAPublicKey publicKey = RSAKeyParser().parse(publicPem) as RSAPublicKey;
+      // signPKCS1v15-
+      final encrypter = Encrypter(RSA(
+        publicKey: publicKey,
+        encoding: RSAEncoding.OAEP,
+        // digest: RSADigest.SHA1,
+      ));
+      final plainText = 'sadasxzfxfdzfz';
 
-      final publicKey = RSAKeyParser().parse(key) as RSAPublicKey;
-      final privateKey = RSAKeyParser().parse(privateKey1) as RSAPrivateKey;
+      final encrypted = encrypter.encrypt(plainText);
+      print(encrypted.base64);
+      // final decrypted = encrypter.decrypt(Encrypted.fromBase64(
+      //     "ZtwFlX//Y7bC0hfzSzaNen+Xp9W2ArnESwmrMsKPS7I9GoyBb3aYcATZb70bRUTp5DdbrkSEO2TROHzrCyCXmAPCLZYWhJI3nPPObFOon3PHX51vGDYyaq5btXeNWukhYTaF3jYLw7slhLn24MvOud6uWim5x4wdjySvEBklzKw="));
 
-      final signer = Signer(RSASigner(RSASignDigest.SHA256,
-          publicKey: publicKey, privateKey: privateKey));
-
-      print(signer.sign(data.toString()).base64);
-      // print(signer.verify64('hello world', 'jfMhNM2v6hauQr6w3ji0xNOxGInHbeIH3DHlpf2W3vmSMyAuwGHG0KLcunggG4XtZrZPAib7oHaKEAdkHaSIGXAtEqaAvocq138oJ7BEznA4KVYuMcW9c8bRy5E4tUpikTpoO+okHdHr5YLc9y908CAQBVsfhbt0W9NClvDWegs='));;
+      // print("DAT " + decrypted);
     } catch (e) {
+      print("ERROR");
       print(e);
     }
+//     String str = """-----BEGIN PUBLIC KEY-----
+// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0ROFngTzPgOjYhwIGj26
+// cuXMJ3dvYk1viHUOlkMdn0qUInJXv7YqpVWdzQOYyk0A8W3FxCDBqZZT207NKs5u
+// L9AoHDJM/DW2EeSdFsl2WuQO9S18+oxAkeBV4xgEwB0gPvTEmAW0B2c5OGPryZFX
+// 4QksIYB4BoFhXq1jRMDBsHaKZBWscvP28MDxoabSkKcWWFtJrsbuJBrnxChmfzrH
+// PhcbGdXY2xb1UJsTy1nP5vfHKQL9VLKskxEbIeVoW4avZtDWw1pygyNz2HjFAblm
+// nlBGubJ40PzfJdcrKFJ87rb4ZeU6U62CSzWax/UiDTqIovh4D2OUWClgk7YRTnte
+// kQIDAQAB
+// -----END PUBLIC KEY-----""";
+//     RSAPublicKey a = RSAKeyParser().parse(str) as RSAPublicKey;
+//
+//     RSAPublicKey myPublic =
+//         RSAPublicKey(a.modulus as BigInt, a.exponent as BigInt);
+//     // Uint8List rsaEncrypt( Uint8List dataToEncrypt) {
+//     final encryptor = OAEPEncoding(RSAEngine())
+//       ..init(true, PublicKeyParameter<RSAPublicKey>(myPublic)); // true=encrypt
+//
+//     String source = 'Błonie';
+//
+//     List<int> list = utf8.encode(source);
+//     Uint8List bytes = Uint8List.fromList(list);
+//     var a11 = _processInBlocks(encryptor, bytes);
+//     print(a11);
+//     // }
+//   }
+//
+//   Uint8List _processInBlocks(AsymmetricBlockCipher engine, Uint8List input) {
+//     final numBlocks = input.length ~/ engine.inputBlockSize +
+//         ((input.length % engine.inputBlockSize != 0) ? 1 : 0);
+//
+//     final output = Uint8List(numBlocks * engine.outputBlockSize);
+//
+//     var inputOffset = 0;
+//     var outputOffset = 0;
+//     while (inputOffset < input.length) {
+//       final chunkSize = (inputOffset + engine.inputBlockSize <= input.length)
+//           ? engine.inputBlockSize
+//           : input.length - inputOffset;
+//
+//       outputOffset += engine.processBlock(
+//           input, inputOffset, chunkSize, output, outputOffset);
+//
+//       inputOffset += chunkSize;
+//     }
+//
+//     return (output.length == outputOffset)
+//         ? output
+//         : output.sublist(0, outputOffset);
   }
 }

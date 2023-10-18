@@ -12,7 +12,7 @@ class CongratulationDialog extends StatelessWidget {
   final String title, descriptions, doneTxt;
   final Function() onClick;
   final String lottieFile;
-
+  final double horizontalMargin;
 
   const CongratulationDialog(
       {super.key,
@@ -20,9 +20,8 @@ class CongratulationDialog extends StatelessWidget {
       required this.descriptions,
       required this.doneTxt,
       required this.onClick,
-      required this.lottieFile
-
-      });
+      required this.lottieFile,
+      this.horizontalMargin = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class CongratulationDialog extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 30),
+          padding: const EdgeInsets.fromLTRB(25, 10, 25, 30),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               color: AppClr.dialogBackground),
@@ -59,7 +58,11 @@ class CongratulationDialog extends StatelessWidget {
               ),
               Text(
                 title,
-                style: AppTheme.white18Medium,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    color: AppClr.white,
+                    height: 2.5),
               ),
               const SizedBox(
                 height: 15,
@@ -75,7 +78,10 @@ class CongratulationDialog extends StatelessWidget {
               SizedBox(
                 height: 28,
               ),
-              ButtonPrimary(onClick: onClick, title: doneTxt, horizontal: 0)
+              ButtonPrimary(
+                  onClick: onClick,
+                  title: doneTxt,
+                  horizontal: horizontalMargin)
             ],
           ),
         ),

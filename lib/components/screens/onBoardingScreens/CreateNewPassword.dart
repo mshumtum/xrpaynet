@@ -67,16 +67,18 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 context: context,
                 builder: (BuildContext context) {
                   return CongratulationDialog(
-                      title: "Successfully Changed",
-                      descriptions:
-                          "Congratulations your password has been reset",
-                      doneTxt: "Done",
-                      lottieFile: Images.congratulationLottie,
-                      onClick: () {
-                        Navigator.of(context).pop();
-                        _navigationService.navigateWithRemovingAllPrevious(
-                            HomePage.routeName);
-                      });
+                    title: "Successfully Changed",
+                    descriptions:
+                        "Congratulations your password has been reset",
+                    doneTxt: "Done",
+                    lottieFile: Images.congratulationLottie,
+                    onClick: () {
+                      Navigator.of(context).pop();
+                      _navigationService
+                          .navigateWithRemovingAllPrevious(HomePage.routeName);
+                    },
+                    horizontalMargin: 50,
+                  );
                 });
           }),
     );
