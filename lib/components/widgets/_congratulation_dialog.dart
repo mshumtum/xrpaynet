@@ -62,7 +62,7 @@ class CongratulationDialog extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
                     color: AppClr.white,
-                    height: 2.5),
+                    height: 2.4),
               ),
               const SizedBox(
                 height: 15,
@@ -71,7 +71,11 @@ class CongratulationDialog extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Text(
                   descriptions,
-                  style: AppTheme.resendGreyText14,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppClr.resendGreyText,
+                      height: 1.6),
                   textAlign: TextAlign.center,
                 ),
               ),

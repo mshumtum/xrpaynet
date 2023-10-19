@@ -13,7 +13,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class LifeStylePlusApplied extends StatefulWidget {
@@ -219,17 +219,19 @@ class _LifeStylePlusAppliedState extends State<LifeStylePlusApplied> {
                   ),
                 ],
               ),
-              child: Text(
-                statusOfCards,
-                style: TextStyle(
-                  fontSize: 14, // Adjust the font size as needed
-                  fontWeight:
-                      FontWeight.bold, // Adjust the font weight as needed
-                  color: statusOfCards == "ISSUED"
-                      ? AppClr.blue
-                      : AppClr.red, // Adjust the text color as needed
-                ),
-              ),
+              child: statusOfCards != "Rejected"
+                  ? Text(
+                      statusOfCards,
+                      style: TextStyle(
+                        fontSize: 14, // Adjust the font size as needed
+                        fontWeight:
+                            FontWeight.bold, // Adjust the font weight as needed
+                        color: statusOfCards == "ISSUED"
+                            ? AppClr.blue
+                            : AppClr.red, // Adjust the text color as needed
+                      ),
+                    )
+                  : Container(),
             ),
           )
         ],

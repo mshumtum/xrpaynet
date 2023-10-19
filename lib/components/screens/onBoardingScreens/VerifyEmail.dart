@@ -1,20 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateNewPassword.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
+import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/text_span_bold.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
+import 'package:xr_paynet/cubits/card_login_cubit/card_login_cubit.dart';
+import 'package:xr_paynet/cubits/email_verification_cubit/verify_email_cubit.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
+import 'package:xr_paynet/theme/Images.dart';
 
 class VerifyEmailByOTP extends StatefulWidget {
   static const String routeName = '/verify_email_by_otp';
@@ -29,79 +37,157 @@ class VerifyEmailByOTP extends StatefulWidget {
 }
 
 class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
-  // Object? response;
-  // _VerifyEmailByOTPState({this.response});
   final NavigationService _navigationService = locator<NavigationService>();
-  String isFrom = "";
+  final VerifyEmailCubit _verifyCubit = locator<VerifyEmailCubit>();
+  final CardLoginCubit _loginCubit = locator<CardLoginCubit>();
+
+  String isFrom = "", userEmail = "", otp = "", password = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     var params = (widget.arguments as Map);
     isFrom = params["isFrom"];
+    userEmail = params["email"];
+    password = params?["password"] ?? "";
+    print(userEmail);
+    if (isFrom == "LoginScreen") {
+      _verifyCubit.sendEmailVerifyOTP(
+        email: userEmail,
+      );
+    }
+  }
+
+  bool isValid() {
+    return otp.trim().length == 6;
+  }
+
+  void hitApi() {
+    if (isValid()) {
+      _verifyCubit.verifyEmailByOTP(email: userEmail, otp: otp);
+    }
+  }
+
+  void showDialogFunction() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return CongratulationDialog(
+            title: "Successfully Created",
+            descriptions: "Congratulations your account has been created",
+            doneTxt: "Done",
+            lottieFile: Images.congratulationLottie,
+            onClick: () {
+              Navigator.of(context).pop();
+              _navigationService
+                  .navigateWithRemovingAllPrevious(LoginScreen.routeName);
+            },
+            horizontalMargin: 50,
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppClr.black,
-      body: Column(
-        children: [
-          Column(children: [
-            const OnBoardingHeader(
-              title: 'Enter Verification Code',
-              subTitle:
-                  'Enter the 6 digits code that you received on\nyour email.',
-            ),
-            const SizedBox(
-              height: 48,
-            ),
-            OTPTextField(
-              length: 6,
-              width: MediaQuery.of(context).size.width / 1.1,
-              fieldWidth: 50,
-              style: AppTheme.white16w500,
-              otpFieldStyle: OtpFieldStyle(
-                  backgroundColor: AppClr.otpBackground,
-                  focusBorderColor: AppClr.blue),
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldStyle: FieldStyle.box,
-              outlineBorderRadius: 10,
-              onCompleted: (pin) {
-                print("Completed: " + pin);
-              },
-            ),
-            const SizedBox(
-              height: 18,
-            ),
-            TextSpanBold(
-                title: 'Didn’t receive any code?  ',
-                boldText: 'Resend OTP',
-                onClick: () {}),
-          ]),
-          Expanded(
-            child: Container(),
-          ),
-          ButtonPrimary(
-            title: "Continue",
-            onClick: () => {
-              if (isFrom == ForgotPassword.routeName)
-                {
-                  _navigationService
-                      .navigateWithBack(CreateNewPassword.routeName)
-                }
-              else
-                {
-                  _navigationService
-                      .navigateWithRemovingAllPrevious(HomePage.routeName)
-                }
-            },
-          ),
-          SizedBox(
-            height: 15,
-          )
-        ],
-      ),
+      body: BlocConsumer<VerifyEmailCubit, BaseState>(
+          bloc: _verifyCubit,
+          listener: (context, state) async {
+            if (state.main.isFailure) {
+              showError(context, state.main.errorMessage ?? '');
+            }
+            if (state.main.isInProgress) {
+              showLoadingBar(context, "Loading...");
+            }
+            if (state.main.isOtpSent) {
+              showSuccess(context, "OTP sent successfully.");
+            }
+            if (state.main.isSuccess) {
+              hideSnackBar(context);
+              if (isFrom == ForgotPassword.routeName) {
+                print(state.main.token);
+                _navigationService.navigateWithBack(CreateNewPassword.routeName,
+                    arguments: {"token": state.main.token});
+              } else if (isFrom == "LoginScreen") {
+                _loginCubit.loginWithEmailPasswordPressed(
+                    password: password, email: userEmail);
+              } else {
+                showDialogFunction();
+              }
+            }
+          },
+          builder: (context, state) {
+            return Scaffold(
+              backgroundColor: AppClr.black,
+              body: Column(
+                children: [
+                  Column(children: [
+                    const OnBoardingHeader(
+                      title: 'Enter Verification Code',
+                      subTitle:
+                          'Enter the 6 digits code that you received on\nyour email.',
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    OTPTextField(
+                      length: 6,
+                      width: MediaQuery.of(context).size.width / 1.1,
+                      fieldWidth: 50,
+                      style: AppTheme.white16w500,
+                      otpFieldStyle: OtpFieldStyle(
+                          backgroundColor: AppClr.otpBackground,
+                          focusBorderColor: AppClr.blue),
+                      textFieldAlignment: MainAxisAlignment.spaceAround,
+                      fieldStyle: FieldStyle.box,
+                      outlineBorderRadius: 10,
+                      onChanged: (pin) {
+                        setState(() {
+                          otp = pin;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    TextSpanBold(
+                        title: 'Didn’t receive any code?  ',
+                        boldText: 'Resend OTP',
+                        onClick: () {
+                          _verifyCubit.sendEmailVerifyOTP(
+                            email: userEmail,
+                          );
+                        }),
+                  ]),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  ButtonPrimary(
+                    title: "Continue",
+                    onClick: () => {
+                      // if (isFrom == ForgotPassword.routeName)
+                      //   {
+                      //     _navigationService
+                      //         .navigateWithBack(CreateNewPassword.routeName)
+                      //   }
+                      // else
+                      //   {
+                      //     _navigationService
+                      //         .navigateWithRemovingAllPrevious(HomePage.routeName)
+                      //   }
+
+                      hitApi()
+                    },
+                    buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
+            );
+          }),
     );
   }
 }

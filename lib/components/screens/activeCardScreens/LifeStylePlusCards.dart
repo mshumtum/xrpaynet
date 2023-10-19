@@ -68,7 +68,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
               },
             ),
             const SizedBox(
-              height: 35,
+              height: 30,
             ),
             _cardSelection(),
             FlipCard(
@@ -248,13 +248,11 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
       margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: Stack(
         children: [
-          SizedBox(
-            height: 250,
-            child: Image.asset(Images.card_back_img),
-          ),
+          Image.asset(Images.card_back_img,
+              height: 250, width: ClassMediaQuery.screenWidth),
           Positioned(
             right: 0,
-            bottom: 78,
+            bottom: 80,
             child: InkWell(
               onTap: () {
                 _controller.toggleCard();
@@ -266,7 +264,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             ),
           ),
           Positioned(
-              top: 113,
+              top: ClassMediaQuery.screenHeight > 700 ? 117 : 113,
               child: Row(
                 children: [
                   SizedBox(width: ClassMediaQuery.screenWidth / 2.8),
@@ -304,7 +302,8 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 ],
               )),
           Positioned(
-            bottom: 25,
+            bottom: 30,
+            // bottom: ClassMediaQuery.screenHeight > 700 ? 35 : 25,
             left: ClassMediaQuery.screenWidth / 3.5,
             width: ClassMediaQuery.screenWidth / 1.8,
             child: Text(

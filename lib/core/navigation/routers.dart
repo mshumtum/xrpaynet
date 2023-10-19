@@ -59,7 +59,7 @@ class Routers {
         });
       case CreateNewPassword.routeName:
         return _pageRoute(builder: (context) {
-          return const CreateNewPassword();
+          return CreateNewPassword(arguments: arguments);
         });
       case HomePage.routeName:
         return _pageRoute(builder: (context) {

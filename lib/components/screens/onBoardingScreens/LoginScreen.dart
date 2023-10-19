@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/components/screens/homePage/HomePage.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/CreateAccount.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/ForgotPassword.dart';
+import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/Debouncer.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
-import 'package:xr_paynet/theme/Constants.dart';
-import '../../../constants/constants.dart';
-import '../../../cubits/login_cubit/login_cubit.dart';
+import 'package:xr_paynet/cubits/card_login_cubit/card_login_cubit.dart';
+import 'package:xr_paynet/constants/Constants.dart';
+import '../../../constants/FormSubmissionStatus.dart';
 import '../../../theme/Colors.dart';
 import '../../widgets/_button_primary.dart';
 import '../../widgets/_input_filed.dart';
@@ -30,68 +32,51 @@ class _LoginPageState extends State<LoginScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
   String emailAddress = "";
   String password = "";
-  final LoginCubit _loginCubit = locator<LoginCubit>();
+  final CardLoginCubit _loginCubit = locator<CardLoginCubit>();
+  final _debouncer = Debouncer(milliseconds: 500);
 
   void _userTryLogin() {
-    _loginCubit.loginWithEmailPasswordPressed(userData: '');
+    _loginCubit.loginWithEmailPasswordPressed(
+        email: emailAddress.trim(), password: password.trim());
   }
+
+  bool isValid() {
+    return isEmailValid(emailAddress) && isPasswordValid(password);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: AppClr.black, body: _rootUI());
   }
 
   Widget _rootUI() {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<CardLoginCubit, LoginState>(
       bloc: _loginCubit,
       listener: (context, state) async {
         if (state.main.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [Expanded(child: Text(state.main.errorMessage ?? state.main.message ?? '')), const Icon(Icons.error)],
-                ),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
+          showError(
+              context, state.main.errorMessage ?? state.main.message ?? '');
+        }
+        if (state.main.isVerificationPending) {
+          hideSnackBar(context);
+          _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
+              arguments: {
+                "isFrom": "LoginScreen",
+                'email': emailAddress,
+                "password": password
+              });
         }
 
         if (state.main.isInProgress) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Logging In...'),
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
+          showLoadingBar(context, "Loading...");
         }
-
         if (state.main.isSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Logged in successfully'),
-                    Icon(Icons.error),
-                  ],
-                ),
-              ),
-            );
+          showSuccess(context, state.main.message ?? "Logged In");
           _navigationService
               .navigateWithRemovingAllPrevious(HomePage.routeName);
         }
       },
-      builder:(context, state) {
+      builder: (context, state) {
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -101,7 +86,7 @@ class _LoginPageState extends State<LoginScreen> {
                   const OnBoardingHeader(
                     title: 'Login To Your Account',
                     subTitle:
-                    'Enter required details below to access\n your account!',
+                        'Enter required details below to access\n your account!',
                   ),
                   const SizedBox(
                     height: 30,
@@ -111,7 +96,11 @@ class _LoginPageState extends State<LoginScreen> {
                     hintText: 'Enter Email',
                     inputType: TextInputType.emailAddress,
                     onChangeText: (value) {
-                      emailAddress = value;
+                      _debouncer.run(() => {
+                            setState(() {
+                              emailAddress = value;
+                            })
+                          });
                     },
                   ),
                   const SizedBox(
@@ -121,7 +110,11 @@ class _LoginPageState extends State<LoginScreen> {
                       inputLabel: 'Password',
                       hintText: '******',
                       onChangeText: (value) {
-                        password = value;
+                        _debouncer.run(() => {
+                              setState(() {
+                                password = value;
+                              })
+                            });
                       }),
                   const SizedBox(
                     height: 15,
@@ -133,8 +126,7 @@ class _LoginPageState extends State<LoginScreen> {
             ],
           ),
         );
-    },
-
+      },
     );
   }
 
@@ -165,22 +157,24 @@ class _LoginPageState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ButtonPrimary(
-              title: 'Login',
-              onClick: () {
-                _navigationService
-                    .navigateWithRemovingAllPrevious(HomePage.routeName);
-                // if (emailAddress == "") {
-                //   showToast(context, Constants.enter_email_address);
-                // } else if (!isEmailValid(emailAddress)) {
-                //   showToast(context, Constants.enter_valid_email);
-                // } else if (password == "") {
-                //   showToast(context, Constants.enter_password);
-                // } else if (!isPasswordValid(password)) {
-                //   showToast(context, Constants.enter_valid_password);
-                // } else {
-                //   _userTryLogin();
-                // }
-              }),
+            title: 'Login',
+            onClick: () {
+              // _navigationService
+              //     .navigateWithRemovingAllPrevious(HomePage.routeName);
+              if (emailAddress == "") {
+                showError(context, Constants.enter_email_address);
+              } else if (!isEmailValid(emailAddress)) {
+                showError(context, Constants.enter_valid_email);
+              } else if (password == "") {
+                showError(context, Constants.enter_password);
+              } else if (!isPasswordValid(password)) {
+                showError(context, Constants.enter_valid_password);
+              } else {
+                _userTryLogin();
+              }
+            },
+            buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+          ),
           const SizedBox(
             height: 15,
           ),

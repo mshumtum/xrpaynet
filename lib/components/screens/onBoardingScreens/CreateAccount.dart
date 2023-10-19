@@ -3,15 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/Debouncer.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/components/widgets/text_span_bold.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
-import 'package:xr_paynet/cubits/register_cubit/register_cubit.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/cubits/card_register_cubit/card_register_cubit.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 
-import '../../../constants/constants.dart';
+import '../../../constants/FormSubmissionStatus.dart';
 import '../../../theme/AppTheme.dart';
 import '../../../theme/Colors.dart';
 import '../../utilities/utility.dart';
@@ -29,15 +30,17 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   final NavigationService _navigationService = locator<NavigationService>();
-  final RegisterCubit _registerCubit = locator<RegisterCubit>();
-  bool value = false;
-
+  final CardRegisterCubit _registerCubit = locator<CardRegisterCubit>();
+  bool isTermAgreed = false;
   String emailAddress = "";
   String password = "";
   String confirmPassword = "";
+  final _debouncer = Debouncer(milliseconds: 500);
+
   void _userRegister() {
-    _registerCubit.registerSubmitted(userData: '');
+    _registerCubit.registerSubmitted(email: emailAddress, password: password);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,61 +49,28 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
+  bool isValid() {
+    return isEmailValid(emailAddress) &&
+        isPasswordValid(password) &&
+        password == confirmPassword &&
+        isTermAgreed;
+  }
+
   Widget _rootUI() {
-    return BlocConsumer<RegisterCubit, RegisterState>(
+    return BlocConsumer<CardRegisterCubit, RegisterState>(
       bloc: _registerCubit,
       listener: (context, state) async {
         if (state.main.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    Expanded(
-                        child: Text(state.main.errorMessage ??
-                            state.main.message ??
-                            '')),
-                    const Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
+          showError(
+              context, state.main.errorMessage ?? state.main.message ?? '');
         }
-
         if (state.main.isInProgress) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Logging In...'),
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
+          showLoadingBar(context, 'Logging In...');
         }
-
         if (state.main.isSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Logged in successfully'),
-                    Icon(Icons.error),
-                  ],
-                ),
-              ),
-            );
+          showSuccess(context, 'Logged in successfully');
           _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
-              arguments: {"isFrom": "createAccount"});
+              arguments: {"isFrom": "createAccount", 'email': emailAddress});
         }
       },
       builder: (context, state) {
@@ -122,7 +92,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 hintText: 'Enter Email',
                 inputType: TextInputType.emailAddress,
                 onChangeText: (value) {
-                  emailAddress = value;
+                  _debouncer.run(() => {
+                        setState(() {
+                          emailAddress = value;
+                        })
+                      });
                 },
               ),
               const SizedBox(
@@ -132,7 +106,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 inputLabel: 'Create Password',
                 hintText: '*********',
                 onChangeText: (value) {
-                  password = value;
+                  _debouncer.run(() => {
+                        setState(() {
+                          password = value;
+                        })
+                      });
                 },
               ),
               const SizedBox(
@@ -142,7 +120,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 inputLabel: 'Confirm Password',
                 hintText: '*********',
                 onChangeText: (value) {
-                  confirmPassword = value;
+                  _debouncer.run(() => {
+                        setState(() {
+                          confirmPassword = value;
+                        })
+                      });
                 },
               ),
               const SizedBox(
@@ -165,11 +147,11 @@ class _CreateAccountState extends State<CreateAccount> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
         checkColor: Colors.white,
         activeColor: Colors.blue,
-        value: value,
+        value: isTermAgreed,
         onChanged: (bool? value) {
           if (value != null) {
             setState(() {
-              this.value = value;
+              isTermAgreed = value;
             });
           }
         },
@@ -218,11 +200,10 @@ class _CreateAccountState extends State<CreateAccount> {
             TextSpan(
               text: 'Privacy Policy',
               style: TextStyle(
-                fontFamily: AppTheme.fontLight,
-                color: AppClr.white,
-                fontSize: 14.0,
-                  fontWeight: FontWeight.w300
-              ),
+                  fontFamily: AppTheme.fontLight,
+                  color: AppClr.white,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w300),
             ),
             TextSpan(text: '.'),
           ],
@@ -239,27 +220,30 @@ class _CreateAccountState extends State<CreateAccount> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ButtonPrimary(
-              title: Constants.create_account,
-              onClick: () {
-                _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
-                    arguments: {"isFrom": "createAccount"});
-                // if (emailAddress == "") {
-                //   showToast(context, Constants.enter_email_address);
-                // } else if (!isEmailValid(emailAddress)) {
-                //   showToast(context, Constants.enter_valid_email);
-                // } else if (password == "") {
-                //   showToast(context, Constants.enter_password);
-                // } else if (!isPasswordValid(password)) {
-                //   showToast(context,
-                //       Constants.enter_valid_password);
-                // }else if(confirmPassword == ""){
-                //   showToast(context, Constants.enter_confirm_password);
-                // }else if(confirmPassword != password){
-                //   showToast(context, Constants.enter_confirm_password_valid);
-                // }else{
-                //   _userRegister();
-                // }
-              }),
+            title: Constants.create_account,
+            onClick: () {
+              // _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
+              //     arguments: {"isFrom": "createAccount"});
+              if (emailAddress == "") {
+                showError(context, Constants.enter_email_address);
+              } else if (!isEmailValid(emailAddress)) {
+                showError(context, Constants.enter_valid_email);
+              } else if (password == "") {
+                showError(context, Constants.enter_password);
+              } else if (!isPasswordValid(password)) {
+                showError(context, Constants.enter_valid_password);
+              } else if (confirmPassword == "") {
+                showError(context, Constants.enter_confirm_password);
+              } else if (confirmPassword != password) {
+                showError(context, Constants.enter_confirm_password_valid);
+              } else if (!isTermAgreed) {
+                showError(context, Constants.agreeTermAndConditions);
+              } else {
+                _userRegister();
+              }
+            },
+            buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+          ),
           const SizedBox(
             height: 15,
           ),

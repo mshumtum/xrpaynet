@@ -1,11 +1,10 @@
-
-class SuccessResponse<T>{
-  int status = 0;
-  String msg="";
+class SuccessResponse<T> {
+  String status = "0";
+  String msg = "";
 
   SuccessResponse();
 
-  SuccessResponse.exception(String message){
+  SuccessResponse.exception(String message) {
     this.msg = message;
   }
 
@@ -13,5 +12,4 @@ class SuccessResponse<T>{
     status = parsedJson['statusCode'];
     msg = parsedJson['message'];
   }
-
 }

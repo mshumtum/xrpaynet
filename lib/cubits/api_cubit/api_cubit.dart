@@ -5,19 +5,19 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../constants/constants.dart';
+import '../../constants/FormSubmissionStatus.dart';
 import '../../core/Locator.dart';
 
 part 'api_state.dart';
 
 class ApiCubit extends Cubit<ApiState> {
-
   final FirebaseFunctions _firebaseFunctions = locator<FirebaseFunctions>();
   ApiCubit() : super(const ApiInitial());
 
   getUserDetails() async {
     try {
-      HttpsCallable callable = _firebaseFunctions.httpsCallable('getUserDetails');
+      HttpsCallable callable =
+          _firebaseFunctions.httpsCallable('getUserDetails');
       HttpsCallableResult result = await callable.call();
       log("Function called successfully. Result: ${result.data}");
     } catch (e) {

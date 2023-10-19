@@ -32,4 +32,6 @@ class AppClr {
   static const Color unselectedCardGradient1 = Color(0xFF1B2950);
   static const Color unselectedCardGradient2 = Color(0xFF00000000);
   static const Color selectedCardBorder = Color(0xFF131B33);
+  static const Color dividerColor = Color(0xFF262626);
+  static const Color historyDividerColor = Color(0x26FFFFFF);
 }

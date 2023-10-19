@@ -11,7 +11,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class LifeStylePlusApply extends StatefulWidget {

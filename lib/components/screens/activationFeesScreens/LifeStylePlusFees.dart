@@ -175,9 +175,9 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
                 height: 5,
               ),
               _types('Issuance Fee', '\$ 150'),
-              Divider(color: AppClr.grey2, height: 1),
+              Divider(color: AppClr.dividerColor, height: 1),
               _types('Maintenance Fee', '\$ 50'),
-              Divider(color: AppClr.grey2, height: 1),
+              Divider(color: AppClr.dividerColor, height: 1),
               _types('Total Amount', '\$ 200'),
               const SizedBox(
                 height: 10,

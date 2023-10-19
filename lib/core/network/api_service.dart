@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:xr_paynet/core/base_cubit/ApiState.dart';
 import 'message.dart';
 
 // class ApiService {
@@ -75,9 +73,9 @@ class ApiService {
   static Map<String, String> _userHeader = Map();
   // static Alice alice;
 
-  static Map errorMap(int statusCode, String message) {
+  static Map errorMap(String statusCode, String message) {
     Map<String, dynamic> map = Map();
-    map['statusCode'] = statusCode;
+    map['status'] = statusCode;
     map['message'] = message;
 
     return map;
@@ -88,13 +86,15 @@ class ApiService {
   // }
 
   ApiService(String token) {
-    if(token!=""){
+    if (token != "") {
       _userHeader = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       };
-    }else{
-      _userHeader = {};
+    } else {
+      _userHeader = {
+        'Content-Type': 'application/json',
+      };
     }
   }
 
@@ -120,7 +120,7 @@ class ApiService {
           break;
         case apiType.put:
           response = await http
-              .put(url , headers: _userHeader, body: jsonBody)
+              .put(url, headers: _userHeader, body: jsonBody)
               .timeout(_timeoutDuration);
           break;
         case apiType.post:
@@ -130,35 +130,36 @@ class ApiService {
           break;
       }
 
-      print('~~~RESPONSE BODY~~~~ : ${response.body}');
+      print('~~~RESPONSE BODY~~~~ : ${response.body} ${jsonBody}');
       // alice.onHttpResponse(response);
       if (response.statusCode == 200) {
         var mapResponse = json.decode(response.body);
-        if(mapResponse['statusCode'] == 401){
-          expiredAccessToken(response);
-          return;
-        }
         return mapResponse;
-
+      } else if (response.statusCode == 400) {
+        var mapResponse = json.decode(response.body);
+        throw new Exception(mapResponse["errors"]["message"]);
       } else {
-        throw new Exception('EXCEPTION');
+        throw new Exception("EXCEPTION");
       }
+      return response;
     } on TimeoutException {
       print(CONNECTION_TIMEOUT);
-      return errorMap(408, CONNECTION_TIMEOUT);
+      return errorMap("408", CONNECTION_TIMEOUT);
     } on SocketException {
       print(SOCKET_EXCEPTION);
-      return errorMap(408, SOCKET_EXCEPTION);
+      return errorMap("408", SOCKET_EXCEPTION);
     } catch (e) {
-      print("Exceptioin ::$e");
-      return errorMap(400, ERROR);
+      // var d = json.encode(e);
+      return errorMap("400", e.toString().substring(11));
     }
   }
 }
+
 /*~~~~~this method is used for when access token is exp~~~~*/
 expiredAccessToken(response) {
   if (response.statusCode == 401) {
     // logOut();
   }
 }
+
 enum apiType { get, post, put }

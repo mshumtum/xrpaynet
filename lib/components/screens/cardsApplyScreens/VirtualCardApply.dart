@@ -7,7 +7,7 @@ import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 
 import '../../../core/Locator.dart';
 import '../../../core/navigation/navigation_service.dart';

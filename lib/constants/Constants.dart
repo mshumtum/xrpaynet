@@ -25,8 +25,14 @@ class Constants {
   static String enter_email_address = "Please enter your email-address.";
   static String enter_password = "Please enter your password.";
   static String enter_confirm_password = "Please enter confirm password.";
-  static String enter_confirm_password_valid = "Entered passwords do not match.";
+  static String enter_confirm_password_valid =
+      "Entered passwords do not match.";
   static String enter_valid_email = "Please enter valid email-address.";
-  static String enter_valid_password = "Password should have one uppercase, one lowercase, one number, one special character, minimum 6 characters.";
+  static String enter_valid_password =
+      "Password should have one uppercase, one lowercase, one number, one special character, minimum 6 characters.";
+  static String agreeTermAndConditions =
+      "Please agree to the User Agreement and Privacy Policy.";
 
+  //Preference key
+  static String accessToken = "accessToken";
 }

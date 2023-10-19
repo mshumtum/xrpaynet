@@ -13,7 +13,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class LSPFeeByLockXRP extends StatefulWidget {
@@ -149,15 +149,15 @@ class _LSPFeeByLockXRPState extends State<LSPFeeByLockXRP> {
                 height: 5,
               ),
               _types('Locking Period', '45 Days'),
-              Divider(color: AppClr.grey2, height: 1),
+              Divider(color: AppClr.dividerColor, height: 1),
               _types('Lock Amount', '900 XRPayNet'),
               isClubCard
                   ? Container()
                   : Column(
                       children: [
-                        Divider(color: AppClr.grey2, height: 1),
+                        Divider(color: AppClr.dividerColor, height: 1),
                         _types('Maintenance Fee', '100 XRPayNet'),
-                        Divider(color: AppClr.grey2, height: 1),
+                        Divider(color: AppClr.dividerColor, height: 1),
                         _types('Total Amount', '1000 XRPayNet'),
                       ],
                     ),

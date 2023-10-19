@@ -113,17 +113,16 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
 
   Widget _frontCardImage() {
     return Container(
-      height: 250,
+      height: 210,
       width: ClassMediaQuery.screenWidth,
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
       child: Stack(
         children: [
-          SizedBox(
-            height: 250,
-            child: Image.asset(isClubCard
-                ? Images.active_club_front
-                : Images.ic_active_ls_front),
-          ),
+          Image.asset(
+              isClubCard ? Images.active_club_front : Images.ic_active_ls_front,
+              fit: BoxFit.fill,
+              height: 210,
+              width: ClassMediaQuery.screenWidth),
           Container(
             // color: Colors.red,
             margin: EdgeInsets.only(top: 38, right: 8),
@@ -165,78 +164,83 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
 
   Widget _backCardImage() {
     return Container(
-      height: 250,
+      height: 210,
       width: ClassMediaQuery.screenWidth,
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-      child: Stack(
-        children: [
-          SizedBox(
-            height: 250,
-            child: Image.asset(isClubCard
-                ? Images.active_club_back
-                : Images.ic_active_ls_back),
-          ),
-          Positioned(
-            right: 0,
-            bottom: 78,
-            child: InkWell(
-              onTap: () {
-                _controller.toggleCard();
-              },
-              child: Text(
-                'BACK TO MAIN',
-                style: isClubCard ? AppTheme.white11Bold : AppTheme.blue11Bold,
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+      child: Center(
+        child: Stack(
+          children: [
+            Image.asset(
+                isClubCard ? Images.active_club_back : Images.ic_active_ls_back,
+                fit: BoxFit.fill,
+                height: 210,
+                width: ClassMediaQuery.screenWidth),
+            Positioned(
+              right: 7,
+              bottom: 60,
+              // bottom: ClassMediaQuery.screenWidth > 365 ? 78 : 82,
+              child: InkWell(
+                onTap: () {
+                  _controller.toggleCard();
+                },
+                child: Text(
+                  'BACK TO MAIN',
+                  style:
+                      isClubCard ? AppTheme.white11Bold : AppTheme.blue11Bold,
+                ),
               ),
             ),
-          ),
-          Positioned(
-              top: 113,
-              child: Row(
-                children: [
-                  SizedBox(width: ClassMediaQuery.screenWidth / 2.8),
-                  Text(
-                    "CVV 123",
-                    style: AppTheme.black12Bold,
-                  ),
-                  SizedBox(
-                    width: 25,
-                  ),
-                  Text("Prepaid", style: AppTheme.white12Bold)
-                ],
-              )),
-          Positioned(
-            top: 145,
-            left: ClassMediaQuery.screenWidth / 10,
-            child: Text(
-              "0012 3345 6788 0010",
-              style: AppTheme.white16Regular,
+            Positioned(
+                top: 95,
+                child: Row(
+                  children: [
+                    SizedBox(width: ClassMediaQuery.screenWidth / 2.8),
+                    Text(
+                      "CVV 123",
+                      style: AppTheme.black12Bold,
+                    ),
+                    SizedBox(width: ClassMediaQuery.screenWidth / 16),
+                    Text("Prepaid", style: AppTheme.white12Bold)
+                  ],
+                )),
+            Positioned(
+              top: 130,
+              left: ClassMediaQuery.screenWidth / 10,
+              child: Text(
+                "0012 3345 6788 0010",
+                style: AppTheme.white16Regular,
+              ),
             ),
-          ),
-          Positioned(
-              top: 165,
-              child: Row(
-                children: [
-                  SizedBox(width: ClassMediaQuery.screenWidth / 2.1),
-                  Text(
-                    "VALID\nTHRU",
-                    style: AppTheme.white10Regular,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text("11/23", style: AppTheme.white12Bold)
-                ],
-              )),
-          Positioned(
-            bottom: 25,
-            left: ClassMediaQuery.screenWidth / 3.5,
-            width: ClassMediaQuery.screenWidth / 1.8,
-            child: Text(
-              "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
-              style: AppTheme.white10Regular,
-            ),
-          )
-        ],
+            Positioned(
+                bottom: 35,
+                child: Row(
+                  children: [
+                    SizedBox(width: ClassMediaQuery.screenWidth / 2.1),
+                    Text(
+                      "VALID\nTHRU",
+                      style: AppTheme.white10Regular,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text("11/23", style: AppTheme.white12Bold)
+                  ],
+                )),
+            Positioned(
+              // bottom: ClassMediaQuery.screenWidth > 365 ? 25 : 35,
+              bottom: 10,
+              left: ClassMediaQuery.screenWidth / 3.5,
+
+              child: Container(
+                width: ClassMediaQuery.screenWidth / 1.6,
+                child: Text(
+                  "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
+                  style: AppTheme.white10Regular,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -12,7 +12,7 @@ import 'package:xr_paynet/core/network/Cryptom.dart';
 import 'package:xr_paynet/firebaseServices/AuthFunctions.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
-import 'package:xr_paynet/theme/Constants.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/theme/Images.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
