@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -57,6 +58,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                       doneTxt: "Done",
                       lottieFile: Images.logoutFileLottie,
                       onClick: () {
+                        clearXrPayData(context);
                         Navigator.of(context).pop();
                         _navigationService.navigateWithRemovingAllPrevious(
                           WelcomeScreen.routeName,

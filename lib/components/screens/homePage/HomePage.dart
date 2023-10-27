@@ -4,9 +4,11 @@ import 'package:xr_paynet/components/screens/cardsApplyScreens/LifeStylePlusAppl
 import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/VirtualCardApply.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
@@ -25,7 +27,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final NavigationService navigationService = locator<NavigationService>();
 
-  var selectedCard = "clubVirtual";
+  var selectedCard = "lifestylePhysical";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var token = Constants.userAccessToken;
+    print('TOKEM======== $token');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                           doneTxt: "Done",
                           lottieFile: Images.logoutFileLottie,
                           onClick: () {
+                            clearXrPayData(context);
                             Navigator.of(context).pop();
                             navigationService.navigateWithRemovingAllPrevious(
                                 WelcomeScreen.routeName);

@@ -12,7 +12,7 @@ class PasswordTextField extends StatefulWidget {
       required this.hintText,
       this.inputLabel = "",
       this.onChangeText,
-      this.a = 20});
+      this.a = 128});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();

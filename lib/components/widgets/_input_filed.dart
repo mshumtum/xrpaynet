@@ -75,6 +75,7 @@ class _InputFieldState extends State<InputField> {
                 counterText: ""),
             keyboardType: widget.inputType,
             maxLength: widget.maxLength,
+
             // maxLength: widget.maxLength,
           ),
         ),
@@ -87,7 +88,10 @@ class PhoneNumField extends StatefulWidget {
   final String inputLabel;
   final String hintText;
   final String countryCode;
+  final int maxLength;
+  final bool readOnly;
   final TextInputType inputType;
+  final TextEditingController myController;
   final Function(String)? onChangeText;
   final bool isPhonePicker;
   final Function()? onPickerClick;
@@ -98,10 +102,13 @@ class PhoneNumField extends StatefulWidget {
       this.inputLabel = "",
       this.hintText = "",
       this.countryCode = "",
-      this.inputType = TextInputType.name,
+      this.inputType = TextInputType.phone,
       this.onChangeText,
       this.isPhonePicker = false,
+      this.readOnly = false,
+      this.maxLength = 150,
       this.onPickerClick,
+      required this.myController,
       this.onSendClick});
 
   @override
@@ -109,8 +116,6 @@ class PhoneNumField extends StatefulWidget {
 }
 
 class _PhoneNumFieldState extends State<PhoneNumField> {
-  final myController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -164,11 +169,11 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                 Expanded(
                   flex: widget.isPhonePicker ? 5 : 7,
                   child: TextFormField(
-                    controller: myController,
+                    controller: widget.myController,
                     cursorColor: Colors.white,
                     style: AppTheme.white14Regular,
                     maxLines: 1,
-                    maxLength: 15,
+                    maxLength: widget.maxLength,
                     onChanged: (value) {
                       widget.onChangeText!(value);
                     },
@@ -180,15 +185,19 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                       counterText: "",
                     ),
                     keyboardType: widget.inputType,
+                    readOnly: widget.readOnly,
                   ),
                 ),
-                const Expanded(
+                Expanded(
                     flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Text(
-                        "Send Code",
-                        style: AppTheme.white14Regular,
+                    child: GestureDetector(
+                      onTap: widget.onSendClick,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          "Send Code",
+                          style: AppTheme.white14Regular,
+                        ),
                       ),
                     )),
               ],

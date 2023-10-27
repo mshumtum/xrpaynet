@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
+import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
@@ -28,12 +29,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final NavigationService _navigationService = locator<NavigationService>();
   final ForgotPasswordCubit _forgotCubit = locator<ForgotPasswordCubit>();
   String emailAddress = "";
-  bool isValid() {
-    return isEmailValid(emailAddress);
+  bool isValid(BaseState state) {
+    return Validators.isValidEmail(emailAddress) && !state.main.isInProgress;
   }
 
-  void hitSendOtp() {
-    if (isValid()) {
+  void hitSendOtp(BaseState state) {
+    if (isValid(state)) {
       _forgotCubit.sendEmailVerifyOTP(
         email: emailAddress,
       );
@@ -104,9 +105,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ButtonPrimary(
                       title: "Send OTP",
                       onClick: () {
-                        hitSendOtp();
+                        hitSendOtp(state);
                       },
-                      buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+                      buttonColor:
+                          isValid(state) ? AppClr.blue : AppClr.greyButton,
                     ),
                     SizedBox(
                       height: 10,

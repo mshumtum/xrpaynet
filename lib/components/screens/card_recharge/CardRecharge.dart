@@ -51,7 +51,7 @@ class _CardRechargeState extends State<CardRecharge> {
             ),
           ),
           DropDownField(
-            value: "USDT",
+            value: "USDT (ERC20)",
             onClick: () {
               _navigationService.navigateWithBack(ChooseCurrency.routeName);
             },
@@ -59,9 +59,23 @@ class _CardRechargeState extends State<CardRecharge> {
           const SizedBox(
             height: 16,
           ),
-          InputField(
-            inputLabel: "Enter Amount",
-            hintText: 'Enter Amount',
+          Stack(
+            children: [
+              InputField(
+                inputLabel: "Enter Amount",
+                hintText: 'USD Amount',
+              ),
+              Positioned(
+                child: Container(
+                  color: AppClr.inputFieldBg,
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  child: Text("USD", style: AppTheme.white16w500),
+                ),
+                // child:
+                bottom: 14,
+                right: 30,
+              )
+            ],
           ),
           const Padding(
             padding: EdgeInsets.only(right: 20.0, top: 8),

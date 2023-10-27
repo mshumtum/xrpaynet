@@ -35,4 +35,7 @@ class Constants {
 
   //Preference key
   static String accessToken = "accessToken";
+  static String loginAttemptFailTime = "loginAttemptFailTime";
+  //SAVED TOKEN
+  static String userAccessToken = "";
 }

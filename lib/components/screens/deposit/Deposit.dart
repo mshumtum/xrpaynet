@@ -82,7 +82,7 @@ class _DepositState extends State<Deposit> {
                   ),
                 ),
                 DropDownField(
-                  value: "USDT",
+                  value: "USDT (ERC20)",
                   onClick: () {
                     _navigationService
                         .navigateWithBack(ChooseCurrency.routeName);

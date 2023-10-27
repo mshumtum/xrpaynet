@@ -39,58 +39,60 @@ class CongratulationDialog extends StatelessWidget {
   }
 
   contentBox(context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.fromLTRB(25, 10, 25, 30),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              color: AppClr.dialogBackground),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(
-                height: 30,
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 30),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: AppClr.dialogBackground),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Lottie.asset(this.lottieFile, width: 140),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        color: AppClr.white,
+                        height: 2.4),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 1),
+                    child: Text(
+                      descriptions,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: AppClr.resendGreyText,
+                          height: 1.6),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 28,
+                  ),
+                  ButtonPrimary(
+                      onClick: onClick,
+                      title: doneTxt,
+                      horizontal: horizontalMargin)
+                ],
               ),
-              Lottie.asset(this.lottieFile, width: 140),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: AppClr.white,
-                    height: 2.4),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 1),
-                child: Text(
-                  descriptions,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: AppClr.resendGreyText,
-                      height: 1.6),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: 28,
-              ),
-              ButtonPrimary(
-                  onClick: onClick,
-                  title: doneTxt,
-                  horizontal: horizontalMargin)
-            ],
-          ),
-        ),
-      ],
-    );
+            ),
+          ],
+        ));
   }
 }
 

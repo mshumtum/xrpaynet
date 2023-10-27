@@ -96,6 +96,7 @@ dependencies:
   path: ^1.8.2
   # ---- country code picker ------- #
   country_picker: ^2.0.21
+  # ---- Lottie viewer ------- #
   lottie: ^2.6.0
   qr_flutter: ^4.1.0
   flip_card: ^0.7.0
@@ -105,6 +106,7 @@ dependencies:
   pointycastle: ^3.7.3
   encrypt: ^5.0.3
   basic_utils:
+  phone_number: ^2.0.1
 #  fast_rsa: ^3.6.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

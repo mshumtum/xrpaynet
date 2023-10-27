@@ -3,6 +3,7 @@ import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardForm.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
@@ -50,6 +51,7 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
                               doneTxt: "Done",
                               lottieFile: Images.logoutFileLottie,
                               onClick: () {
+                                clearXrPayData(context);
                                 Navigator.of(context).pop();
                                 _navigationService
                                     .navigateWithRemovingAllPrevious(

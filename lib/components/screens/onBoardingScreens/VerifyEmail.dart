@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -40,8 +41,14 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
   final NavigationService _navigationService = locator<NavigationService>();
   final VerifyEmailCubit _verifyCubit = locator<VerifyEmailCubit>();
   final CardLoginCubit _loginCubit = locator<CardLoginCubit>();
+  String isFrom = "",
+      userEmail = "",
+      otp = "",
+      password = "",
+      resendText = "Resend OTP";
+  var counter = 60;
+  late Timer _timer;
 
-  String isFrom = "", userEmail = "", otp = "", password = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -50,7 +57,7 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
     isFrom = params["isFrom"];
     userEmail = params["email"];
     password = params?["password"] ?? "";
-    print(userEmail);
+    timerFunction();
     if (isFrom == "LoginScreen") {
       _verifyCubit.sendEmailVerifyOTP(
         email: userEmail,
@@ -58,12 +65,12 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
     }
   }
 
-  bool isValid() {
-    return otp.trim().length == 6;
+  bool isValid(BaseState state) {
+    return otp.trim().length == 6 && !state.main.isInProgress;
   }
 
-  void hitApi() {
-    if (isValid()) {
+  void hitApi(BaseState state) {
+    if (isValid(state)) {
       _verifyCubit.verifyEmailByOTP(email: userEmail, otp: otp);
     }
   }
@@ -86,6 +93,31 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
             horizontalMargin: 50,
           );
         });
+  }
+
+  void timerFunction() {
+    counter = 60;
+    setButtonText(counter);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      counter--;
+      setButtonText(counter);
+      if (counter == 0) {
+        timer.cancel();
+        setButtonText(counter);
+      }
+    });
+  }
+
+  setButtonText(counter) {
+    var text = "";
+    if (counter == 0) {
+      text = "Resend OTP";
+    } else {
+      text = "00:${counter.toString().padLeft(2, '0')}";
+    }
+    setState(() {
+      resendText = text;
+    });
   }
 
   @override
@@ -152,12 +184,17 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
                       height: 18,
                     ),
                     TextSpanBold(
-                        title: 'Didn’t receive any code?  ',
-                        boldText: 'Resend OTP',
+                        title: 'Did’t receive any code?  ',
+                        boldText: resendText,
                         onClick: () {
-                          _verifyCubit.sendEmailVerifyOTP(
-                            email: userEmail,
-                          );
+                          if (resendText == "Resend OTP" &&
+                              !state.main.isInProgress) {
+                            timerFunction();
+
+                            _verifyCubit.sendEmailVerifyOTP(
+                              email: userEmail,
+                            );
+                          }
                         }),
                   ]),
                   Expanded(
@@ -165,21 +202,9 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
                   ),
                   ButtonPrimary(
                     title: "Continue",
-                    onClick: () => {
-                      // if (isFrom == ForgotPassword.routeName)
-                      //   {
-                      //     _navigationService
-                      //         .navigateWithBack(CreateNewPassword.routeName)
-                      //   }
-                      // else
-                      //   {
-                      //     _navigationService
-                      //         .navigateWithRemovingAllPrevious(HomePage.routeName)
-                      //   }
-
-                      hitApi()
-                    },
-                    buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+                    onClick: () => {hitApi(state)},
+                    buttonColor:
+                        isValid(state) ? AppClr.blue : AppClr.greyButton,
                   ),
                   SizedBox(
                     height: 15,

@@ -4,6 +4,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xr_paynet/cubits/card_apply_cubit/applyVirtualCardCubit.dart';
 import 'package:xr_paynet/cubits/card_login_cubit/card_login_cubit.dart';
 import 'package:xr_paynet/cubits/card_register_cubit/card_register_cubit.dart';
 import 'package:xr_paynet/cubits/email_verification_cubit/create_forgot_password.dart';
@@ -40,6 +41,10 @@ class DependencyInjection {
     if (!locator.isRegistered<CreateForgotPassCubit>()) {
       locator.registerLazySingleton<CreateForgotPassCubit>(
           () => CreateForgotPassCubit());
+    }
+    if (!locator.isRegistered<ApplyVirtualCardCubit>()) {
+      locator.registerLazySingleton<ApplyVirtualCardCubit>(
+          () => ApplyVirtualCardCubit());
     }
   }
 

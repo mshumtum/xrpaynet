@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -94,7 +95,7 @@ class _SetAmountDialogState extends State<SetAmountDialog> {
                 Expanded(
                     child: InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          closeBottomSheet(context);
                         },
                         child: Center(
                             child: Text(
@@ -106,7 +107,7 @@ class _SetAmountDialogState extends State<SetAmountDialog> {
                     child: InkWell(
                         onTap: () {
                           if (myController.text.trim().length > 0) {
-                            Navigator.pop(context);
+                            closeBottomSheet(context);
                             widget.onConfirm!(myController.text);
                           }
                         },

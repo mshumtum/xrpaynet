@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyVirtualCardForm.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -66,6 +67,7 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
                           doneTxt: "Done",
                           lottieFile: Images.logoutFileLottie,
                           onClick: () {
+                            clearXrPayData(context);
                             Navigator.of(context).pop();
                             _navigationService.navigateWithRemovingAllPrevious(
                                 WelcomeScreen.routeName);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -37,7 +38,7 @@ class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
               alignment: Alignment.bottomRight,
               child: InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    closeBottomSheet(context);
                   },
                   child: Image.asset(
                     Images.ic_close,
@@ -78,7 +79,7 @@ class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
               child: ButtonPrimary(
                 title: "Continue",
                 onClick: () {
-                  Navigator.pop(context);
+                  closeBottomSheet(context);
                   widget.onClick(selectedOption);
                 },
                 horizontal: 12,

@@ -76,3 +76,117 @@ class CreateForgotPasswordRequest {
     return data;
   }
 }
+
+class SendCodeOnCardApply {
+  dynamic? medium;
+  dynamic? type;
+
+  SendCodeOnCardApply({
+    this.medium,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data[type] = medium;
+    data["digit"] = 4;
+    return data;
+  }
+}
+
+class ApplyVirtualCardRequest {
+  dynamic? cardType;
+  dynamic? firstName;
+  dynamic? lastName;
+  dynamic? phoneNumber;
+  dynamic? phoneCode;
+  dynamic? email;
+  dynamic? emailCode;
+  dynamic? countryCode;
+  dynamic? cardId;
+
+  ApplyVirtualCardRequest({
+    this.cardType,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.phoneCode,
+    this.email,
+    this.emailCode,
+    this.countryCode,
+    this.cardId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['card_type'] = cardType;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['phone_number'] = phoneNumber;
+    data['phone_code'] = phoneCode;
+    data['email'] = email;
+    data['email_code'] = emailCode;
+    data['country_code'] = countryCode;
+    data['card_id'] = cardId;
+    return data;
+  }
+}
+
+class ApplyPhysicalCardRequest {
+  dynamic? cardType;
+  dynamic? firstName;
+  dynamic? lastName;
+  dynamic? phoneNumber;
+  dynamic? phoneCode;
+  dynamic? email;
+  dynamic? emailCode;
+  dynamic? countryCode;
+  dynamic? cardId;
+  dynamic? gender;
+  dynamic? country;
+  dynamic? currency;
+  dynamic? province;
+  dynamic? city;
+  dynamic? streetAddress;
+  dynamic? postCode;
+
+  ApplyPhysicalCardRequest({
+    this.cardType,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.phoneCode,
+    this.email,
+    this.emailCode,
+    this.countryCode,
+    this.cardId,
+    this.gender,
+    this.country,
+    this.currency,
+    this.province,
+    this.city,
+    this.streetAddress,
+    this.postCode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['card_type'] = cardType;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['phone_number'] = phoneNumber;
+    data['phone_code'] = phoneCode;
+    data['email'] = email;
+    data['email_code'] = emailCode;
+    data['country_code'] = countryCode;
+    data['card_id'] = cardId;
+    data['gender'] = gender;
+    data['country'] = country;
+    data['currency'] = currency;
+    data['province'] = province;
+    data['province'] = city;
+    data['street_address'] = streetAddress;
+    data['post_code'] = postCode;
+    return data;
+  }
+}

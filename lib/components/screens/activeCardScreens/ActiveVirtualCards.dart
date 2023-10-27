@@ -5,6 +5,7 @@ import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -64,6 +65,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
                       doneTxt: "Done",
                       lottieFile: Images.logoutFileLottie,
                       onClick: () {
+                        clearXrPayData(context);
                         Navigator.of(context).pop();
                         _navigationService.navigateWithRemovingAllPrevious(
                           WelcomeScreen.routeName,
@@ -177,7 +179,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
                 width: ClassMediaQuery.screenWidth),
             Positioned(
               right: 7,
-              bottom: 60,
+              bottom: 61,
               // bottom: ClassMediaQuery.screenWidth > 365 ? 78 : 82,
               child: InkWell(
                 onTap: () {
@@ -204,7 +206,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
                   ],
                 )),
             Positioned(
-              top: 130,
+              top: 125,
               left: ClassMediaQuery.screenWidth / 10,
               child: Text(
                 "0012 3345 6788 0010",
@@ -212,7 +214,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
               ),
             ),
             Positioned(
-                bottom: 35,
+                bottom: 38,
                 child: Row(
                   children: [
                     SizedBox(width: ClassMediaQuery.screenWidth / 2.1),

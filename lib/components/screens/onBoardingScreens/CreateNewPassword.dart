@@ -6,6 +6,7 @@ import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart'
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/Debouncer.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
+import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -46,8 +47,12 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     print("token====$token");
   }
 
-  bool isValid() {
-    return isPasswordValid(password) && password == confirmPassword;
+  bool isValid(BaseState state) {
+    print(
+        "PASSWORD-----${password}-------${Validators.isValidPassword(password)}");
+    return Validators.isValidPassword(password) &&
+        password == confirmPassword &&
+        !state.main.isInProgress;
   }
 
   void hitAPI() {
@@ -92,7 +97,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
               if (state.main.isSuccess) {
                 hideSnackBar(context);
 
-                showSuccess(context, "Logged In");
+                showSuccess(
+                    context, "Congratulations your password has been reset.");
                 showDialogFunction();
               }
             },
@@ -138,22 +144,22 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                             },
                           ),
                         ])),
-                    _bottomView()
+                    _bottomView(state)
                   ])));
             }));
   }
 
-  Widget _bottomView() {
+  Widget _bottomView(state) {
     return SizedBox(
       // height: ClassMediaQuery.pendingContainerHeight(1.25),
       child: ButtonPrimary(
           title: 'Submit',
           onClick: () {
-            if (isValid()) {
+            if (isValid(state)) {
               hitAPI();
             }
           },
-          buttonColor: isValid() ? AppClr.blue : AppClr.greyButton),
+          buttonColor: isValid(state) ? AppClr.blue : AppClr.greyButton),
     );
   }
 }

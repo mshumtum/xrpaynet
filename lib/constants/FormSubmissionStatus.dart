@@ -7,4 +7,6 @@ enum FormSubmissionStatus {
   failure,
   canceled,
   pending,
+  attemptFail,
+  checkAttemptFailTime
 }

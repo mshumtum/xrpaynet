@@ -1,11 +1,18 @@
 class Validators {
-  static final RegExp _emailRegExp = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
-  static final RegExp _passwordRegExp = RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"); //one lowercase letter, one uppercase letter, one digit, one special character, and a minimum length of 8 characters.
-  static final RegExp _simplePasswordRegExp = RegExp(r"^(?=.*[a-zA-Z0-9]).{5,}$");
-  static final RegExp _mobileRegExp = RegExp(r"^(?:\+27|0)[1-9](?:\d ?\d{3} ?\d{4}|[1-9]\d ?\d{3} ?\d{3})$");
+  static final RegExp _emailRegExp = RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+  static final RegExp _passwordRegExp = RegExp(
+      r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})"); //one lowercase letter, one uppercase letter, one digit, one special character, and a minimum length of 8 characters.
+  static final RegExp _simplePasswordRegExp =
+      RegExp(r"^(?=.*[a-zA-Z0-9]).{5,}$");
+  static final RegExp _mobileRegExp =
+      RegExp(r"^(?:\+27|0)[1-9](?:\d ?\d{3} ?\d{4}|[1-9]\d ?\d{3} ?\d{3})$");
   static final RegExp _otpRegExp = RegExp(r"^[0-9]{4,8}$");
-  static final RegExp _saIDRegExp = RegExp(r"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))");
-  static final RegExp _isWebsite = RegExp(r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})', caseSensitive: false);
+  static final RegExp _saIDRegExp = RegExp(
+      r"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))");
+  static final RegExp _isWebsite = RegExp(
+      r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})',
+      caseSensitive: false);
   static final RegExp _isHashTag = RegExp(r"^#[a-zA-Z0-9_]*$");
   static final RegExp _isUserName = RegExp(r"^@[a-zA-Z0-9_]*$");
 
@@ -17,7 +24,7 @@ class Validators {
     return false;
   }
 
-  static bool isValidPassword(String password, {bool simple = true}) {
+  static bool isValidPassword(String password, {bool simple = false}) {
     if (password != '') {
       if (simple) {
         return _simplePasswordRegExp.hasMatch(password);
@@ -72,5 +79,11 @@ class Validators {
     }
 
     return false;
+  }
+
+  static bool isNameValid(String name) {
+    const pattern = r'^[a-z A-Z ,.\-]+$';
+    final regExp = RegExp(pattern);
+    return regExp.hasMatch(name.trim());
   }
 }

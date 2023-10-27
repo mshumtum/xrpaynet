@@ -5,6 +5,7 @@ import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCard
 import 'package:xr_paynet/components/screens/lifeStylePlusKYC/LifeStylePlusKYC.dart';
 import 'package:xr_paynet/components/screens/lifeStylePlusKYC/_link_card.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
+import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
@@ -74,6 +75,7 @@ class _LifeStylePlusAppliedState extends State<LifeStylePlusApplied> {
                       doneTxt: "Done",
                       lottieFile: Images.logoutFileLottie,
                       onClick: () {
+                        clearXrPayData(context);
                         Navigator.of(context).pop();
                         _navigationService.navigateWithRemovingAllPrevious(
                           WelcomeScreen.routeName,

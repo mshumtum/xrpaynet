@@ -67,7 +67,7 @@ class _LifeStylePlusFeesState extends State<LifeStylePlusFees> {
             ),
           ),
           DropDownField(
-            value: "USDT",
+            value: "USDT (ERC20)",
             onClick: () {
               _navigationService.navigateWithBack(ChooseCurrency.routeName);
             },

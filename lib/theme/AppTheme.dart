@@ -113,6 +113,11 @@ class AppTheme {
     fontSize: 16,
     color: AppClr.greyWhite,
   );
+  static const TextStyle greyWhite22Medium = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    color: AppClr.greyWhite,
+  );
   static const TextStyle white11Bold = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 11,

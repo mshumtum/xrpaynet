@@ -4,6 +4,7 @@ import 'package:xr_paynet/components/screens/onBoardingScreens/LoginScreen.dart'
 import 'package:xr_paynet/components/screens/onBoardingScreens/VerifyEmail.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/Debouncer.dart';
+import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/components/widgets/text_span_bold.dart';
@@ -35,25 +36,29 @@ class _CreateAccountState extends State<CreateAccount> {
   String emailAddress = "";
   String password = "";
   String confirmPassword = "";
-  final _debouncer = Debouncer(milliseconds: 500);
-
+  final _debouncer = Debouncer(milliseconds: 300);
+  bool get isPopulated =>
+      Validators.isValidEmail(emailAddress) &&
+      Validators.isValidPassword(password) &&
+      password == confirmPassword &&
+      isTermAgreed;
   void _userRegister() {
     _registerCubit.registerSubmitted(email: emailAddress, password: password);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppClr.black,
-      body: _rootUI(),
-    );
+  bool isValid(RegisterState state) {
+    return isPopulated && !state.main.isInProgress;
   }
 
-  bool isValid() {
-    return isEmailValid(emailAddress) &&
-        isPasswordValid(password) &&
-        password == confirmPassword &&
-        isTermAgreed;
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => hideSnackBar1(context, 2),
+      child: Scaffold(
+        backgroundColor: AppClr.black,
+        body: _rootUI(),
+      ),
+    );
   }
 
   Widget _rootUI() {
@@ -131,7 +136,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 height: 15,
               ),
               _agreement(),
-              _bottomView()
+              _bottomView(state)
             ],
           ),
         );
@@ -212,7 +217,7 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  Widget _bottomView() {
+  Widget _bottomView(state) {
     return SizedBox(
       height: 180,
       child: Column(
@@ -222,27 +227,29 @@ class _CreateAccountState extends State<CreateAccount> {
           ButtonPrimary(
             title: Constants.create_account,
             onClick: () {
-              // _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
-              //     arguments: {"isFrom": "createAccount"});
-              if (emailAddress == "") {
-                showError(context, Constants.enter_email_address);
-              } else if (!isEmailValid(emailAddress)) {
-                showError(context, Constants.enter_valid_email);
-              } else if (password == "") {
-                showError(context, Constants.enter_password);
-              } else if (!isPasswordValid(password)) {
-                showError(context, Constants.enter_valid_password);
-              } else if (confirmPassword == "") {
-                showError(context, Constants.enter_confirm_password);
-              } else if (confirmPassword != password) {
-                showError(context, Constants.enter_confirm_password_valid);
-              } else if (!isTermAgreed) {
-                showError(context, Constants.agreeTermAndConditions);
-              } else {
-                _userRegister();
-              }
+              _debouncer.run(() => {
+                    if (emailAddress == "")
+                      {showError(context, Constants.enter_email_address)}
+                    else if (!Validators.isValidEmail(emailAddress))
+                      {showError(context, Constants.enter_valid_email)}
+                    else if (password == "")
+                      {showError(context, Constants.enter_password)}
+                    else if (!Validators.isValidPassword(password))
+                      {showError(context, Constants.enter_valid_password)}
+                    else if (confirmPassword == "")
+                      {showError(context, Constants.enter_confirm_password)}
+                    else if (confirmPassword != password)
+                      {
+                        showError(
+                            context, Constants.enter_confirm_password_valid)
+                      }
+                    else if (!isTermAgreed)
+                      {showError(context, Constants.agreeTermAndConditions)}
+                    else
+                      {_userRegister()}
+                  });
             },
-            buttonColor: isValid() ? AppClr.blue : AppClr.greyButton,
+            buttonColor: isValid(state) ? AppClr.blue : AppClr.greyButton,
           ),
           const SizedBox(
             height: 15,
