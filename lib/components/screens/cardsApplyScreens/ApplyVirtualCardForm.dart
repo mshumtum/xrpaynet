@@ -172,7 +172,8 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                             child: ButtonPrimary(
                               title: "Confirm and Pay",
                               onClick: () {
-                                onConfirmAndPayPress(context);
+                                // onConfirmAndPayPress(context);
+                                showPaymentScreen(context);
                               },
                               buttonColor:
                                   isValid() ? AppClr.blue : AppClr.greyButton,
@@ -220,6 +221,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
         hintText: 'Phone Number',
         isPhonePicker: true,
         countryCode: selectedCountry,
+        countryName: countryName,
         myController: phoneNumber,
         onPickerClick: () {
           showCountryPicker(
@@ -254,6 +256,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
         },
         maxLength: 12,
         onSendClick: () async {
+          print("HERE-----");
           // validate is number valid or not
           try {
             bool isValidNum = await PhoneNumberUtil().validate(
@@ -263,7 +266,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
             setState(() {
               isPhoneNumberValid = isValidNum;
             });
-            print("xfklmd=====${Constants.userAccessToken}");
+            print("xfklmd=====${const PhoneNumField().maxLength}");
 
             if (isValidNum) {
               _applyVirtualCardCubit.sendOTPForVerification(

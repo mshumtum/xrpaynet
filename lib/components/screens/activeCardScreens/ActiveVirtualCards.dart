@@ -2,6 +2,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
@@ -127,7 +128,10 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
               width: ClassMediaQuery.screenWidth),
           Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top: 38, right: 8),
+            margin: EdgeInsets.only(
+              top: 38,
+              right: ClassMediaQuery.screenWidth > 330 ? 10 : 2,
+            ),
             child: Align(
               alignment: Alignment.centerRight,
               child: InkWell(
@@ -178,7 +182,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
                 height: 210,
                 width: ClassMediaQuery.screenWidth),
             Positioned(
-              right: 7,
+              right: ClassMediaQuery.screenWidth > 330 ? 8 : 0,
               bottom: 61,
               // bottom: ClassMediaQuery.screenWidth > 365 ? 78 : 82,
               child: InkWell(

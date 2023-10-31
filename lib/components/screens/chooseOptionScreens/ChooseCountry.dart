@@ -6,40 +6,35 @@ import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/cubits/card_apply_cubit/applyPhysicalCardCubit.dart';
+import 'package:xr_paynet/cubits/card_apply_cubit/responses/CountryListResponse.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Images.dart';
 
 class ChooseCountry extends StatefulWidget {
-  const ChooseCountry({super.key});
+  String countryName;
+  ChooseCountry({super.key, required this.countryName});
 
   @override
   State<ChooseCountry> createState() => _ChooseCountryState();
 }
 
 class _ChooseCountryState extends State<ChooseCountry> {
-  List<String> tempArray = <String>[
-    "England",
-    "United States Of America",
-    "China",
-    "Japan",
-    "Korea",
-    "Turkey",
-    "India",
-    "Russia",
-    "Spain",
-    "Indonesia"
-  ];
-  List<String> array = <String>[];
-  String selectedItem = "England";
+  List<CountryListResult> tempArray = [];
+  List<CountryListResult> array = [];
+  String selectedItem = "";
   bool isSearchVisible = false;
-
+  final ApplyPhysicalCardCubit _applyPhysicalCardCubit =
+      locator<ApplyPhysicalCardCubit>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      array = tempArray;
+      tempArray = _applyPhysicalCardCubit.state.main.countryList?.result ?? [];
+      array = _applyPhysicalCardCubit.state.main.countryList?.result ?? [];
+      selectedItem = widget.countryName;
     });
   }
 
@@ -65,8 +60,9 @@ class _ChooseCountryState extends State<ChooseCountry> {
                 ? SearchField(
                     hintText: "Search",
                     onSearchText: (text) {
-                      List<String> array1 = tempArray.where((item) {
-                        return item
+                      List<CountryListResult> array1 = tempArray.where((item) {
+                        var countryName = item.name ?? "";
+                        return countryName
                             .toLowerCase()
                             .startsWith(text.toLowerCase());
                       }).toList();
@@ -107,7 +103,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
                     // } else {
                     //   selectedIndex = index;
                     // }
-                    selectedItem = array[index];
+                    selectedItem = array[index].name ?? "";
                   });
                 },
                 title: Row(
@@ -118,15 +114,14 @@ class _ChooseCountryState extends State<ChooseCountry> {
                         SizedBox(
                             height: 25,
                             width: 25,
-                            child: CircleImage(
-                              url:
-                                  "https://cdn.britannica.com/25/4825-004-F1975B92/Flag-United-Kingdom.jpg",
+                            child: Text(
+                              array[index].emoji ?? "",
                             )),
                         const SizedBox(width: 8),
                         SizedBox(
                           width: ClassMediaQuery.screenWidth / 1.5,
                           child: Text(
-                            array[index],
+                            array[index].name ?? "",
                             style: const TextStyle(
                               color: AppClr.grey,
                               fontSize: 14,
@@ -137,7 +132,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
                       ],
                     ),
                     // Show the tick icon if the item is selected
-                    if (selectedItem == array[index])
+                    if (selectedItem == array[index].name)
                       Image.asset(
                         Images.ic_blue_tick,
                         width: 13,

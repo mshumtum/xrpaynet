@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/Debouncer.dart';
+import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_heading_text.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 
@@ -17,6 +21,7 @@ class InputField extends StatefulWidget {
   final TextInputType inputType;
   final Function(String)? onChangeText;
   final Function()? onClick;
+  String? validator;
 
   InputField(
       {super.key,
@@ -26,7 +31,8 @@ class InputField extends StatefulWidget {
       this.onChangeText,
       this.readOnly = false,
       this.onClick,
-      this.maxLength = 60});
+      this.maxLength = 60,
+      this.validator});
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -58,7 +64,7 @@ class _InputFieldState extends State<InputField> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: TextField(
+          child: TextFormField(
             controller: myController,
             cursorColor: Colors.white,
             style: const TextStyle(color: Colors.white, fontSize: 14.0),
@@ -72,6 +78,7 @@ class _InputFieldState extends State<InputField> {
                 hintStyle: const TextStyle(color: AppClr.grey2),
                 hintText: widget.hintText,
                 fillColor: AppClr.inputFieldBg,
+                errorText: widget.validator,
                 counterText: ""),
             keyboardType: widget.inputType,
             maxLength: widget.maxLength,
@@ -85,37 +92,68 @@ class _InputFieldState extends State<InputField> {
 }
 
 class PhoneNumField extends StatefulWidget {
-  final String inputLabel;
-  final String hintText;
-  final String countryCode;
+  final String countryCode, countryName, hintText, inputLabel;
   final int maxLength;
   final bool readOnly;
   final TextInputType inputType;
-  final TextEditingController myController;
+  final TextEditingController? myController;
   final Function(String)? onChangeText;
   final bool isPhonePicker;
   final Function()? onPickerClick;
   final Function()? onSendClick;
 
-  const PhoneNumField(
-      {super.key,
-      this.inputLabel = "",
-      this.hintText = "",
-      this.countryCode = "",
-      this.inputType = TextInputType.phone,
-      this.onChangeText,
-      this.isPhonePicker = false,
-      this.readOnly = false,
-      this.maxLength = 150,
-      this.onPickerClick,
-      required this.myController,
-      this.onSendClick});
+  const PhoneNumField({
+    super.key,
+    this.inputLabel = "",
+    this.hintText = "",
+    this.countryCode = "",
+    this.countryName = "",
+    this.inputType = TextInputType.phone,
+    this.onChangeText,
+    this.isPhonePicker = false,
+    this.readOnly = false,
+    this.maxLength = 128,
+    this.onPickerClick,
+    this.myController,
+    this.onSendClick,
+  });
 
   @override
   State<PhoneNumField> createState() => _PhoneNumFieldState();
 }
 
 class _PhoneNumFieldState extends State<PhoneNumField> {
+  String otpButtonText = "Send Code";
+  late Timer _timer;
+
+  onPressSend() {
+    int count = 60;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      count--;
+      print("counter=====$count");
+      String minutes = (count ~/ 60).toString().padLeft(2, '0');
+      String remainingSeconds = (count % 60).toString().padLeft(2, '0');
+      // _loginCubit.updateTimer(timer: count);
+      setState(() {
+        otpButtonText = '${minutes}:${remainingSeconds}';
+      });
+      if (count == 0) {
+        print('Cancel timer');
+        timer.cancel();
+        setState(() {
+          otpButtonText = "Resend Code";
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -168,7 +206,7 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                     : Container(),
                 Expanded(
                   flex: widget.isPhonePicker ? 5 : 7,
-                  child: TextFormField(
+                  child: TextField(
                     controller: widget.myController,
                     cursorColor: Colors.white,
                     style: AppTheme.white14Regular,
@@ -183,6 +221,8 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                       hintText: widget.hintText,
                       fillColor: AppClr.inputFieldBg,
                       counterText: "",
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                     ),
                     keyboardType: widget.inputType,
                     readOnly: widget.readOnly,
@@ -191,13 +231,32 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                 Expanded(
                     flex: 2,
                     child: GestureDetector(
-                      onTap: widget.onSendClick,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text(
-                          "Send Code",
-                          style: AppTheme.white14Regular,
-                        ),
+                      onTap: () async {
+                        if (otpButtonText.contains("Code")) {
+                          widget.onSendClick!();
+                          if (widget.countryCode.isEmpty) {
+                            // for email
+                            onPressSend();
+                          } else {
+                            print("dfsjfdnsf====dffdf====");
+
+                            try {
+                              bool isValidNum =
+                                  await PhoneNumberUtil().validate(
+                                widget.countryCode + widget.myController!.text,
+                                regionCode: widget.countryName,
+                              );
+                              if (isValidNum) {
+                                onPressSend();
+                              }
+                            } catch (err) {}
+                          }
+                        }
+                      },
+                      child: Text(
+                        otpButtonText,
+                        textAlign: TextAlign.center,
+                        style: AppTheme.white14Regular,
                       ),
                     )),
               ],

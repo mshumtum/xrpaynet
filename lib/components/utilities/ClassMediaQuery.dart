@@ -25,6 +25,7 @@ class ClassMediaQuery {
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height -
         (_mediaQueryData.padding.top + _mediaQueryData.padding.bottom);
+
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
     notchHeight = _mediaQueryData.padding.top;

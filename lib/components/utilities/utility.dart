@@ -73,7 +73,11 @@ void showLoadingBar(BuildContext context, String message) {
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(message),
+            Flexible(
+              child: Text(
+                message,
+              ),
+            ),
             CircularProgressIndicator(),
           ],
         ),
@@ -89,7 +93,11 @@ void showSuccess(BuildContext context, String message) {
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(message),
+            Flexible(
+              child: Text(
+                message,
+              ),
+            ),
             Icon(Icons.check),
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/components/screens/activeCardScreens/ActiveVirtualCards.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
@@ -193,20 +194,22 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
 
   Widget _frontCardImage() {
     return Container(
-      height: 250,
+      height: 210,
       width: ClassMediaQuery.screenWidth,
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
       child: Stack(
         children: [
-          SizedBox(
-            height: 250,
-            child: Image.asset(isPhysicalCardSelected
-                ? Images.card_front_img
-                : Images.ic_lsp_visa_card),
-          ),
+          Image.asset(
+              isPhysicalCardSelected
+                  ? Images.card_front_img
+                  : Images.ic_lsp_visa_card,
+              fit: BoxFit.fill,
+              height: 210,
+              width: ClassMediaQuery.screenWidth),
           Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top: 12, right: 8),
+            margin: EdgeInsets.only(
+                top: 12, right: ClassMediaQuery.screenWidth > 330 ? 10 : 2),
             child: Align(
               alignment: Alignment.centerRight,
               child: InkWell(
@@ -245,16 +248,18 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
 
   Widget _backCardImage() {
     return Container(
-      height: 250,
+      height: 210,
       width: ClassMediaQuery.screenWidth,
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
       child: Stack(
         children: [
           Image.asset(Images.card_back_img,
-              height: 250, width: ClassMediaQuery.screenWidth),
+              fit: BoxFit.fill,
+              height: 210,
+              width: ClassMediaQuery.screenWidth),
           Positioned(
-            right: 0,
-            bottom: 80,
+            right: ClassMediaQuery.screenWidth > 330 ? 8 : 0,
+            bottom: 61,
             child: InkWell(
               onTap: () {
                 _controller.toggleCard();
@@ -266,7 +271,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             ),
           ),
           Positioned(
-              top: ClassMediaQuery.screenHeight > 700 ? 117 : 113,
+              top: 95,
               child: Row(
                 children: [
                   SizedBox(width: ClassMediaQuery.screenWidth / 2.8),
@@ -281,7 +286,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 ],
               )),
           Positioned(
-            top: 145,
+            top: 125,
             left: ClassMediaQuery.screenWidth / 10,
             child: Text(
               "0012 3345 6788 0010",
@@ -289,7 +294,7 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
             ),
           ),
           Positioned(
-              top: 165,
+              bottom: 38,
               child: Row(
                 children: [
                   SizedBox(width: ClassMediaQuery.screenWidth / 2.1),
@@ -304,13 +309,16 @@ class _LifeStylePlusCardsState extends State<LifeStylePlusCards> {
                 ],
               )),
           Positioned(
-            bottom: 30,
+            bottom: 10,
+
             // bottom: ClassMediaQuery.screenHeight > 700 ? 35 : 25,
             left: ClassMediaQuery.screenWidth / 3.5,
-            width: ClassMediaQuery.screenWidth / 1.8,
-            child: Text(
-              "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
-              style: AppTheme.black10Regular,
+            child: Container(
+              width: ClassMediaQuery.screenWidth / 1.6,
+              child: Text(
+                "Important: This card is issued by Paytend Europe UAB pursuant to license by VISA.",
+                style: AppTheme.black10Regular,
+              ),
             ),
           )
         ],

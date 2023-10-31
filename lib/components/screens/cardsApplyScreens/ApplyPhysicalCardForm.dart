@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
@@ -13,6 +14,7 @@ import 'package:xr_paynet/components/widgets/_input_filed.dart';
 import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
 import 'package:xr_paynet/cubits/card_apply_cubit/applyPhysicalCardCubit.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import '../../../theme/AppTheme.dart';
@@ -44,147 +46,173 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
   bool isPhoneNumberValid = false, isClubCard = true;
 
   TextEditingController phoneNumber = TextEditingController();
-  TextEditingController email =
-      TextEditingController(text: "munish.antier@gmail.com");
+  TextEditingController email = TextEditingController(text: "");
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _applyPhysicalCardCubit.getSupportedCountry();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppClr.black,
-      body: SingleChildScrollView(
-        child: Column(children: [
-          const Header(
-            title: "Card Application",
-          ),
-          SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 31,
-                  ),
-                  InputField(
-                    inputLabel: "First Name",
-                    hintText: 'Enter first name here',
-                    onChangeText: (value) {
-                      setState(() {
-                        firstName = value;
-                      });
-                    },
-                    maxLength: 50,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  InputField(
-                    inputLabel: "Last Name",
-                    hintText: 'Enter last name here',
-                    onChangeText: (value) {
-                      setState(() {
-                        lastName = value;
-                      });
-                    },
-                    maxLength: 50,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _phoneNum(),
-                  _otpField(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _emailField(),
-                  _otpField(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const HeadingText(
-                    title: 'Gender',
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _genderSelection(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const HeadingText(
-                    title: 'Country',
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _countrySelected(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  InputField(
-                    inputLabel: "Province",
-                    hintText: 'Texas',
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  InputField(
-                    inputLabel: "City",
-                    hintText: 'Texas',
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  InputField(
-                    inputLabel: "Street Address",
-                    hintText: 'Housetown1123',
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  InputField(
-                    inputLabel: "Postcode",
-                    hintText: 'Enter Code',
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: 2, right: 2, top: 40, bottom: 20),
-                    child: ButtonPrimary(
-                      title: "Confirm and Pay",
-                      onClick: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return ChoosePaymentOptions(
-                              onClick: (value) {
-                                print(value);
-                                if (value == "wallet") {
-                                  _navigationService.navigateWithBack(
-                                      LifeStylePlusFees.routeName,
-                                      arguments: {
-                                        "isFrom": "lifestyleVirtual",
-                                        "cardType": "physical"
-                                      });
-                                } else {
-                                  _navigationService.navigateWithBack(
-                                      LSPFeeByLockXRP.routeName,
-                                      arguments: {
-                                        "isFrom": "lifestyleVirtual",
-                                        "cardType": "physical"
-                                      });
-                                }
-                              },
-                            );
+    return BlocConsumer<ApplyPhysicalCardCubit, BaseState>(
+        bloc: _applyPhysicalCardCubit,
+        listener: (context, state) async {
+          if (state.main.isFailure) {
+            showError(context, state.main.errorMessage ?? '');
+          }
+
+          if (state.main.isInProgress) {
+            showLoadingBar(context, "Loading...");
+          }
+          if (state.main.isOtpSent) {
+            showSuccess(context, "OTP sent");
+          }
+          if (state.main.isSuccess) {
+            showSuccess(
+                context, state.main.errorMessage ?? "Information added.");
+            showPaymentScreen(context);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppClr.black,
+            body: SingleChildScrollView(
+              child: Column(children: [
+                const Header(
+                  title: "Card Application",
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 31,
+                        ),
+                        InputField(
+                          inputLabel: "First Name",
+                          hintText: 'Enter first name here',
+                          onChangeText: (value) {
+                            setState(() {
+                              firstName = value;
+                            });
                           },
-                        );
-                      },
-                    ),
-                  )
-                ]),
-          )
-        ]),
-      ),
-    );
+                          maxLength: 50,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        InputField(
+                          inputLabel: "Last Name",
+                          hintText: 'Enter last name here',
+                          onChangeText: (value) {
+                            setState(() {
+                              lastName = value;
+                            });
+                          },
+                          maxLength: 50,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        _phoneNum(),
+                        _otpField(),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        _emailField(),
+                        _otpField(),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const HeadingText(
+                          title: 'Gender',
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        _genderSelection(),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const HeadingText(
+                          title: 'Country',
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        _countrySelected(),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        InputField(
+                          inputLabel: "Province",
+                          hintText: 'Texas',
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        InputField(
+                          inputLabel: "City",
+                          hintText: 'Texas',
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        InputField(
+                          inputLabel: "Street Address",
+                          hintText: 'Housetown1123',
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        InputField(
+                          inputLabel: "Postcode",
+                          hintText: 'Enter Code',
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 2, right: 2, top: 40, bottom: 20),
+                          child: ButtonPrimary(
+                            title: "Confirm and Pay",
+                            onClick: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (BuildContext context) {
+                                  return ChoosePaymentOptions(
+                                    onClick: (value) {
+                                      print(value);
+                                      if (value == "wallet") {
+                                        _navigationService.navigateWithBack(
+                                            LifeStylePlusFees.routeName,
+                                            arguments: {
+                                              "isFrom": "lifestyleVirtual",
+                                              "cardType": "physical"
+                                            });
+                                      } else {
+                                        _navigationService.navigateWithBack(
+                                            LSPFeeByLockXRP.routeName,
+                                            arguments: {
+                                              "isFrom": "lifestyleVirtual",
+                                              "cardType": "physical"
+                                            });
+                                      }
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      ]),
+                )
+              ]),
+            ),
+          );
+        });
   }
 
   Widget _phoneNum() {
@@ -292,7 +320,8 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         Navigator.of(context)
             .push(
               MaterialPageRoute(
-                  builder: (_) => const ChooseCountry(),
+                  builder: (_) =>
+                      ChooseCountry(countryName: selectedCountryName),
                   fullscreenDialog: true),
             )
             .then((val) => {
@@ -331,6 +360,30 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
           ),
         ),
       ),
+    );
+  }
+
+  void showPaymentScreen(context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return ChoosePaymentOptions(
+          onClick: (value) {
+            print(value);
+
+            var cardScreen = isClubCard ? "clubVirtual" : "lifestyleVirtual";
+
+            if (value == "wallet") {
+              _navigationService.navigateWithBack(LifeStylePlusFees.routeName,
+                  arguments: {"isFrom": cardScreen, "cardType": "virtual"});
+            } else {
+              _navigationService.navigateWithBack(LSPFeeByLockXRP.routeName,
+                  arguments: {"isFrom": cardScreen, "cardType": "virtual"});
+            }
+          },
+        );
+      },
     );
   }
 }

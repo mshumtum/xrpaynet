@@ -73,7 +73,7 @@ class _CreateAccountState extends State<CreateAccount> {
           showLoadingBar(context, 'Logging In...');
         }
         if (state.main.isSuccess) {
-          showSuccess(context, 'Logged in successfully');
+          showSuccess(context, state.main.message ?? 'Signed in successfully');
           _navigationService.navigateWithBack(VerifyEmailByOTP.routeName,
               arguments: {"isFrom": "createAccount", 'email': emailAddress});
         }
@@ -103,6 +103,10 @@ class _CreateAccountState extends State<CreateAccount> {
                         })
                       });
                 },
+                validator: !Validators.isValidEmail(emailAddress) &&
+                        emailAddress.isNotEmpty
+                    ? Constants.enterValidEmail
+                    : null,
               ),
               const SizedBox(
                 height: 15,
@@ -117,6 +121,10 @@ class _CreateAccountState extends State<CreateAccount> {
                         })
                       });
                 },
+                validator:
+                    !Validators.isValidPassword(password) && password.isNotEmpty
+                        ? Constants.enterValidPass
+                        : null,
               ),
               const SizedBox(
                 height: 15,
@@ -131,6 +139,9 @@ class _CreateAccountState extends State<CreateAccount> {
                         })
                       });
                 },
+                validator: password != confirmPassword && password.isNotEmpty
+                    ? Constants.enterValidConPass
+                    : null,
               ),
               const SizedBox(
                 height: 15,
@@ -228,25 +239,26 @@ class _CreateAccountState extends State<CreateAccount> {
             title: Constants.create_account,
             onClick: () {
               _debouncer.run(() => {
-                    if (emailAddress == "")
-                      {showError(context, Constants.enter_email_address)}
-                    else if (!Validators.isValidEmail(emailAddress))
-                      {showError(context, Constants.enter_valid_email)}
-                    else if (password == "")
-                      {showError(context, Constants.enter_password)}
-                    else if (!Validators.isValidPassword(password))
-                      {showError(context, Constants.enter_valid_password)}
-                    else if (confirmPassword == "")
-                      {showError(context, Constants.enter_confirm_password)}
-                    else if (confirmPassword != password)
-                      {
-                        showError(
-                            context, Constants.enter_confirm_password_valid)
-                      }
-                    else if (!isTermAgreed)
-                      {showError(context, Constants.agreeTermAndConditions)}
-                    else
-                      {_userRegister()}
+                    // if (emailAddress == "")
+                    //   {showError(context, Constants.enter_email_address)}
+                    // else if (!Validators.isValidEmail(emailAddress))
+                    //   {showError(context, Constants.enter_valid_email)}
+                    // else if (password == "")
+                    //   {showError(context, Constants.enter_password)}
+                    // else if (!Validators.isValidPassword(password))
+                    //   {showError(context, Constants.enter_valid_password)}
+                    // else if (confirmPassword == "")
+                    //   {showError(context, Constants.enter_confirm_password)}
+                    // else if (confirmPassword != password)
+                    //   {
+                    //     showError(
+                    //         context, Constants.enter_confirm_password_valid)
+                    //   }
+                    // else if (!isTermAgreed)
+                    //   {showError(context, Constants.agreeTermAndConditions)}
+                    // else
+                    //   {_userRegister()}
+                    if (isValid(state)) {_userRegister()}
                   });
             },
             buttonColor: isValid(state) ? AppClr.blue : AppClr.greyButton,

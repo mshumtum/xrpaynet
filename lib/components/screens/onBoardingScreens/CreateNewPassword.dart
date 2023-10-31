@@ -11,6 +11,7 @@ import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_password_text_filed.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
@@ -128,6 +129,10 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                     })
                                   });
                             },
+                            validator: !Validators.isValidPassword(password) &&
+                                    password.isNotEmpty
+                                ? Constants.enterValidPass
+                                : null,
                           ),
                           const SizedBox(
                             height: 15,
@@ -142,6 +147,10 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                     })
                                   });
                             },
+                            validator: password != confirmPassword &&
+                                    password.isNotEmpty
+                                ? Constants.enterValidConPass
+                                : null,
                           ),
                         ])),
                     _bottomView(state)

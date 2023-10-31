@@ -34,12 +34,12 @@ class ApiService {
     }
   }
 
-  static hit({
-    required Uri url,
-    Map<String, String>? header,
-    dynamic body,
-    bool encodeData = true,
-  }) async {
+  static hit(
+      {required Uri url,
+      Map<String, String>? header,
+      dynamic body,
+      bool encodeData = true,
+      type = "post"}) async {
     try {
       http.Response response;
       var jsonBody = body;
@@ -48,25 +48,30 @@ class ApiService {
         jsonBody = json.encode(body);
       }
 
-      switch (apiType.post) {
-        case apiType.get:
+      switch (type) {
+        case "get":
           response = await http
               .get(url, headers: _userHeader)
               .timeout(_timeoutDuration);
           break;
-        case apiType.put:
+        case "put":
           response = await http
               .put(url, headers: _userHeader, body: jsonBody)
               .timeout(_timeoutDuration);
           break;
-        case apiType.post:
+        case "post":
           response = await http
               .post(url, headers: _userHeader, body: jsonBody)
+              .timeout(_timeoutDuration);
+        default:
+          response = await http
+              .get(url, headers: _userHeader)
               .timeout(_timeoutDuration);
           break;
       }
 
-      print('~~~RESPONSE BODY~~~~ : ${response.body} ${jsonBody}');
+      print(
+          '~~~RESPONSE BODY~~~~ : ${type} ${apiType.post} ${response.body} ${jsonBody}');
       print(response.statusCode);
       // alice.onHttpResponse(response);
       if (response.statusCode == 200) {
@@ -81,7 +86,6 @@ class ApiService {
       } else {
         throw new Exception("EXCEPTION");
       }
-      return response;
     } on TimeoutException {
       print(CONNECTION_TIMEOUT);
       return errorMap("408", CONNECTION_TIMEOUT);

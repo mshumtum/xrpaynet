@@ -66,6 +66,9 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
                 _cardSelection(),
                 _cardImg(),
                 _details(),
+                const SizedBox(
+                  height: 25,
+                ),
                 _certified(),
                 const SizedBox(
                   height: 25,

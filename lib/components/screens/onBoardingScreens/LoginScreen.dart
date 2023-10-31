@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginScreen> {
   final CardLoginCubit _loginCubit = locator<CardLoginCubit>();
   final _debouncer = Debouncer(milliseconds: 500);
   late Timer _timer;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -202,18 +203,27 @@ class _LoginPageState extends State<LoginScreen> {
                             emailAddress = value;
                           }));
                     },
+                    validator: !Validators.isValidEmail(emailAddress) &&
+                            emailAddress.isNotEmpty
+                        ? Constants.enterValidEmail
+                        : null,
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                   PasswordTextField(
-                      inputLabel: 'Password',
-                      hintText: '******',
-                      onChangeText: (value) {
-                        _debouncer.run(() => setState(() {
-                              password = value;
-                            }));
-                      }),
+                    inputLabel: 'Password',
+                    hintText: '******',
+                    onChangeText: (value) {
+                      _debouncer.run(() => setState(() {
+                            password = value;
+                          }));
+                    },
+                    validator: !Validators.isValidPassword(password) &&
+                            password.isNotEmpty
+                        ? Constants.enterValidPass
+                        : null,
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -259,16 +269,17 @@ class _LoginPageState extends State<LoginScreen> {
                   title: buttonTitle,
                   onClick: () {
                     _debouncer.run(() => {
-                          if (emailAddress == "")
-                            {showError(context, Constants.enter_email_address)}
-                          else if (!Validators.isValidEmail(emailAddress))
-                            {showError(context, Constants.enter_valid_email)}
-                          else if (password == "")
-                            {showError(context, Constants.enter_password)}
-                          else if (!Validators.isValidPassword(password))
-                            {showError(context, Constants.enter_valid_password)}
-                          else //if (buttonTitle == "Login")
-                            {_userTryLogin()}
+                          // if (emailAddress == "")
+                          //   {showError(context, Constants.enter_email_address)}
+                          // else if (!Validators.isValidEmail(emailAddress))
+                          //   {showError(context, Constants.enter_valid_email)}
+                          // else if (password == "")
+                          //   {showError(context, Constants.enter_password)}
+                          // else if (!Validators.isValidPassword(password))
+                          //   {showError(context, Constants.enter_valid_password)}
+                          // else //if (buttonTitle == "Login")
+                          //   {_userTryLogin()}
+                          if (isValid(state)) {_userTryLogin()}
                         });
                   },
                   buttonColor: isValid(state) ? AppClr.blue : AppClr.greyButton,

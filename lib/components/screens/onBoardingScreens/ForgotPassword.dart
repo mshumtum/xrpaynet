@@ -9,6 +9,7 @@ import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/components/widgets/_input_filed.dart';
+import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
@@ -95,6 +96,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               emailAddress = value;
                             });
                           },
+                          validator: !Validators.isValidEmail(emailAddress) &&
+                                  emailAddress.isNotEmpty
+                              ? Constants.enterValidEmail
+                              : null,
                         ),
                         SizedBox(
                           height: 18,

@@ -179,8 +179,10 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(top: 28),
             child: Column(children: [
               Container(
+                padding: EdgeInsets.only(left: 3),
                 alignment: Alignment.bottomRight,
                 child: Text("LIFESTYLE PLUS \$ 99.00",
+                    textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 14,
                       color: isSelected ? AppClr.white : AppClr.greyText,

@@ -7,12 +7,15 @@ class PasswordTextField extends StatefulWidget {
   final String inputLabel;
   final Function(String)? onChangeText;
   final int a;
+  String? validator;
+
   PasswordTextField(
       {super.key,
       required this.hintText,
       this.inputLabel = "",
       this.onChangeText,
-      this.a = 128});
+      this.a = 128,
+      this.validator});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -63,6 +66,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                     color: AppClr.grey,
                   ),
                 ),
+                errorText: widget.validator,
                 counterText: ""),
             maxLength: widget.a,
             keyboardType: TextInputType.visiblePassword,
