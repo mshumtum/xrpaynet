@@ -71,7 +71,7 @@ class ApiService {
       }
 
       print(
-          '~~~RESPONSE BODY~~~~ : ${type} ${apiType.post} ${response.body} ${jsonBody}');
+          '~~~RESPONSE BODY~~~~ : ${type} ${response.body}');
       print(response.statusCode);
       // alice.onHttpResponse(response);
       if (response.statusCode == 200) {
@@ -83,8 +83,10 @@ class ApiService {
           return throw new Exception(mapResponse["error"]);
         }
         throw new Exception(mapResponse["errors"]["message"]);
-      } else {
-        throw new Exception("EXCEPTION");
+      } else if (response.statusCode == 429) {
+        throw new Exception("Maximum limit reached. Try again in one minute.");
+      }else {
+        throw new Exception(CONNECTION_TIMEOUT);
       }
     } on TimeoutException {
       print(CONNECTION_TIMEOUT);

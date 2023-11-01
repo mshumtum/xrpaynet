@@ -6,6 +6,8 @@ import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 //Check for internet Connection
 Future<bool> isConnectedToInternet() async {
   try {
@@ -53,10 +55,12 @@ closeBottomSheet(BuildContext context) {
 // }
 
 void showError(BuildContext context, String message) {
+
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
+        // key: _scaffoldKey,
         content: Row(
           children: [Expanded(child: Text(message)), const Icon(Icons.error)],
         ),

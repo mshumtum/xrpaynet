@@ -44,7 +44,7 @@ class Constants {
   //SAVED TOKEN
   static String userAccessToken = "";
   // API TYPE
-  static String GET = "GET";
-  static String PUT = "PUT";
-  static String POST = "POST";
+  static String GET = "get";
+  static String PUT = "put";
+  static String POST = "post";
 }

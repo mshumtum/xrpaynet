@@ -124,7 +124,7 @@ class PhoneNumField extends StatefulWidget {
 
 class _PhoneNumFieldState extends State<PhoneNumField> {
   String otpButtonText = "Send Code";
-  late Timer _timer;
+  Timer? _timer;
 
   onPressSend() {
     int count = 60;
@@ -151,7 +151,8 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
+    // print("_timer====+$_timer");
   }
 
   @override

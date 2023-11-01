@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
@@ -60,6 +59,11 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
       email.text = _userDataCubit.state.main.userInfo?.email ?? "";
     });
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   bool isValid() {
     return Validators.isNameValid(firstName) &&
@@ -69,7 +73,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
         emailSecurityCode.length == 4;
   }
 
-  void onConfirmAndPayPress(BuildContext context) {
+  void onConfirmAndPayPress() {
     if (!Validators.isNameValid(firstName)) {
       showError(context, "Enter valid first name.");
     } else if (!Validators.isNameValid(lastName)) {
@@ -175,8 +179,8 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                             child: ButtonPrimary(
                               title: "Confirm and Pay",
                               onClick: () {
-                                // onConfirmAndPayPress(context);
-                                showPaymentScreen(context);
+                                onConfirmAndPayPress();
+                                // showPaymentScreen(context);
                               },
                               buttonColor:
                                   isValid() ? AppClr.blue : AppClr.greyButton,

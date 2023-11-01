@@ -296,6 +296,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         inputLabel: "Email",
         hintText: 'Enter your email',
         isPhonePicker: false,
+        readOnly: true,
         myController: email,
         onSendClick: () {});
   }
