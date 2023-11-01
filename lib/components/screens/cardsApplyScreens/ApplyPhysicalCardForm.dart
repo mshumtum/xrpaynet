@@ -16,6 +16,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
 import 'package:xr_paynet/cubits/card_apply_cubit/applyPhysicalCardCubit.dart';
+import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import '../../../theme/AppTheme.dart';
 import '../../widgets/_button_primary.dart';
@@ -35,6 +36,8 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
   final NavigationService _navigationService = locator<NavigationService>();
   final ApplyPhysicalCardCubit _applyPhysicalCardCubit =
       locator<ApplyPhysicalCardCubit>();
+  final UserDataCubit _userDataCubit = locator<UserDataCubit>();
+
   String selectedCountryName = "England";
   bool isSelected = true;
   String selectedCountry = "91",
@@ -51,6 +54,9 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      email.text = _userDataCubit.state.main.userInfo?.email ?? "";
+    });
     _applyPhysicalCardCubit.getSupportedCountry();
   }
 
@@ -290,19 +296,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         inputLabel: "Email",
         hintText: 'Enter your email',
         isPhonePicker: false,
-        myController: phoneNumber,
-        countryCode: selectedCountry,
-        onPickerClick: () {
-          showCountryPicker(
-            context: context,
-            onSelect: (Country country) {
-              setState(() {
-                selectedCountry = country.phoneCode;
-              });
-            },
-            showPhoneCode: false,
-          );
-        },
+        myController: email,
         onSendClick: () {});
   }
 

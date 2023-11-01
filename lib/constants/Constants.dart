@@ -31,7 +31,7 @@ class Constants {
   static String enter_valid_password =
       "Password should have one uppercase, one lowercase, one number, one special character, minimum 6 characters.";
   static String agreeTermAndConditions =
-      "Please agree to the User Agreement and Privacy Policy.";
+      "Please agree to the Use89090888r Agreement and Privacy Policy.";
 
   // VALIDATOR
   static String enterValidEmail = "Enter a valid email address";

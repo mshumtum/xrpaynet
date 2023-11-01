@@ -11,6 +11,7 @@ import 'package:xr_paynet/cubits/card_register_cubit/card_register_cubit.dart';
 import 'package:xr_paynet/cubits/email_verification_cubit/create_forgot_password.dart';
 import 'package:xr_paynet/cubits/email_verification_cubit/forgot_password_cubit.dart';
 import 'package:xr_paynet/cubits/email_verification_cubit/verify_email_cubit.dart';
+import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 
 import '../constants/FormSubmissionStatus.dart';
 import '../cubits/api_cubit/api_cubit.dart';
@@ -50,6 +51,9 @@ class DependencyInjection {
     if (!locator.isRegistered<ApplyPhysicalCardCubit>()) {
       locator.registerLazySingleton<ApplyPhysicalCardCubit>(
           () => ApplyPhysicalCardCubit());
+    }
+    if (!locator.isRegistered<UserDataCubit>()) {
+      locator.registerLazySingleton<UserDataCubit>(() => UserDataCubit());
     }
   }
 

@@ -11,6 +11,7 @@ import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/constants/Constants.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/theme/Images.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final NavigationService navigationService = locator<NavigationService>();
+  final UserDataCubit _userDataCubit = locator<UserDataCubit>();
 
   var selectedCard = "lifestylePhysical";
 
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     var token = Constants.userAccessToken;
     print('TOKEM======== $token');
+    _userDataCubit.getUserDetailsFun();
   }
 
   @override

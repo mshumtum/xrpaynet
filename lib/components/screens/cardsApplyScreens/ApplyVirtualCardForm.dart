@@ -13,6 +13,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
 import 'package:xr_paynet/cubits/card_apply_cubit/applyVirtualCardCubit.dart';
+import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 
@@ -33,6 +34,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
   final NavigationService _navigationService = locator<NavigationService>();
   final ApplyVirtualCardCubit _applyVirtualCardCubit =
       locator<ApplyVirtualCardCubit>();
+  final UserDataCubit _userDataCubit = locator<UserDataCubit>();
 
   String selectedCountry = "91",
       countryName = "IN",
@@ -43,19 +45,20 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
   bool isPhoneNumberValid = false, isClubCard = true;
 
   TextEditingController phoneNumber = TextEditingController();
-  TextEditingController email =
-      TextEditingController(text: "munish.antier@gmail.com");
+  TextEditingController email = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     var params = (widget?.arguments as Map);
     if (params["isFrom"] == "lifestyleVirtual") {
       setState(() {
         isClubCard = false;
       });
     }
+    setState(() {
+      email.text = _userDataCubit.state.main.userInfo?.email ?? "";
+    });
   }
 
   bool isValid() {

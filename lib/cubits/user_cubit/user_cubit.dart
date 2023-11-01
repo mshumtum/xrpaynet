@@ -12,7 +12,7 @@ class UserDataCubit extends Cubit<UserState> {
     emit(const BaseInit());
   }
 
-  getSupportedCountry() async {
+  getUserDetailsFun() async {
     try {
       ApiService(Constants.userAccessToken);
 
