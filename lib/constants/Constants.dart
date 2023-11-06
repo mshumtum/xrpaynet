@@ -38,11 +38,20 @@ class Constants {
   static String enterValidPass = "Enter a valid password";
   static String enterValidConPass = "Passwords don\'t match";
 
+  static String enterValidFirstName = "Enter valid first name.";
+  static String enterValidLastName = "Enter valid last name.";
+  static String enterValidProvince = "Enter valid province name.";
+  static String enterValidCity = "Enter valid city name.";
+  static String enterValidAddress = "Enter valid address.";
+  static String enterValidPostal = "Enter valid postal code.";
+
+
   //Preference key
   static String accessToken = "accessToken";
   static String loginAttemptFailTime = "loginAttemptFailTime";
   //SAVED TOKEN
   static String userAccessToken = "";
+  static String defaultCurrency = "\$";
   // API TYPE
   static String GET = "get";
   static String PUT = "put";

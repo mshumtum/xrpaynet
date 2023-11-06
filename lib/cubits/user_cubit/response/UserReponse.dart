@@ -1,14 +1,14 @@
 class UserDataResponse {
   String? status;
   String? message;
-  Data? data;
+  UserData? data;
 
   UserDataResponse({this.status, this.message, this.data});
 
   UserDataResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new UserData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,13 +22,13 @@ class UserDataResponse {
   }
 }
 
-class Data {
+class UserData {
   UserInfo? userInfo;
   List<CardInfo>? cardInfo;
 
-  Data({this.userInfo, this.cardInfo});
+  UserData({this.userInfo, this.cardInfo});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     userInfo = json['userInfo'] != null
         ? new UserInfo.fromJson(json['userInfo'])
         : null;

@@ -46,6 +46,8 @@ class ApplyVirtualCardCubit extends Cubit<BaseState> {
     required String email,
     required int emailCode,
     required String countryCode,
+    required String countryName,
+    required int cardId,
   }) async {
     emit(BaseLoading(
         state.main.copyWith(status: FormSubmissionStatus.inProgress)));
@@ -59,7 +61,10 @@ class ApplyVirtualCardCubit extends Cubit<BaseState> {
           lastName: lastName,
           phoneCode: phoneCode,
           phoneNumber: phoneNum,
-          cardId: 1223344);
+          country: countryName,
+          cardId: cardId,
+          // currentTime:  DateTime.now().millisecondsSinceEpoch
+      );
       print("request-----${request.toJson()}");
       ApiService(Constants.userAccessToken);
 

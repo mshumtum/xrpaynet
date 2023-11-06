@@ -1,12 +1,14 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:otp_text_field/otp_field.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
 import 'package:xr_paynet/components/screens/chooseOptionScreens/ChooseCountry.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
+import 'package:xr_paynet/components/utilities/validators.dart';
 import 'package:xr_paynet/components/widgets/_bottom_sheets.dart';
 import 'package:xr_paynet/components/widgets/_gender_selection.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
@@ -16,6 +18,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
 import 'package:xr_paynet/cubits/card_apply_cubit/applyPhysicalCardCubit.dart';
+import 'package:xr_paynet/cubits/user_cubit/response/UserReponse.dart';
 import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import '../../../theme/AppTheme.dart';
@@ -38,26 +41,122 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
       locator<ApplyPhysicalCardCubit>();
   final UserDataCubit _userDataCubit = locator<UserDataCubit>();
 
-  String selectedCountryName = "England";
+  String selectedCountryName = "United Kingdom";
   bool isSelected = true;
   String selectedCountry = "91",
       countryName = "IN",
       firstName = "",
       lastName = "",
       phoneSecurityCode = "",
-      emailSecurityCode = "";
-  bool isPhoneNumberValid = false, isClubCard = true;
+      emailSecurityCode = "",
+      province = "",
+      city = "",
+      streetAddress = "",
+      postCode = "";
+  bool isPhoneNumberValid = false;
+  final phoneController = OtpFieldController();
+  bool isMaleSelected = true;
 
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController email = TextEditingController(text: "");
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      email.text = _userDataCubit.state.main.userInfo?.email ?? "";
+      email.text = _userDataCubit.state.main.userData?.userInfo?.email ?? "";
+
     });
     _applyPhysicalCardCubit.getSupportedCountry();
+
+    if(_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false){
+      int totalCard = _userDataCubit.state.main.userData?.cardInfo?.length ?? 0;
+      for(int i = 0; i < totalCard; i++){
+
+        CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[0];
+
+        if(item?.cardType == "PHYSICAL"){
+          print("LENGTH---${item?.firstName}");
+          var code = item?.countryCode ?? "" ;
+
+          setState(() {
+            firstName=  item?.firstName ?? "";
+            lastName=  item?.lastName ?? "";
+            phoneNumber.text=  item?.phoneNumber ?? "";
+            // countryName=  PhoneNumberUtil().
+            selectedCountryName=  item?.country ?? "";
+            selectedCountry = code.replaceAll("+", "");
+            province=  item?.province ?? "";
+            city=  item?.city ?? "";
+            streetAddress=  item?.streetAddress ?? "";
+            postCode=  item?.postCode ?? "";
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    hideSnackBar(context);
+  }
+
+  bool isValid() {
+    return Validators.isNameValid(firstName) &&
+        Validators.isNameValid(lastName) &&
+        isPhoneNumberValid &&
+        phoneSecurityCode.length == 4 &&
+        emailSecurityCode.length == 4 &&
+        Validators.isValidCityName(province) &&
+        Validators.isValidCityName(city) &&
+        streetAddress.isNotEmpty &&
+        Validators.isValidPostalCode(postCode);
+  }
+
+  void onConfirmAndPayPress() {
+    // if (!Validators.isNameValid(firstName)) {
+    //   showError(context, "Enter valid first name.");
+    // } else if (!Validators.isNameValid(lastName)) {
+    //   showError(context, "Enter valid last name.");
+    // } else if (phoneNumber.text.length < 8) {
+    //   showError(context, "Enter valid phone number.");
+    // } else if (phoneSecurityCode.length != 4) {
+    //   showError(context, "Enter valid OTP for phone number.");
+    // } else if (emailSecurityCode.length != 4) {
+    //   showError(context, "Enter valid OTP for email.");
+    // } else {
+    //   _applyPhysicalCardCubit.applyPhysicalCard(
+    //       firstName: firstName,
+    //       lastName: lastName,
+    //       phoneNum: phoneNumber.text,
+    //       phoneCode: int.parse(phoneSecurityCode),
+    //       email: email.text,
+    //       emailCode: int.parse(emailSecurityCode),
+    //       countryCode: "+" + selectedCountry);
+    // }
+
+    if (isValid()) {
+      print("province-----$province, city----$city");
+      _applyPhysicalCardCubit.applyPhysicalCard(
+        firstName: firstName,
+        lastName: lastName,
+        phoneNum: phoneNumber.text,
+        phoneCode: int.parse(phoneSecurityCode),
+        email: email.text,
+        emailCode: int.parse(emailSecurityCode),
+        countryCode: "+" + selectedCountry,
+        gender: isMaleSelected ? "male" : "female",
+        country: selectedCountryName,
+        province: province,
+        city: city,
+        streetAddress: streetAddress,
+        postCode: postCode,
+      );
+    }
   }
 
   @override
@@ -105,7 +204,12 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                               firstName = value;
                             });
                           },
+                          validator: !Validators.isNameValid(firstName) &&
+                                  firstName.isNotEmpty
+                              ? Constants.enterValidFirstName
+                              : null,
                           maxLength: 50,
+                          value: firstName,
                         ),
                         const SizedBox(
                           height: 16,
@@ -119,17 +223,22 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                             });
                           },
                           maxLength: 50,
+                          validator: !Validators.isNameValid(lastName) &&
+                                  lastName.isNotEmpty
+                              ? Constants.enterValidLastName
+                              : null,
+                          value: lastName,
                         ),
                         const SizedBox(
                           height: 16,
                         ),
                         _phoneNum(),
-                        _otpField(),
+                        _otpFieldPhone(),
                         const SizedBox(
                           height: 16,
                         ),
                         _emailField(),
-                        _otpField(),
+                        _otpFieldEmail(),
                         const SizedBox(
                           height: 16,
                         ),
@@ -156,6 +265,17 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                         InputField(
                           inputLabel: "Province",
                           hintText: 'Texas',
+                          onChangeText: (value) {
+                            setState(() {
+                              province = value;
+                            });
+                          },
+                          maxLength: 50,
+                          validator: !Validators.isValidCityName(province) &&
+                                  province.isNotEmpty
+                              ? Constants.enterValidProvince
+                              : null,
+                          value: province,
                         ),
                         const SizedBox(
                           height: 16,
@@ -163,6 +283,17 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                         InputField(
                           inputLabel: "City",
                           hintText: 'Texas',
+                          onChangeText: (value) {
+                            setState(() {
+                              city = value;
+                            });
+                          },
+                          maxLength: 50,
+                          validator: !Validators.isValidCityName(province) &&
+                                  province.isNotEmpty
+                              ? Constants.enterValidCity
+                              : null,
+                          value: city,
                         ),
                         const SizedBox(
                           height: 16,
@@ -170,6 +301,13 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                         InputField(
                           inputLabel: "Street Address",
                           hintText: 'Housetown1123',
+                          onChangeText: (value) {
+                            setState(() {
+                              streetAddress = value;
+                            });
+                          },
+                          maxLength: 100,
+                        value: streetAddress,
                         ),
                         const SizedBox(
                           height: 16,
@@ -177,6 +315,17 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                         InputField(
                           inputLabel: "Postcode",
                           hintText: 'Enter Code',
+                          onChangeText: (value) {
+                            setState(() {
+                              postCode = value;
+                            });
+                          },
+                          maxLength: 50,
+                          validator: !Validators.isValidPostalCode(postCode) &&
+                                  postCode.isNotEmpty
+                              ? Constants.enterValidPostal
+                              : null,
+                          value: postCode,
                         ),
                         Container(
                           margin: const EdgeInsets.only(
@@ -184,33 +333,10 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                           child: ButtonPrimary(
                             title: "Confirm and Pay",
                             onClick: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return ChoosePaymentOptions(
-                                    onClick: (value) {
-                                      print(value);
-                                      if (value == "wallet") {
-                                        _navigationService.navigateWithBack(
-                                            LifeStylePlusFees.routeName,
-                                            arguments: {
-                                              "isFrom": "lifestyleVirtual",
-                                              "cardType": "physical"
-                                            });
-                                      } else {
-                                        _navigationService.navigateWithBack(
-                                            LSPFeeByLockXRP.routeName,
-                                            arguments: {
-                                              "isFrom": "lifestyleVirtual",
-                                              "cardType": "physical"
-                                            });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
+                              onConfirmAndPayPress();
                             },
+                            buttonColor:
+                                isValid() ? AppClr.blue : AppClr.greyButton,
                           ),
                         )
                       ]),
@@ -227,6 +353,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         hintText: 'Phone Number',
         isPhonePicker: true,
         countryCode: selectedCountry,
+        countryName: countryName,
         myController: phoneNumber,
         onPickerClick: () {
           showCountryPicker(
@@ -268,25 +395,47 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
             setState(() {
               isPhoneNumberValid = isValidNum;
             });
-            print("xfklmd=====${Constants.userAccessToken}");
 
             if (isValidNum) {
-              // _applyVirtualCardCubit.sendOTPForVerification(
-              //     medium: phoneNumber.text, type: "mobile");
+              _applyPhysicalCardCubit.sendOTPForVerification(
+                  medium: phoneNumber.text, type: "mobile");
             } else {
               showError(context, "Please enter valid phone number.");
             }
           } catch (err) {
             showError(context, "Please enter valid phone number.");
           }
+        },
+        onChangeText: (value) {
+          if (phoneSecurityCode.isNotEmpty) {
+            setState(() {
+              phoneSecurityCode = "";
+              isPhoneNumberValid = false;
+            });
+            phoneController.set(["", "", "", ""]);
+          }
         });
   }
 
-  Widget _otpField() {
+  Widget _otpFieldPhone() {
+    return OtpTextField(
+      label: 'Enter Code',
+      fieldController: phoneController,
+      onOtpComplete: (pin) {
+        setState(() {
+          phoneSecurityCode = pin;
+        });
+      },
+    );
+  }
+
+  Widget _otpFieldEmail() {
     return OtpTextField(
       label: 'Enter Code',
       onOtpComplete: (pin) {
-        print(pin);
+        setState(() {
+          emailSecurityCode = pin;
+        });
       },
     );
   }
@@ -298,13 +447,19 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         isPhonePicker: false,
         readOnly: true,
         myController: email,
-        onSendClick: () {});
+        onSendClick: () {
+          _applyPhysicalCardCubit.sendOTPForVerification(
+              medium: email.text, type: "email");
+        });
   }
 
   Widget _genderSelection() {
     return GenderSelection(
-      selectedValue: (value) {
-        print(value);
+      isMaleSelected: isMaleSelected,
+      selectedValue: () {
+        setState(() {
+          isMaleSelected = !isMaleSelected;
+        });
       },
     );
   }
@@ -366,15 +521,18 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         return ChoosePaymentOptions(
           onClick: (value) {
             print(value);
-
-            var cardScreen = isClubCard ? "clubVirtual" : "lifestyleVirtual";
-
             if (value == "wallet") {
               _navigationService.navigateWithBack(LifeStylePlusFees.routeName,
-                  arguments: {"isFrom": cardScreen, "cardType": "virtual"});
+                  arguments: {
+                    "isFrom": "lifestyleVirtual",
+                    "cardType": "physical"
+                  });
             } else {
               _navigationService.navigateWithBack(LSPFeeByLockXRP.routeName,
-                  arguments: {"isFrom": cardScreen, "cardType": "virtual"});
+                  arguments: {
+                    "isFrom": "lifestyleVirtual",
+                    "cardType": "physical"
+                  });
             }
           },
         );

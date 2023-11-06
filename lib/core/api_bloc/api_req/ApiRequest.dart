@@ -103,7 +103,9 @@ class ApplyVirtualCardRequest {
   dynamic? email;
   dynamic? emailCode;
   dynamic? countryCode;
+  dynamic? country;
   dynamic? cardId;
+  dynamic? currentTime;
 
   ApplyVirtualCardRequest({
     this.cardType,
@@ -114,7 +116,9 @@ class ApplyVirtualCardRequest {
     this.email,
     this.emailCode,
     this.countryCode,
+    this.country,
     this.cardId,
+    this.currentTime,
   });
 
   Map<String, dynamic> toJson() {
@@ -127,7 +131,9 @@ class ApplyVirtualCardRequest {
     data['email'] = email;
     data['email_code'] = emailCode;
     data['country_code'] = countryCode;
+    data['country'] = country;
     data['card_id'] = cardId;
+    // data['timestamp'] = currentTime;
     return data;
   }
 }
@@ -149,6 +155,8 @@ class ApplyPhysicalCardRequest {
   dynamic? city;
   dynamic? streetAddress;
   dynamic? postCode;
+  dynamic? currentTime;
+
 
   ApplyPhysicalCardRequest({
     this.cardType,
@@ -167,6 +175,7 @@ class ApplyPhysicalCardRequest {
     this.city,
     this.streetAddress,
     this.postCode,
+    this.currentTime,
   });
 
   Map<String, dynamic> toJson() {
@@ -184,9 +193,10 @@ class ApplyPhysicalCardRequest {
     data['country'] = country;
     data['currency'] = currency;
     data['province'] = province;
-    data['province'] = city;
+    data['city'] = city;
     data['street_address'] = streetAddress;
     data['post_code'] = postCode;
+    data['currentTime'] = currentTime;
     return data;
   }
 }

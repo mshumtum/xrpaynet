@@ -1,30 +1,39 @@
 import 'package:equatable/equatable.dart';
 import 'package:xr_paynet/constants/FormSubmissionStatus.dart';
+import 'package:xr_paynet/cubits/user_cubit/response/CardListingResponse.dart';
 import 'package:xr_paynet/cubits/user_cubit/response/UserReponse.dart';
 
 class MainUserState extends Equatable {
   final String? errorMessage;
   final FormSubmissionStatus status;
-  final UserInfo? userInfo;
+  final UserData? userData;
+  final CardListingResponse?  cardListingResponse;
+  final bool loading;
 
   const MainUserState({
     this.errorMessage,
-    this.userInfo,
+    this.userData,
+    this.cardListingResponse,
     this.status = FormSubmissionStatus.initial,
+    this.loading = false,
   });
   @override
-  List<Object?> get props => [errorMessage, userInfo, status];
+  List<Object?> get props => [errorMessage, userData, status,cardListingResponse, loading];
 
   MainUserState copyWith({
     String? errorMessage,
     String? token,
     FormSubmissionStatus? status,
-    UserInfo? userInfo,
+    UserData? userData,
+    CardListingResponse? cardListingResponse,
+    bool loading = false,
   }) {
     return MainUserState(
       errorMessage: errorMessage ?? this.errorMessage,
       status: status ?? this.status,
-      userInfo: userInfo ?? this.userInfo,
+      userData: userData ?? this.userData,
+      cardListingResponse: cardListingResponse ?? this.cardListingResponse,
+      loading: loading,
     );
   }
 

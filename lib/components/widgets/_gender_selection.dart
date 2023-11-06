@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../theme/Colors.dart';
 
 class GenderSelection extends StatefulWidget {
-  final Function(int value)? selectedValue;
+  final Function()? selectedValue;
+  final bool isMaleSelected;
   const GenderSelection({
     super.key,
     this.selectedValue,
+    this.isMaleSelected = true,
   });
 
   @override
@@ -14,7 +16,7 @@ class GenderSelection extends StatefulWidget {
 }
 
 class _GenderSelectionState extends State<GenderSelection> {
-   int isSelected = 0;
+
    @override
   Widget build(BuildContext context) {
     return  _genderSelection();
@@ -29,18 +31,13 @@ class _GenderSelectionState extends State<GenderSelection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSelected = 0;
-                  widget.selectedValue!(0);
-                });
-              },
+              onTap: widget.selectedValue,
               child: Container(
                 height: MediaQuery.sizeOf(context).height * 0.06,
                 width: MediaQuery.sizeOf(context).width * 0.42,
                 decoration: BoxDecoration(
                     color:
-                    isSelected == 0 ? AppClr.blue : AppClr.inputFieldBg,
+                    widget.isMaleSelected ? AppClr.blue : AppClr.inputFieldBg,
                     borderRadius: BorderRadius.circular(12)),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -58,18 +55,13 @@ class _GenderSelectionState extends State<GenderSelection> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSelected = 1;
-                  widget.selectedValue!(1);
-                });
-              },
+              onTap: widget.selectedValue,
               child: Container(
                 height: MediaQuery.sizeOf(context).height * 0.06,
                 width: MediaQuery.sizeOf(context).width * 0.42,
                 decoration: BoxDecoration(
                     color:
-                    isSelected == 1 ? AppClr.blue : AppClr.inputFieldBg,
+                    !widget.isMaleSelected ? AppClr.blue : AppClr.inputFieldBg,
                     borderRadius: BorderRadius.circular(12)),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

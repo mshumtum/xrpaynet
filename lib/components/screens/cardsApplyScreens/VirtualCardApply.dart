@@ -6,6 +6,7 @@ import 'package:xr_paynet/components/utilities/utility.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
 import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
+import 'package:xr_paynet/cubits/user_cubit/response/CardListingResponse.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/constants/Constants.dart';
@@ -30,21 +31,26 @@ class VirtualCardApply extends StatefulWidget {
 class _VirtualCardApplyState extends State<VirtualCardApply> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool isClubCard = true;
-
+  late CardLisingItem cardItem;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     var params = (widget.arguments as Map);
+
     if (params["isFrom"] == "lifestyleVirtual") {
       setState(() {
         isClubCard = false;
       });
     }
+    setState(() {
+      cardItem = params["cardInfo"];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("cardItem----${cardItem.toJson()}");
     return Scaffold(
       backgroundColor: AppClr.black,
       body: SingleChildScrollView(
@@ -91,7 +97,8 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
                       ApplyVirtualCardForm.routeName,
                       arguments: {
                         "isFrom":
-                            isClubCard ? "clubVirtual" : "lifestyleVirtual"
+                            isClubCard ? "clubVirtual" : "lifestyleVirtual",
+                        "id": cardItem.id
                       });
                 },
                 horizontal: 15),
@@ -124,13 +131,13 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
           ),
           child: Column(
             children: [
-              _types('Card Currency', 'USD'),
-              _types('Issuance Fee', '\$ 100'),
-              _types('Payment Method', 'Crypto'),
-              _types('Deposit Fee', '2%'),
+              _types('Card Currency', cardItem.currency ?? ""),
+              _types('Issuance Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.issuanceFee ?? "", 2)}'),
+              _types('Payment Method', cardItem?.paymentMethod ?? ""),
+              _types('Deposit Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.depositFee ?? "", 2)}'),
               isClubCard
                   ? Container()
-                  : _types('Annual Maintenance Fee', '\$ 29'),
+                  : _types('Annual Maintenance Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.maintenanceFee ?? "", 2)}'),
               const SizedBox(
                 height: 10,
               )

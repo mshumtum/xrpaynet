@@ -11,6 +11,7 @@ import 'package:xr_paynet/cubits/email_verification_cubit/VerifyEmailResponse.da
 
 class ApplyPhysicalCardCubit extends Cubit<BaseState> {
   ApplyPhysicalCardCubit() : super(const BaseInit());
+
   clearState() {
     emit(const BaseInit());
   }
@@ -64,20 +65,35 @@ class ApplyPhysicalCardCubit extends Cubit<BaseState> {
     required String email,
     required int emailCode,
     required String countryCode,
+    required String gender,
+    required String country,
+    required String province,
+    required String city,
+    required String streetAddress,
+    required String postCode,
   }) async {
     emit(BaseLoading(
         state.main.copyWith(status: FormSubmissionStatus.inProgress)));
     try {
       ApplyPhysicalCardRequest request = ApplyPhysicalCardRequest(
           email: email,
-          cardType: "VIRTUAL",
+          cardType: "PHYSICAL",
           countryCode: countryCode,
           emailCode: emailCode,
           firstName: firstName,
           lastName: lastName,
           phoneCode: phoneCode,
           phoneNumber: phoneNum,
-          cardId: 1223344);
+          cardId: 1223344,
+          gender: gender,
+          country: country,
+          province: province,
+          city: city,
+          streetAddress: streetAddress,
+          postCode: postCode,
+          currency: "USD",
+         currentTime:  DateTime.now().millisecondsSinceEpoch
+      );
       print("request-----${request.toJson()}");
       ApiService(Constants.userAccessToken);
 

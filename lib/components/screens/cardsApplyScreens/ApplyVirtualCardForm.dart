@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:otp_text_field/otp_field.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LSPFeeByLockXRP.dart';
 import 'package:xr_paynet/components/screens/activationFeesScreens/LifeStylePlusFees.dart';
@@ -12,6 +13,7 @@ import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'package:xr_paynet/cubits/base_cubit/base_state.dart';
 import 'package:xr_paynet/cubits/card_apply_cubit/applyVirtualCardCubit.dart';
+import 'package:xr_paynet/cubits/user_cubit/response/UserReponse.dart';
 import 'package:xr_paynet/cubits/user_cubit/user_cubit.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
@@ -34,6 +36,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
   final ApplyVirtualCardCubit _applyVirtualCardCubit =
       locator<ApplyVirtualCardCubit>();
   final UserDataCubit _userDataCubit = locator<UserDataCubit>();
+  final phoneController = OtpFieldController();
 
   String selectedCountry = "91",
       countryName = "IN",
@@ -41,6 +44,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
       lastName = "",
       phoneSecurityCode = "",
       emailSecurityCode = "";
+   int cardId = 0;
   bool isPhoneNumberValid = false, isClubCard = true;
 
   TextEditingController phoneNumber = TextEditingController();
@@ -55,9 +59,18 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
         isClubCard = false;
       });
     }
+    cardId = params["id"];
     setState(() {
-      email.text = _userDataCubit.state.main.userInfo?.email ?? "";
+      email.text = _userDataCubit.state.main.userData?.userInfo?.email ?? "";
     });
+    if(_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false){
+      int totalCard = _userDataCubit.state.main.userData?.cardInfo?.length ?? 0;
+      for(int i = 0; i < totalCard; i++){
+
+         CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[0];
+         print("LENGTH---${item?.cardType}");
+      }
+    }
   }
   @override
   void dispose() {
@@ -66,25 +79,28 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
   }
 
   bool isValid() {
+    print("object====${_applyVirtualCardCubit.state.main.isInProgress}");
     return Validators.isNameValid(firstName) &&
         Validators.isNameValid(lastName) &&
         isPhoneNumberValid &&
         phoneSecurityCode.length == 4 &&
-        emailSecurityCode.length == 4;
+        emailSecurityCode.length == 4 &&
+        !_applyVirtualCardCubit.state.main.isInProgress;
   }
 
   void onConfirmAndPayPress() {
-    if (!Validators.isNameValid(firstName)) {
-      showError(context, "Enter valid first name.");
-    } else if (!Validators.isNameValid(lastName)) {
-      showError(context, "Enter valid last name.");
-    } else if (phoneNumber.text.length < 8) {
-      showError(context, "Enter valid phone number.");
-    } else if (phoneSecurityCode.length != 4) {
-      showError(context, "Enter valid OTP for phone number.");
-    } else if (emailSecurityCode.length != 4) {
-      showError(context, "Enter valid OTP for email.");
-    } else {
+    // if (!Validators.isNameValid(firstName)) {
+    //   showError(context, "Enter valid first name.");
+    // } else if (!Validators.isNameValid(lastName)) {
+    //   showError(context, "Enter valid last name.");
+    // } else if (phoneNumber.text.length < 8) {
+    //   showError(context, "Enter valid phone number.");
+    // } else if (phoneSecurityCode.length != 4) {
+    //   showError(context, "Enter valid OTP for phone number.");
+    // } else if (emailSecurityCode.length != 4) {
+    //   showError(context, "Enter valid OTP for email.");
+    // } else {
+    if(isValid()){
       _applyVirtualCardCubit.applyVirtualCard(
           firstName: firstName,
           lastName: lastName,
@@ -92,7 +108,10 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
           phoneCode: int.parse(phoneSecurityCode),
           email: email.text,
           emailCode: int.parse(emailSecurityCode),
-          countryCode: "+" + selectedCountry);
+          countryCode: "+" + selectedCountry,
+          countryName: countryName,
+          cardId:cardId
+      );
     }
   }
 
@@ -142,7 +161,12 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                                 firstName = value;
                               });
                             },
+                            validator: !Validators.isNameValid(firstName) &&
+                                firstName.isNotEmpty
+                                ? Constants.enterValidFirstName
+                                : null,
                             maxLength: 50,
+                            value: firstName,
                           ),
                           const SizedBox(
                             height: 16,
@@ -156,17 +180,22 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                               });
                             },
                             maxLength: 50,
+                            validator: !Validators.isNameValid(lastName) &&
+                                lastName.isNotEmpty
+                                ? Constants.enterValidLastName
+                                : null,
+                            value: lastName,
                           ),
                           const SizedBox(
                             height: 16,
                           ),
                           _phoneNum(context),
-                          _otpField("phone"),
+                          _otpFieldPhone(),
                           const SizedBox(
                             height: 16,
                           ),
                           _emailField(),
-                          _otpField("email"),
+                          _otpFieldEmail(),
                           const SizedBox(
                             height: 16,
                           ),
@@ -262,6 +291,14 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
           );
         },
         maxLength: 12,
+        onChangeText:(value){
+          if(phoneSecurityCode.isNotEmpty) {
+            setState(() {
+              phoneSecurityCode = "";
+            });
+            phoneController.set(["", "", "", ""]);
+          }
+        },
         onSendClick: () async {
           print("HERE-----");
           // validate is number valid or not
@@ -287,13 +324,22 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
         });
   }
 
-  Widget _otpField(String type) {
+  Widget _otpFieldPhone() {
+    return OtpTextField(
+      label: 'Enter Code',
+      fieldController: phoneController,
+      onOtpComplete: (pin) {
+        setState(() {
+          phoneSecurityCode =pin ;
+        });
+      },
+    );
+  } Widget _otpFieldEmail() {
     return OtpTextField(
       label: 'Enter Code',
       onOtpComplete: (pin) {
         setState(() {
-          emailSecurityCode = type == "email" ? pin : emailSecurityCode;
-          phoneSecurityCode = type == "phone" ? pin : phoneSecurityCode;
+          emailSecurityCode = pin ;
         });
       },
     );

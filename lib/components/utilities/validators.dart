@@ -82,7 +82,17 @@ class Validators {
   }
 
   static bool isNameValid(String name) {
-    const pattern = r'^[a-z A-Z ,.\-]+$';
+    const pattern = r'^[a-z A-Z]+$';
+    final regExp = RegExp(pattern);
+    return regExp.hasMatch(name.trim());
+  }
+  static bool isValidCityName(String name) {
+    const pattern = r'^[a-zA-Z]+$';
+    final regExp = RegExp(pattern);
+    return regExp.hasMatch(name.trim());
+  }
+  static bool isValidPostalCode(String name) {
+    const pattern = r'^[a-zA-Z0-9]+$';
     final regExp = RegExp(pattern);
     return regExp.hasMatch(name.trim());
   }

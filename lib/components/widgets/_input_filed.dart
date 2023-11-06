@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -16,6 +17,7 @@ import '../../theme/Colors.dart';
 class InputField extends StatefulWidget {
   final String inputLabel;
   final String hintText;
+  final String? value;
   final int maxLength;
   final bool readOnly;
   final TextInputType inputType;
@@ -26,6 +28,7 @@ class InputField extends StatefulWidget {
   InputField(
       {super.key,
       this.inputLabel = "",
+      this.value,
       required this.hintText,
       this.inputType = TextInputType.name,
       this.onChangeText,
@@ -43,6 +46,12 @@ class _InputFieldState extends State<InputField> {
   static String textValue = '';
   bool _obscureText = true;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    myController.text = widget.value ?? "";
+  }
   @override
   void dispose() {
     myController.dispose();
@@ -213,9 +222,7 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                     style: AppTheme.white14Regular,
                     maxLines: 1,
                     maxLength: widget.maxLength,
-                    onChanged: (value) {
-                      widget.onChangeText!(value);
-                    },
+                    onChanged: widget.onChangeText,
                     decoration: InputDecoration(
                       filled: true,
                       hintStyle: const TextStyle(color: AppClr.grey2),
@@ -239,7 +246,8 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                             // for email
                             onPressSend();
                           } else {
-                            print("dfsjfdnsf====dffdf====");
+
+                            print(widget.countryCode + widget.myController!.text+ "   "+widget.countryName);
 
                             try {
                               bool isValidNum =
@@ -247,6 +255,8 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                                 widget.countryCode + widget.myController!.text,
                                 regionCode: widget.countryName,
                               );
+                              print("dfsjfdnsf====dffdf====$isValidNum", );
+
                               if (isValidNum) {
                                 onPressSend();
                               }
@@ -272,11 +282,13 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
 class OtpTextField extends StatefulWidget {
   final String label;
   final Function(String value)? onOtpComplete;
+  final OtpFieldController? fieldController;
 
   const OtpTextField({
     super.key,
     this.label = "",
     this.onOtpComplete,
+    this.fieldController,
   });
 
   @override
@@ -284,6 +296,7 @@ class OtpTextField extends StatefulWidget {
 }
 
 class _OtpTextFieldState extends State<OtpTextField> {
+  final myColor = OtpFieldController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -301,6 +314,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
         Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
           child: OTPTextField(
+            controller: widget.fieldController,
             length: 4,
             width: ClassMediaQuery.screenWidth,
             fieldWidth: 80,
@@ -311,6 +325,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
             textFieldAlignment: MainAxisAlignment.spaceAround,
             fieldStyle: FieldStyle.box,
             outlineBorderRadius: 10,
+
             onCompleted: (pin) {
               widget.onOtpComplete!(pin);
               print("Completed: " + pin);

@@ -10,3 +10,4 @@ const getUserDetails = '$BASE_URL/user/details';
 
 /*CARD APPLY APIs*/
 const cardApplyApi = '$BASE_URL/card/apply';
+const getAllCards = '$BASE_URL/card/getallcards';

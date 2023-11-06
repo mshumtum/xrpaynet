@@ -2,6 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
+import 'package:xr_paynet/constants/Constants.dart';
+import 'package:xr_paynet/core/Locator.dart';
+import 'package:xr_paynet/core/navigation/navigation_service.dart';
 import 'message.dart';
 
 class ApiService {
@@ -83,6 +88,9 @@ class ApiService {
           return throw new Exception(mapResponse["error"]);
         }
         throw new Exception(mapResponse["errors"]["message"]);
+      } else if(response.statusCode == 403){
+        expiredAccessToken();
+        return errorMap("403", INVALID_ACCESS_TOKEN);
       } else if (response.statusCode == 429) {
         throw new Exception("Maximum limit reached. Try again in one minute.");
       }else {
@@ -101,11 +109,12 @@ class ApiService {
   }
 }
 
-/*~~~~~this method is used for when access token is exp~~~~*/
-expiredAccessToken(response) {
-  if (response.statusCode == 401) {
-    // logOut();
-  }
+/*~~~~~this method is used for when access token is expire~~~~*/
+expiredAccessToken() async{
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString(Constants.accessToken, "");
+  final NavigationService _navigationService = locator<NavigationService>();
+  _navigationService.navigateWithRemovingAllPrevious(WelcomeScreen.routeName);
 }
 
 enum apiType { get, post, put }
