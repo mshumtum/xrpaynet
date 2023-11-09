@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/activeCardScreens/LifeStylePlusCards.dart';
 import 'package:xr_paynet/components/screens/card_recharge/CardRecharge.dart';
+import 'package:xr_paynet/components/screens/lifeStylePlusKYC/LifeStylePlusKYC.dart';
 import 'package:xr_paynet/components/screens/transaction_history/TransactionHistory.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/utilities/utility.dart';
@@ -91,7 +92,7 @@ class _ActiveVirtualCardsState extends State<ActiveVirtualCards> {
             ButtonPrimary(
               title: 'Recharge',
               onClick: () {
-                _navigationService.navigateWithBack(CardRecharge.routeName);
+                _navigationService.navigateWithBack(LifeStylePlusKYC.routeName);
               },
             ),
             const SizedBox(

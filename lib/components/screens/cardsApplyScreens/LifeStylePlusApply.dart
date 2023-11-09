@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:xr_paynet/components/screens/WelcomeScreens/WelcomeScreen.dart';
 import 'package:xr_paynet/components/screens/cardsApplyScreens/ApplyPhysicalCardForm.dart';
@@ -10,6 +12,7 @@ import 'package:xr_paynet/components/widgets/_congratulation_dialog.dart';
 import 'package:xr_paynet/components/widgets/_header.dart';
 import 'package:xr_paynet/core/Locator.dart';
 import 'package:xr_paynet/core/navigation/navigation_service.dart';
+import 'package:xr_paynet/cubits/user_cubit/response/CardListingResponse.dart';
 import 'package:xr_paynet/theme/AppTheme.dart';
 import 'package:xr_paynet/theme/Colors.dart';
 import 'package:xr_paynet/constants/Constants.dart';
@@ -17,7 +20,11 @@ import 'package:xr_paynet/theme/Images.dart';
 
 class LifeStylePlusApply extends StatefulWidget {
   static const String routeName = '/life_style_plus_apply';
-  const LifeStylePlusApply({super.key});
+  final Object? arguments;
+  const LifeStylePlusApply({
+    super.key,
+    this.arguments,
+  });
 
   @override
   State<LifeStylePlusApply> createState() => _LifeStylePlusApplyState();
@@ -26,6 +33,18 @@ class LifeStylePlusApply extends StatefulWidget {
 class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool isPhysicalCardSelected = true;
+  late CardListingItem cardItem;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var params = (widget.arguments as Map);
+    setState(() {
+      cardItem = params["cardInfo"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,11 +202,14 @@ class _LifeStylePlusApplyState extends State<LifeStylePlusApply> {
           ),
           child: Column(
             children: [
-              _types('Card Currency', 'USD'),
-              _types('Issuance Fee', '\$ 100'),
-              _types('Payment Method', 'Crypto'),
-              _types('Deposit Fee', '2%'),
-              _types('Annual Maintenance Fee', '\$ 29'),
+              _types('Card Currency', cardItem.currency ?? ""),
+              _types('Issuance Fee',
+                  '${Constants.defaultCurrency} ${toFixed(cardItem?.issuanceFee ?? "", 2)}'),
+              _types('Payment Method', cardItem?.paymentMethod ?? ""),
+              _types('Deposit Fee',
+                  '${Constants.defaultCurrency} ${toFixed(cardItem?.depositFee ?? "", 2)}'),
+              _types('Annual Maintenance Fee',
+                  '${Constants.defaultCurrency} ${toFixed(cardItem?.maintenanceFee ?? "", 2)}'),
               const SizedBox(
                 height: 10,
               )

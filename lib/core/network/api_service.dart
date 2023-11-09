@@ -52,7 +52,7 @@ class ApiService {
       if (encodeData) {
         jsonBody = json.encode(body);
       }
-
+      print("url===$url");
       switch (type) {
         case "get":
           response = await http
@@ -75,8 +75,7 @@ class ApiService {
           break;
       }
 
-      print(
-          '~~~RESPONSE BODY~~~~ : ${type} ${response.body}');
+      print('~~~RESPONSE BODY~~~~ : ${type} ${response.body}');
       print(response.statusCode);
       // alice.onHttpResponse(response);
       if (response.statusCode == 200) {
@@ -88,12 +87,12 @@ class ApiService {
           return throw new Exception(mapResponse["error"]);
         }
         throw new Exception(mapResponse["errors"]["message"]);
-      } else if(response.statusCode == 403){
+      } else if (response.statusCode == 403) {
         expiredAccessToken();
         return errorMap("403", INVALID_ACCESS_TOKEN);
       } else if (response.statusCode == 429) {
         throw new Exception("Maximum limit reached. Try again in one minute.");
-      }else {
+      } else {
         throw new Exception(CONNECTION_TIMEOUT);
       }
     } on TimeoutException {
@@ -110,7 +109,7 @@ class ApiService {
 }
 
 /*~~~~~this method is used for when access token is expire~~~~*/
-expiredAccessToken() async{
+expiredAccessToken() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(Constants.accessToken, "");
   final NavigationService _navigationService = locator<NavigationService>();

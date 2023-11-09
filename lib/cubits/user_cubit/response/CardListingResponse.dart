@@ -1,6 +1,6 @@
 class CardListingResponse {
   String? message;
-  List<CardLisingItem>? result;
+  List<CardListingItem>? result;
   String? status;
 
   CardListingResponse({this.message, this.result, this.status});
@@ -8,9 +8,9 @@ class CardListingResponse {
   CardListingResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['result'] != null) {
-      result = <CardLisingItem>[];
+      result = <CardListingItem>[];
       json['result'].forEach((v) {
-        result!.add(new CardLisingItem.fromJson(v));
+        result!.add(new CardListingItem.fromJson(v));
       });
     }
     status = json['status'];
@@ -27,7 +27,7 @@ class CardListingResponse {
   }
 }
 
-class CardLisingItem {
+class CardListingItem {
   int? id;
   String? cardType;
   String? lockingAmount;
@@ -39,21 +39,23 @@ class CardLisingItem {
   String? paymentMethod;
   String? currency;
   bool? isDisabled;
+  List<String>? imagePath;
 
-  CardLisingItem(
+  CardListingItem(
       {this.id,
-        this.cardType,
-        this.lockingAmount,
-        this.hyperCardFee,
-        this.issuanceFee,
-        this.maintenanceFee,
-        this.conversionFee,
-        this.depositFee,
-        this.paymentMethod,
-        this.currency,
-        this.isDisabled});
+      this.cardType,
+      this.lockingAmount,
+      this.hyperCardFee,
+      this.issuanceFee,
+      this.maintenanceFee,
+      this.conversionFee,
+      this.depositFee,
+      this.paymentMethod,
+      this.currency,
+      this.isDisabled,
+      this.imagePath});
 
-  CardLisingItem.fromJson(Map<String, dynamic> json) {
+  CardListingItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cardType = json['cardType'];
     lockingAmount = json['lockingAmount'];
@@ -65,6 +67,7 @@ class CardLisingItem {
     paymentMethod = json['paymentMethod'];
     currency = json['currency'];
     isDisabled = json['isDisabled'];
+    imagePath = json['imagePath'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +83,7 @@ class CardLisingItem {
     data['paymentMethod'] = this.paymentMethod;
     data['currency'] = this.currency;
     data['isDisabled'] = this.isDisabled;
+    data['imagePath'] = this.imagePath;
     return data;
   }
 }

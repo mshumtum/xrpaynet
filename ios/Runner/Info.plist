@@ -47,5 +47,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>xrPaynet use camera to scan crypto addresses and KYC.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>xrPaynet wants to access gallery.</string>
 </dict>
 </plist>

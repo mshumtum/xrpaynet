@@ -28,26 +28,38 @@ class CountryListResponse {
 }
 
 class CountryListResult {
-  String? name;
-  String? dialCode;
-  String? emoji;
-  String? code;
+  int? uniqueId;
+  int? mobileAreaCode;
+  String? english;
+  String? iso3166Alpha2;
+  String? iso3166Alpha3;
+  String? flag;
 
-  CountryListResult({this.name, this.dialCode, this.emoji, this.code});
+  CountryListResult(
+      {this.uniqueId,
+      this.mobileAreaCode,
+      this.english,
+      this.iso3166Alpha2,
+      this.iso3166Alpha3,
+      this.flag});
 
   CountryListResult.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    dialCode = json['dial_code'];
-    emoji = json['emoji'];
-    code = json['code'];
+    uniqueId = json['uniqueId'];
+    mobileAreaCode = json['mobileAreaCode'];
+    english = json['english'];
+    iso3166Alpha2 = json['iso3166Alpha2'];
+    iso3166Alpha3 = json['iso3166Alpha3'];
+    flag = json['flag'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['dial_code'] = this.dialCode;
-    data['emoji'] = this.emoji;
-    data['code'] = this.code;
+    data['uniqueId'] = this.uniqueId;
+    data['mobileAreaCode'] = this.mobileAreaCode;
+    data['english'] = this.english;
+    data['iso3166Alpha2'] = this.iso3166Alpha2;
+    data['iso3166Alpha3'] = this.iso3166Alpha3;
+    data['flag'] = this.flag;
     return data;
   }
 }

@@ -66,31 +66,29 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
     super.initState();
     setState(() {
       email.text = _userDataCubit.state.main.userData?.userInfo?.email ?? "";
-
     });
     _applyPhysicalCardCubit.getSupportedCountry();
 
-    if(_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false){
+    if (_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false) {
       int totalCard = _userDataCubit.state.main.userData?.cardInfo?.length ?? 0;
-      for(int i = 0; i < totalCard; i++){
+      for (int i = 0; i < totalCard; i++) {
+        CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[i];
 
-        CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[0];
-
-        if(item?.cardType == "PHYSICAL"){
+        if (item?.cardType == "PHYSICAL") {
           print("LENGTH---${item?.firstName}");
-          var code = item?.countryCode ?? "" ;
+          var code = item?.countryCode ?? "";
 
           setState(() {
-            firstName=  item?.firstName ?? "";
-            lastName=  item?.lastName ?? "";
-            phoneNumber.text=  item?.phoneNumber ?? "";
+            firstName = item?.firstName ?? "";
+            lastName = item?.lastName ?? "";
+            phoneNumber.text = item?.phoneNumber ?? "";
             // countryName=  PhoneNumberUtil().
-            selectedCountryName=  item?.country ?? "";
+            selectedCountryName = item?.country ?? "";
             selectedCountry = code.replaceAll("+", "");
-            province=  item?.province ?? "";
-            city=  item?.city ?? "";
-            streetAddress=  item?.streetAddress ?? "";
-            postCode=  item?.postCode ?? "";
+            province = item?.province ?? "";
+            city = item?.city ?? "";
+            streetAddress = item?.streetAddress ?? "";
+            postCode = item?.postCode ?? "";
           });
           break;
         }
@@ -114,7 +112,8 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
         Validators.isValidCityName(province) &&
         Validators.isValidCityName(city) &&
         streetAddress.isNotEmpty &&
-        Validators.isValidPostalCode(postCode);
+        Validators.isValidPostalCode(postCode) &&
+        !_applyPhysicalCardCubit.state.main.isInProgress;
   }
 
   void onConfirmAndPayPress() {
@@ -307,7 +306,7 @@ class _ApplyPhysicalCardFormState extends State<ApplyPhysicalCardForm> {
                             });
                           },
                           maxLength: 100,
-                        value: streetAddress,
+                          value: streetAddress,
                         ),
                         const SizedBox(
                           height: 16,

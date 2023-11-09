@@ -143,7 +143,9 @@ class Routers {
         });
       case LifeStylePlusApply.routeName:
         return _pageRoute(builder: (context) {
-          return const LifeStylePlusApply();
+          return LifeStylePlusApply(
+            arguments: arguments,
+          );
         });
       case LspSuccessScreen.routeName:
         return _pageRoute(builder: (context) {

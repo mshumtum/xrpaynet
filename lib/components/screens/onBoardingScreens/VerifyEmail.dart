@@ -152,64 +152,66 @@ class _VerifyEmailByOTPState extends State<VerifyEmailByOTP> {
           builder: (context, state) {
             return Scaffold(
               backgroundColor: AppClr.black,
-              body: Column(
-                children: [
-                  Column(children: [
-                    const OnBoardingHeader(
-                      title: 'Enter Verification Code',
-                      subTitle:
-                          'Enter the 6 digits code that you received on\nyour email.',
-                    ),
-                    const SizedBox(
-                      height: 48,
-                    ),
-                    OTPTextField(
-                      length: 6,
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      fieldWidth: 50,
-                      style: AppTheme.white16w500,
-                      otpFieldStyle: OtpFieldStyle(
-                          backgroundColor: AppClr.otpBackground,
-                          focusBorderColor: AppClr.blue),
-                      textFieldAlignment: MainAxisAlignment.spaceAround,
-                      fieldStyle: FieldStyle.box,
-                      outlineBorderRadius: 10,
-                      onChanged: (pin) {
-                        setState(() {
-                          otp = pin;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    TextSpanBold(
-                        title: 'Did’t receive any code?  ',
-                        boldText: resendText,
-                        onClick: () {
-                          if (resendText == "Resend OTP" &&
-                              !state.main.isInProgress) {
-                            timerFunction();
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: ClassMediaQuery.screenHeight / 1.1,
+                      child: Column(children: [
+                        const OnBoardingHeader(
+                          title: 'Enter Verification Code',
+                          subTitle:
+                              'Enter the 6 digits code that you received on\nyour email.',
+                        ),
+                        const SizedBox(
+                          height: 48,
+                        ),
+                        OTPTextField(
+                          length: 6,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          fieldWidth: 50,
+                          style: AppTheme.white16w500,
+                          otpFieldStyle: OtpFieldStyle(
+                              backgroundColor: AppClr.otpBackground,
+                              focusBorderColor: AppClr.blue),
+                          textFieldAlignment: MainAxisAlignment.spaceAround,
+                          fieldStyle: FieldStyle.box,
+                          outlineBorderRadius: 10,
+                          onChanged: (pin) {
+                            setState(() {
+                              otp = pin;
+                            });
+                          },
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        TextSpanBold(
+                            title: 'Did’t receive any code?  ',
+                            boldText: resendText,
+                            onClick: () {
+                              if (resendText == "Resend OTP" &&
+                                  !state.main.isInProgress) {
+                                timerFunction();
 
-                            _verifyCubit.sendEmailVerifyOTP(
-                              email: userEmail,
-                            );
-                          }
-                        }),
-                  ]),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  ButtonPrimary(
-                    title: "Continue",
-                    onClick: () => {hitApi(state)},
-                    buttonColor:
-                        isValid(state) ? AppClr.blue : AppClr.greyButton,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  )
-                ],
+                                _verifyCubit.sendEmailVerifyOTP(
+                                  email: userEmail,
+                                );
+                              }
+                            }),
+                      ]),
+                    ),
+                    ButtonPrimary(
+                      title: "Continue",
+                      onClick: () => {hitApi(state)},
+                      buttonColor:
+                          isValid(state) ? AppClr.blue : AppClr.greyButton,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    )
+                  ],
+                ),
               ),
             );
           }),

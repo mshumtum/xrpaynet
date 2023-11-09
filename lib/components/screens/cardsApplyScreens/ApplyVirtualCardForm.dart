@@ -44,7 +44,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
       lastName = "",
       phoneSecurityCode = "",
       emailSecurityCode = "";
-   int cardId = 0;
+  int cardId = 0;
   bool isPhoneNumberValid = false, isClubCard = true;
 
   TextEditingController phoneNumber = TextEditingController();
@@ -63,15 +63,27 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
     setState(() {
       email.text = _userDataCubit.state.main.userData?.userInfo?.email ?? "";
     });
-    if(_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false){
+    if (_userDataCubit.state.main.userData?.cardInfo?.isNotEmpty ?? false) {
       int totalCard = _userDataCubit.state.main.userData?.cardInfo?.length ?? 0;
-      for(int i = 0; i < totalCard; i++){
+      for (int i = 0; i < totalCard; i++) {
+        CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[i];
+        print("item---${item?.toJson()}");
+        if (item?.cardType == "VIRTUAL") {
+          print("LENGTH---${item?.firstName}");
+          var code = item?.countryCode ?? "";
+          setState(() {
+            firstName = item?.firstName ?? "";
+            lastName = item?.lastName ?? "";
+            phoneNumber.text = item?.phoneNumber ?? "";
+            // countryName=  PhoneNumberUtil().
 
-         CardInfo? item = _userDataCubit.state.main.userData!.cardInfo?[0];
-         print("LENGTH---${item?.cardType}");
+            selectedCountry = code.replaceAll("+", "");
+          });
+        }
       }
     }
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -100,7 +112,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
     // } else if (emailSecurityCode.length != 4) {
     //   showError(context, "Enter valid OTP for email.");
     // } else {
-    if(isValid()){
+    if (isValid()) {
       _applyVirtualCardCubit.applyVirtualCard(
           firstName: firstName,
           lastName: lastName,
@@ -110,8 +122,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
           emailCode: int.parse(emailSecurityCode),
           countryCode: "+" + selectedCountry,
           countryName: countryName,
-          cardId:cardId
-      );
+          cardId: cardId);
     }
   }
 
@@ -162,7 +173,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                               });
                             },
                             validator: !Validators.isNameValid(firstName) &&
-                                firstName.isNotEmpty
+                                    firstName.isNotEmpty
                                 ? Constants.enterValidFirstName
                                 : null,
                             maxLength: 50,
@@ -181,7 +192,7 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
                             },
                             maxLength: 50,
                             validator: !Validators.isNameValid(lastName) &&
-                                lastName.isNotEmpty
+                                    lastName.isNotEmpty
                                 ? Constants.enterValidLastName
                                 : null,
                             value: lastName,
@@ -291,8 +302,8 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
           );
         },
         maxLength: 12,
-        onChangeText:(value){
-          if(phoneSecurityCode.isNotEmpty) {
+        onChangeText: (value) {
+          if (phoneSecurityCode.isNotEmpty) {
             setState(() {
               phoneSecurityCode = "";
             });
@@ -330,16 +341,18 @@ class _ApplyVirtualCardFormState extends State<ApplyVirtualCardForm> {
       fieldController: phoneController,
       onOtpComplete: (pin) {
         setState(() {
-          phoneSecurityCode =pin ;
+          phoneSecurityCode = pin;
         });
       },
     );
-  } Widget _otpFieldEmail() {
+  }
+
+  Widget _otpFieldEmail() {
     return OtpTextField(
       label: 'Enter Code',
       onOtpComplete: (pin) {
         setState(() {
-          emailSecurityCode = pin ;
+          emailSecurityCode = pin;
         });
       },
     );

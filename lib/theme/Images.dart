@@ -44,6 +44,7 @@ class Images {
   static const ic_active_ls_back = "assets/images/ic_active_ls_back.png";
   static const ic_active_ls_front = "assets/images/ic_active_ls_front.png";
   static const icKycRejected = "assets/images/ic_kyc_rejected.png";
+  static const many = "assets/images/many.svg";
   //apply cards
   static const lifestyle_plus_dummy = "assets/images/lifestyle_plus_dummy.png";
   static const lsPlusVirtualDummy =

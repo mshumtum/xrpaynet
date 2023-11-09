@@ -22,38 +22,62 @@ class Constants {
       "After 45 days a tenth (1/10) of the initial Locked Amount will be released each month. You can only use these funds for the Card Recharge.";
 
   //alert message text
-  static String enter_email_address = "Please enter your email address.";
-  static String enter_password = "Please enter your password.";
-  static String enter_confirm_password = "Please enter confirm password.";
-  static String enter_confirm_password_valid =
-      "Entered passwords do not match.";
-  static String enter_valid_email = "Please enter valid email address.";
-  static String enter_valid_password =
+  static const enter_email_address = "Please enter your email address.";
+  static const enter_password = "Please enter your password.";
+  static const enter_confirm_password = "Please enter confirm password.";
+  static const enter_confirm_password_valid = "Entered passwords do not match.";
+  static const enter_valid_email = "Please enter valid email address.";
+  static const enter_valid_password =
       "Password should have one uppercase, one lowercase, one number, one special character, minimum 6 characters.";
-  static String agreeTermAndConditions =
+  static const agreeTermAndConditions =
       "Please agree to the Use89090888r Agreement and Privacy Policy.";
 
+  static const faceIdTitle = "Upload Your ID Card";
+  static const faceIdRule1 = "Please upload the front page of the ID card";
+  static const faceIdRule2 =
+      'Ensure that the ID card is completely visible, the font is clear, and the brightness is uniform';
+  static const faceIdRule3 =
+      "The photo should be less than 2MB and can be in jpg/jpeg/png formats";
+  static const selfieTitle = "Upload Your Selfie With ID Card";
+  static const selfieRule1 =
+      "Please upload your selfie with hand holding the ID card";
+  static const selfieRule2 =
+      "Take a selfie with hand holding the ID card information page";
+  static const signatureTitle = "Upload Photo of your Signature";
+  static const signatureRule1 =
+      "The photo of the signature must be clearly visible";
+  static const signatureRule2 =
+      "The photo should be less than 1MB and can be in jpg/jpeg/png formats";
+  static const linkCardRule1 =
+      "We don't charge any fee for the linking service";
+  static const linkCardRule2 = "Please fill all the details carefully";
+  static const linkCardRule3 =
+      "Once the card is linked, you will not be able to unlink the card";
+
   // VALIDATOR
-  static String enterValidEmail = "Enter a valid email address";
-  static String enterValidPass = "Enter a valid password";
-  static String enterValidConPass = "Passwords don\'t match";
+  static const enterValidEmail = "Enter a valid email address";
+  static const enterValidPass = "Enter a valid password";
+  static const enterValidConPass = "Passwords don\'t match";
 
-  static String enterValidFirstName = "Enter valid first name.";
-  static String enterValidLastName = "Enter valid last name.";
-  static String enterValidProvince = "Enter valid province name.";
-  static String enterValidCity = "Enter valid city name.";
-  static String enterValidAddress = "Enter valid address.";
-  static String enterValidPostal = "Enter valid postal code.";
-
+  static const enterValidFirstName = "Enter valid first name.";
+  static const enterValidLastName = "Enter valid last name.";
+  static const enterValidFullName = "Enter valid full name.";
+  static const enterValidCard = "Enter valid card number.";
+  static const enterEnvelopeCard = "Enter valid envelope number.";
+  static const enterValidProvince = "Enter valid province name.";
+  static const enterValidCity = "Enter valid city name.";
+  static const enterValidAddress = "Enter valid address.";
+  static const enterValidPostal = "Enter valid postal code.";
+  static const enterValidDocument = "Enter valid document number.";
 
   //Preference key
-  static String accessToken = "accessToken";
-  static String loginAttemptFailTime = "loginAttemptFailTime";
+  static const accessToken = "accessToken";
+  static const loginAttemptFailTime = "loginAttemptFailTime";
   //SAVED TOKEN
   static String userAccessToken = "";
-  static String defaultCurrency = "\$";
+  static const defaultCurrency = "\$";
   // API TYPE
-  static String GET = "get";
-  static String PUT = "put";
-  static String POST = "post";
+  static const GET = "get";
+  static const PUT = "put";
+  static const POST = "post";
 }

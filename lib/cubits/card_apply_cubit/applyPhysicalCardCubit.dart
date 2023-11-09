@@ -92,13 +92,44 @@ class ApplyPhysicalCardCubit extends Cubit<BaseState> {
           streetAddress: streetAddress,
           postCode: postCode,
           currency: "USD",
-         currentTime:  DateTime.now().millisecondsSinceEpoch
-      );
+          currentTime: DateTime.now().millisecondsSinceEpoch.toString());
       print("request-----${request.toJson()}");
       ApiService(Constants.userAccessToken);
 
       dynamic response =
           await ApiService.hit(url: Uri.parse(cardApplyApi), body: request);
+      VerifyEmailResponse res = VerifyEmailResponse.fromJson(response);
+      if (res.status == "200") {
+        emit(BaseSuccess(state.main.copyWith(
+            status: FormSubmissionStatus.success, errorMessage: res.msg)));
+      } else {
+        emitError(res.msg);
+      }
+    } catch (error) {
+      emitError(error);
+    }
+  }
+
+  linkPhysicalCard({
+    required String applicantName,
+    required String cardNumber,
+    required String envelopeNumber,
+    required String mcTrade,
+  }) async {
+    emit(BaseLoading(
+        state.main.copyWith(status: FormSubmissionStatus.inProgress)));
+    try {
+      LinkPhysicalCardReq request = LinkPhysicalCardReq(
+          cardNo: cardNumber,
+          envelopeNo: envelopeNumber,
+          mcTradeNo: mcTrade,
+          userIdentifier: applicantName);
+
+      print("request-----${request.toJson()}");
+      ApiService(Constants.userAccessToken);
+
+      dynamic response =
+          await ApiService.hit(url: Uri.parse(linkCardApi), body: request);
       VerifyEmailResponse res = VerifyEmailResponse.fromJson(response);
       if (res.status == "200") {
         emit(BaseSuccess(state.main.copyWith(

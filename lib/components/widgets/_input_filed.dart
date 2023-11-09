@@ -52,6 +52,7 @@ class _InputFieldState extends State<InputField> {
     super.initState();
     myController.text = widget.value ?? "";
   }
+
   @override
   void dispose() {
     myController.dispose();
@@ -91,6 +92,7 @@ class _InputFieldState extends State<InputField> {
                 counterText: ""),
             keyboardType: widget.inputType,
             maxLength: widget.maxLength,
+            readOnly: widget.readOnly,
 
             // maxLength: widget.maxLength,
           ),
@@ -110,6 +112,7 @@ class PhoneNumField extends StatefulWidget {
   final bool isPhonePicker;
   final Function()? onPickerClick;
   final Function()? onSendClick;
+  final bool isShowSend;
 
   const PhoneNumField({
     super.key,
@@ -121,6 +124,7 @@ class PhoneNumField extends StatefulWidget {
     this.onChangeText,
     this.isPhonePicker = false,
     this.readOnly = false,
+    this.isShowSend = true,
     this.maxLength = 128,
     this.onPickerClick,
     this.myController,
@@ -236,40 +240,47 @@ class _PhoneNumFieldState extends State<PhoneNumField> {
                     readOnly: widget.readOnly,
                   ),
                 ),
-                Expanded(
-                    flex: 2,
-                    child: GestureDetector(
-                      onTap: () async {
-                        if (otpButtonText.contains("Code")) {
-                          widget.onSendClick!();
-                          if (widget.countryCode.isEmpty) {
-                            // for email
-                            onPressSend();
-                          } else {
-
-                            print(widget.countryCode + widget.myController!.text+ "   "+widget.countryName);
-
-                            try {
-                              bool isValidNum =
-                                  await PhoneNumberUtil().validate(
-                                widget.countryCode + widget.myController!.text,
-                                regionCode: widget.countryName,
-                              );
-                              print("dfsjfdnsf====dffdf====$isValidNum", );
-
-                              if (isValidNum) {
+                widget.isShowSend
+                    ? Expanded(
+                        flex: 2,
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (otpButtonText.contains("Code")) {
+                              widget.onSendClick!();
+                              if (widget.countryCode.isEmpty) {
+                                // for email
                                 onPressSend();
+                              } else {
+                                print(widget.countryCode +
+                                    widget.myController!.text +
+                                    "   " +
+                                    widget.countryName);
+
+                                try {
+                                  bool isValidNum =
+                                      await PhoneNumberUtil().validate(
+                                    widget.countryCode +
+                                        widget.myController!.text,
+                                    regionCode: widget.countryName,
+                                  );
+                                  print(
+                                    "dfsjfdnsf====dffdf====$isValidNum",
+                                  );
+
+                                  if (isValidNum) {
+                                    onPressSend();
+                                  }
+                                } catch (err) {}
                               }
-                            } catch (err) {}
-                          }
-                        }
-                      },
-                      child: Text(
-                        otpButtonText,
-                        textAlign: TextAlign.center,
-                        style: AppTheme.white14Regular,
-                      ),
-                    )),
+                            }
+                          },
+                          child: Text(
+                            otpButtonText,
+                            textAlign: TextAlign.center,
+                            style: AppTheme.white14Regular,
+                          ),
+                        ))
+                    : Expanded(flex: 2, child: Container()),
               ],
             ),
           ),
@@ -325,7 +336,6 @@ class _OtpTextFieldState extends State<OtpTextField> {
             textFieldAlignment: MainAxisAlignment.spaceAround,
             fieldStyle: FieldStyle.box,
             outlineBorderRadius: 10,
-
             onCompleted: (pin) {
               widget.onOtpComplete!(pin);
               print("Completed: " + pin);

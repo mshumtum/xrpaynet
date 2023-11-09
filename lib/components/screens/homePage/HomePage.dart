@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +42,18 @@ class _HomePageState extends State<HomePage> {
     var token = Constants.userAccessToken;
     print('TOKEM======== $token');
     _userDataCubit.getCardListing();
-    _userDataCubit.getUserDetailsFun();
+    _userDataCubit.getUserDetailsFun(token);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_userDataCubit.state.main.loading &&
+        (_userDataCubit.state.main.cardListingResponse?.result?.isEmpty ??
+            false)) {
+      return Container(
+        child: Text("No data found"),
+      );
+    }
     return Scaffold(
         backgroundColor: AppClr.black,
         body: BlocConsumer<UserDataCubit, UserState>(
@@ -102,8 +110,9 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 child: _virtualCardView(
                                     selectedCard == "clubVirtual",
-                                    "CLUB \$ 24.00",
-                                    Images.ic_virtual_club),
+                                    "${state.main.cardListingResponse?.result?[0]?.cardType} ${Constants.defaultCurrency} ${state.main.cardListingResponse?.result?[0]?.issuanceFee}",
+                                    state.main.cardListingResponse?.result?[0]
+                                        ?.imagePath?[0]),
                               ),
                               InkWell(
                                 onTap: () {
@@ -113,8 +122,11 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 child: _virtualCardView(
                                     selectedCard == "lifestyleVirtual",
-                                    "LIFESTYLE \$ 49.00",
-                                    Images.ic_virtual_lifestyle),
+                                    // "LIFESTYLE \$ 49.00",
+
+                                    "${state.main.cardListingResponse?.result?[1]?.cardType} ${Constants.defaultCurrency} ${state.main.cardListingResponse?.result?[1]?.issuanceFee}",
+                                    state.main.cardListingResponse?.result?[1]
+                                        .imagePath?[0]),
                               )
                             ],
                           ),
@@ -126,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             child: _physicalCardView(
-                                selectedCard == "lifestylePhysical"),
+                                state, selectedCard == "lifestylePhysical"),
                           ),
                           SizedBox(height: 15),
                         ],
@@ -135,31 +147,28 @@ class _HomePageState extends State<HomePage> {
                     ButtonPrimary(
                       title: "Continue",
                       onClick: () {
-                        if (!_userDataCubit.state.main.loading) {
-                          if (selectedCard == "clubVirtual" ||
-                              selectedCard == "lifestyleVirtual") {
-                            navigationService.navigateWithBack(
-                                VirtualCardApply.routeName,
-                                arguments: {
-                                  "isFrom": selectedCard,
-                                  "cardInfo": _userDataCubit.state.main
-                                          .cardListingResponse?.result?[
-                                      selectedCard == "clubVirtual" ? 0 : 1]
-                                });
-                          } else if (selectedCard == "lifestylePhysical") {
-                            navigationService.navigateWithBack(
-                                LifeStylePlusApply.routeName,
-                                arguments: {
-                                  "cardInfo": _userDataCubit.state.main
-                                      .cardListingResponse?.result?[2]
-                                });
-                          }
+                        if (selectedCard == "clubVirtual" ||
+                            selectedCard == "lifestyleVirtual") {
+                          navigationService.navigateWithBack(
+                              VirtualCardApply.routeName,
+                              arguments: {
+                                "isFrom": selectedCard,
+                                "cardInfo":
+                                    state.main.cardListingResponse?.result?[
+                                        selectedCard == "clubVirtual" ? 0 : 1]
+                              });
+                        } else if (selectedCard == "lifestylePhysical") {
+                          navigationService.navigateWithBack(
+                              LifeStylePlusApply.routeName,
+                              arguments: {
+                                "cardInfo":
+                                    state.main.cardListingResponse?.result?[2]
+                              });
                         }
+
                         //ClubCard
                       },
-                      buttonColor: _userDataCubit.state.main.loading
-                          ? AppClr.grey
-                          : AppClr.blue,
+                      isShimmer: _userDataCubit.state.main.loading,
                     ),
                     SizedBox(height: 15),
                   ],
@@ -192,8 +201,15 @@ class _HomePageState extends State<HomePage> {
                       style: isSelected
                           ? AppTheme.white14Regular
                           : AppTheme.greyText14Regular),
-                  Image.asset(cardImage, height: 240),
-                  Text(cardType,
+                  CachedNetworkImage(
+                    imageUrl: cardImage ?? "",
+                    height: 240,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(
+                            color: AppClr.greyButton)),
+                  ),
+                  Text(cardType ?? "",
                       style: TextStyle(
                         fontSize: 14,
                         color: isSelected ? AppClr.white : AppClr.greyText,
@@ -205,6 +221,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _physicalCardView(
+    UserState state,
     isSelected,
   ) {
     return _userDataCubit.state.main.loading
@@ -233,7 +250,8 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       padding: EdgeInsets.only(left: 3),
                       alignment: Alignment.bottomRight,
-                      child: Text("LIFESTYLE PLUS \$ 99.00",
+                      child: Text(
+                          "LIFESTYLE PLUS \$ ${state.main.cardListingResponse?.result?[2]?.issuanceFee}",
                           textAlign: TextAlign.end,
                           style: TextStyle(
                             fontSize: 14,
@@ -253,10 +271,19 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 14,
                           ),
-                          Image.asset(
-                            Images.ic_physical_ls,
+
+                          CachedNetworkImage(
+                            imageUrl: state.main.cardListingResponse?.result?[2]
+                                    ?.imagePath?[0] ??
+                                "",
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                             width: ClassMediaQuery.screenWidth / 2.6,
+                            placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(
+                                    color: AppClr.greyButton)),
                           ),
+
                           // SizedBox(width: 30),
                           //
                         ],
@@ -274,7 +301,17 @@ class _HomePageState extends State<HomePage> {
                             style: isSelected
                                 ? AppTheme.white14Regular
                                 : AppTheme.greyText14Regular),
-                        Image.asset(Images.ic_virtual_ls, height: 250),
+                        CachedNetworkImage(
+                          imageUrl: state.main.cardListingResponse?.result?[2]
+                                  ?.imagePath?[1] ??
+                              "",
+                          height: 250,
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                                  color: AppClr.greyButton)),
+                        ),
                       ]),
                 )
               ],

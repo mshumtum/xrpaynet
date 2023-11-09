@@ -9,9 +9,15 @@ class TextViewArrow extends StatefulWidget {
 
   final Function()? onClick;
   final bool arrowShow;
+  final Color textColor;
 
-  TextViewArrow(
-      {super.key, this.valueText = "", required this.arrowShow, this.onClick});
+  TextViewArrow({
+    super.key,
+    this.valueText = "",
+    required this.arrowShow,
+    this.onClick,
+    this.textColor = AppClr.white,
+  });
 
   @override
   State<TextViewArrow> createState() => _TextViewArrowState();
@@ -38,8 +44,8 @@ class _TextViewArrowState extends State<TextViewArrow> {
             children: [
               Text(
                 widget.valueText,
-                style: const TextStyle(
-                    color: AppClr.grey,
+                style: TextStyle(
+                    color: widget.textColor,
                     fontSize: 14,
                     fontFamily: AppTheme.fontRegular),
               ),

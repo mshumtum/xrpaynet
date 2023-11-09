@@ -134,3 +134,79 @@ class _ChoosePaymentOptionsState extends State<ChoosePaymentOptions> {
     );
   }
 }
+
+class PhotoOption extends StatelessWidget {
+  final Function(bool)? onCameraClicked;
+  const PhotoOption({super.key, this.onCameraClicked});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // height: 200,
+      decoration: BoxDecoration(
+          color: AppClr.dialogBackground,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            // InkWell(),
+            Container(
+              padding: EdgeInsets.only(top: 10, right: 10),
+              alignment: Alignment.bottomRight,
+              child: InkWell(
+                  onTap: () {
+                    closeBottomSheet(context);
+                  },
+                  child: Image.asset(
+                    Images.ic_close,
+                    width: 17,
+                  )),
+            ),
+            Text(
+              "Choose Option",
+              style: AppTheme.white18Medium,
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(top: 40),
+              child: ButtonPrimary(
+                title: "Camera",
+                onClick: () {
+                  closeBottomSheet(context);
+                  onCameraClicked!(true);
+                },
+                horizontal: 12,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: ButtonPrimary(
+                title: "Gallery",
+                onClick: () {
+                  closeBottomSheet(context);
+                  onCameraClicked!(false);
+                },
+                horizontal: 12,
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(top: 20, bottom: 15),
+              child: ButtonPrimary(
+                title: "Close",
+                onClick: () {
+                  closeBottomSheet(context);
+                },
+                horizontal: 12,
+                buttonColor: AppClr.greyButton,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

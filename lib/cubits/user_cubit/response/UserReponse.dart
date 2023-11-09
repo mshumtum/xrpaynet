@@ -25,8 +25,9 @@ class UserDataResponse {
 class UserData {
   UserInfo? userInfo;
   List<CardInfo>? cardInfo;
+  Null? cardCredentials;
 
-  UserData({this.userInfo, this.cardInfo});
+  UserData({this.userInfo, this.cardInfo, this.cardCredentials});
 
   UserData.fromJson(Map<String, dynamic> json) {
     userInfo = json['userInfo'] != null
@@ -38,6 +39,7 @@ class UserData {
         cardInfo!.add(new CardInfo.fromJson(v));
       });
     }
+    cardCredentials = json['cardCredentials'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +50,7 @@ class UserData {
     if (this.cardInfo != null) {
       data['cardInfo'] = this.cardInfo!.map((v) => v.toJson()).toList();
     }
+    data['cardCredentials'] = this.cardCredentials;
     return data;
   }
 }
@@ -72,30 +75,29 @@ class UserInfo {
 }
 
 class CardInfo {
-  int? id;
   int? cardId;
   String? cardType;
   String? status;
-  int? userId;
   String? firstName;
   String? lastName;
   String? phoneNumber;
   String? countryCode;
   String? email;
-  String? gender;
+  Null? gender;
   String? country;
-  String? currency;
-  String? province;
-  String? city;
-  String? streetAddress;
-  String? postCode;
+  Null? currency;
+  Null? province;
+  Null? city;
+  Null? streetAddress;
+  Null? postCode;
+  String? mcTradeNo;
+  bool? isBind;
+  Credentials? credentials;
 
   CardInfo(
-      {this.id,
-      this.cardId,
+      {this.cardId,
       this.cardType,
       this.status,
-      this.userId,
       this.firstName,
       this.lastName,
       this.phoneNumber,
@@ -107,14 +109,15 @@ class CardInfo {
       this.province,
       this.city,
       this.streetAddress,
-      this.postCode});
+      this.postCode,
+      this.mcTradeNo,
+      this.isBind,
+      this.credentials});
 
   CardInfo.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     cardId = json['card_id'];
     cardType = json['card_type'];
     status = json['status'];
-    userId = json['user_id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
     phoneNumber = json['phone_number'];
@@ -127,15 +130,18 @@ class CardInfo {
     city = json['city'];
     streetAddress = json['street_address'];
     postCode = json['post_code'];
+    mcTradeNo = json['mc_trade_no'];
+    isBind = json['isBind'];
+    credentials = json['credentials'] != null
+        ? new Credentials.fromJson(json['credentials'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['card_id'] = this.cardId;
     data['card_type'] = this.cardType;
     data['status'] = this.status;
-    data['user_id'] = this.userId;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
     data['phone_number'] = this.phoneNumber;
@@ -148,6 +154,48 @@ class CardInfo {
     data['city'] = this.city;
     data['street_address'] = this.streetAddress;
     data['post_code'] = this.postCode;
+    data['mc_trade_no'] = this.mcTradeNo;
+    data['isBind'] = this.isBind;
+    if (this.credentials != null) {
+      data['credentials'] = this.credentials!.toJson();
+    }
+    return data;
+  }
+}
+
+class Credentials {
+  String? cardTypeId;
+  String? cardId;
+  String? cardNumber;
+  int? cardStatus;
+  String? failReason;
+  int? createTimestamp;
+
+  Credentials(
+      {this.cardTypeId,
+      this.cardId,
+      this.cardNumber,
+      this.cardStatus,
+      this.failReason,
+      this.createTimestamp});
+
+  Credentials.fromJson(Map<String, dynamic> json) {
+    cardTypeId = json['card_type_id'];
+    cardId = json['card_id'];
+    cardNumber = json['card_number'];
+    cardStatus = json['card_status'];
+    failReason = json['fail_reason'];
+    createTimestamp = json['create_timestamp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['card_type_id'] = this.cardTypeId;
+    data['card_id'] = this.cardId;
+    data['card_number'] = this.cardNumber;
+    data['card_status'] = this.cardStatus;
+    data['fail_reason'] = this.failReason;
+    data['create_timestamp'] = this.createTimestamp;
     return data;
   }
 }

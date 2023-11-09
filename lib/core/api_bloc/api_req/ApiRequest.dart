@@ -133,7 +133,7 @@ class ApplyVirtualCardRequest {
     data['country_code'] = countryCode;
     data['country'] = country;
     data['card_id'] = cardId;
-    // data['timestamp'] = currentTime;
+    data['timestamp'] = currentTime;
     return data;
   }
 }
@@ -156,7 +156,6 @@ class ApplyPhysicalCardRequest {
   dynamic? streetAddress;
   dynamic? postCode;
   dynamic? currentTime;
-
 
   ApplyPhysicalCardRequest({
     this.cardType,
@@ -196,7 +195,37 @@ class ApplyPhysicalCardRequest {
     data['city'] = city;
     data['street_address'] = streetAddress;
     data['post_code'] = postCode;
-    data['currentTime'] = currentTime;
+    data['timestamp'] = currentTime;
+    return data;
+  }
+}
+
+class LinkPhysicalCardReq {
+  dynamic? cardNo;
+  dynamic? envelopeNo;
+  dynamic? mcTradeNo;
+  dynamic? userIdentifier;
+
+  LinkPhysicalCardReq({
+    this.cardNo,
+    this.envelopeNo,
+    this.mcTradeNo,
+    this.userIdentifier,
+  });
+
+  LinkPhysicalCardReq.fromJson(Map<String, dynamic> json) {
+    cardNo = json['card_no'];
+    envelopeNo = json['token'];
+    mcTradeNo = json['mc_trade_no'];
+    userIdentifier = json['user_identifier'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['card_no'] = cardNo;
+    data['envelope_no'] = envelopeNo;
+    data['mc_trade_no'] = mcTradeNo;
+    data['user_identifier'] = userIdentifier;
     return data;
   }
 }

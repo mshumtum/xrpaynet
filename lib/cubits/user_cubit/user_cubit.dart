@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xr_paynet/constants/Constants.dart';
+import 'package:xr_paynet/constants/FormSubmissionStatus.dart';
 import 'package:xr_paynet/core/api_bloc/Endpoints.dart';
 import 'package:xr_paynet/core/network/api_service.dart';
 import 'package:xr_paynet/cubits/user_cubit/response/CardListingResponse.dart';
@@ -13,14 +14,17 @@ class UserDataCubit extends Cubit<UserState> {
     emit(const BaseInit());
   }
 
-  getUserDetailsFun() async {
+  getUserDetailsFun(token) async {
     try {
+      print("token==${token}");
+      ApiService(token);
       dynamic response = await ApiService.hit(
           url: Uri.parse(getUserDetails), type: Constants.GET);
       UserDataResponse res = UserDataResponse.fromJson(response);
-      if (res.status == "200") {
-        emit(BaseSuccess(state.main.copyWith(userData: res.data)));
 
+      if (res.status == "200") {
+        emit(BaseSuccess(state.main.copyWith(
+            userData: res.data, status: FormSubmissionStatus.success)));
       } else {
         emitError(res.message);
       }
@@ -32,15 +36,17 @@ class UserDataCubit extends Cubit<UserState> {
   getCardListing() async {
     try {
       ApiService(Constants.userAccessToken);
-      emit(BaseLoading(
-          state.main.copyWith(loading: true)));
+      emit(BaseLoading(state.main.copyWith(loading: true)));
       dynamic response = await ApiService.hit(
           url: Uri.parse(getAllCards), type: Constants.GET);
       CardListingResponse res = CardListingResponse.fromJson(response);
       if (res.status == "200") {
-        emit(BaseSuccess(state.main.copyWith(cardListingResponse: res, loading: false)));
+        emit(BaseSuccess(state.main.copyWith(
+            cardListingResponse: res,
+            loading: false,
+            status: FormSubmissionStatus.success)));
       } else {
-        emit(BaseSuccess(state.main.copyWith( loading: false)));
+        emit(BaseSuccess(state.main.copyWith(loading: false)));
 
         emitError(res.message);
       }
@@ -48,8 +54,6 @@ class UserDataCubit extends Cubit<UserState> {
       emitError(error);
     }
   }
-  emitError(error) {
 
-  }
-
+  emitError(error) {}
 }

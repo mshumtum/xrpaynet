@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xr_paynet/components/utilities/ClassMediaQuery.dart';
 import 'package:xr_paynet/components/widgets/_button_primary.dart';
 import 'package:xr_paynet/components/widgets/_circle_container.dart';
@@ -61,7 +62,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
                     hintText: "Search",
                     onSearchText: (text) {
                       List<CountryListResult> array1 = tempArray.where((item) {
-                        var countryName = item.name ?? "";
+                        var countryName = item.english ?? "";
                         return countryName
                             .toLowerCase()
                             .startsWith(text.toLowerCase());
@@ -97,13 +98,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
               ListTile(
                 onTap: () {
                   setState(() {
-                    // if (selectedItem == array[index]) {
-                    //   // Deselect if the same item is tapped again
-                    //   selectedIndex = -1;
-                    // } else {
-                    //   selectedIndex = index;
-                    // }
-                    selectedItem = array[index].name ?? "";
+                    selectedItem = array[index].english ?? "";
                   });
                 },
                 title: Row(
@@ -111,17 +106,33 @@ class _ChooseCountryState extends State<ChooseCountry> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Text(
-                              array[index].emoji ?? "",
-                            )),
+                        // ClipRRect(
+                        //     borderRadius: BorderRadius.circular(100.0),
+                        //     child: SvgPicture.network(
+                        //       array[index].flag ??
+                        //           "https://twemoji.maxcdn.com/2/svg/1f1f7-1f1fa.svg",
+                        //       width: 50,
+                        //       height: 50,
+                        //     )),
+
+                        ClipOval(
+                          child: Container(
+                            width: 38,
+                            height: 38,
+                            color: AppClr.dialogBackground,
+                            child: SvgPicture.network(
+                              "https://hatscripts.github.io/circle-flags/flags/" +
+                                  array[index].iso3166Alpha2!.toLowerCase() +
+                                  ".svg",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         SizedBox(
                           width: ClassMediaQuery.screenWidth / 1.5,
                           child: Text(
-                            array[index].name ?? "",
+                            array[index].english ?? "",
                             style: const TextStyle(
                               color: AppClr.grey,
                               fontSize: 14,
@@ -132,7 +143,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
                       ],
                     ),
                     // Show the tick icon if the item is selected
-                    if (selectedItem == array[index].name)
+                    if (selectedItem == array[index].english)
                       Image.asset(
                         Images.ic_blue_tick,
                         width: 13,

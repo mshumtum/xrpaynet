@@ -31,7 +31,7 @@ class VirtualCardApply extends StatefulWidget {
 class _VirtualCardApplyState extends State<VirtualCardApply> {
   final NavigationService _navigationService = locator<NavigationService>();
   bool isClubCard = true;
-  late CardLisingItem cardItem;
+  late CardListingItem cardItem;
   @override
   void initState() {
     // TODO: implement initState
@@ -132,12 +132,15 @@ class _VirtualCardApplyState extends State<VirtualCardApply> {
           child: Column(
             children: [
               _types('Card Currency', cardItem.currency ?? ""),
-              _types('Issuance Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.issuanceFee ?? "", 2)}'),
+              _types('Issuance Fee',
+                  '${Constants.defaultCurrency} ${toFixed(cardItem?.issuanceFee ?? "", 2)}'),
               _types('Payment Method', cardItem?.paymentMethod ?? ""),
-              _types('Deposit Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.depositFee ?? "", 2)}'),
+              _types('Deposit Fee',
+                  '${Constants.defaultCurrency} ${toFixed(cardItem?.depositFee ?? "", 2)}'),
               isClubCard
                   ? Container()
-                  : _types('Annual Maintenance Fee', '${Constants.defaultCurrency} ${toFixed(cardItem?.maintenanceFee ?? "", 2)}'),
+                  : _types('Annual Maintenance Fee',
+                      '${Constants.defaultCurrency} ${toFixed(cardItem?.maintenanceFee ?? "", 2)}'),
               const SizedBox(
                 height: 10,
               )

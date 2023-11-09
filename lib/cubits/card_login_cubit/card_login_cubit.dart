@@ -68,10 +68,12 @@ class CardLoginCubit extends Cubit<LoginState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(Constants.accessToken, user.user_data?.token ?? '');
     Constants.userAccessToken = user.user_data?.token ?? '';
-    emit(UserLoggedIn(state.main.copyWith(
-        status: FormSubmissionStatus.success,
-        message: 'User logged in',
-        errorMessage: '')));
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      emit(UserLoggedIn(state.main.copyWith(
+          status: FormSubmissionStatus.success,
+          message: 'User logged in',
+          errorMessage: '')));
+    });
   }
 
   startTimer() async {
